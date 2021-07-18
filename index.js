@@ -3230,12 +3230,3 @@ console.log('Message : %s', color(e, 'green'))
 }
 }
 }
-/*
-]=====> TUTORIAL ARRAY <=====[
-const Key = ["MyMans", "Mans"]
-// if (Key.includes(args[1]) {
-if (Key.includes("Mans")) {
-reply("√")
-}
-]=====> TUTORIAL ARRAY <=====[
-*/
