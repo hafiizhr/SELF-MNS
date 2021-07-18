@@ -3229,4 +3229,3 @@ if (!e.includes("this.isZero")) {
 console.log('Message : %s', color(e, 'green'))
 }
 }
-}
