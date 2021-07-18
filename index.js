@@ -1156,40 +1156,7 @@ reply(`Succes mematikan anticall`)
 reply(`Pilih on atau off`)
 }
 break
-// Auto Read ( MyMans APIs )
-case 'autoread':
-if (!isOwner && !mek.key.fromMe) return
-if (args.length < 1) return reply(`Example:\n${prefix}autoread gc on`)
-if (args[0] === "gc") {
-if (args.length < 2) return reply(`Example:\n${prefix}autoread gc on`)
-if (args[1] === "on") {
-if (readG === true) return
-readG = true
-reply(`Succes mengaktifkan autoread group`)
-} else if (args[1] === "off") {
-if (readG === false) return
-readG = false
-reply(`Succes mematikan autoread group`)
-} else {
-reply(`Pilih on atau off`)
-}
-} else if (args[0] === "pc") {
-if (args.length < 2) return reply(`Example:\n${prefix}autoread pc on`)
-if (args[1] === "on") {
-if (readP === true) return
-readP = true
-reply(`Succes mengaktifkan autoread pribadi`)
-} else if (args[1] === "off") {
-if (readP === false) return
-readP = false
-reply(`Succes mematikan autoread pribadi`)
-} else {
-reply(`Pilih on atau off`)
-}
-} else {
-reply(`*List Auto Read*\n•> gc\n•> pc`)
-}
-break
+
 // Fake Size ( MyMans APIs )
 case 'size':
 if (args.length < 1) return reply('Masukan angkanya')
@@ -3227,5 +3194,6 @@ console.log(color('[TEXT]', 'red'), 'SELF-MODE', color(sender.split('@')[0]))
 e = String(e)
 if (!e.includes("this.isZero")) {
 console.log('Message : %s', color(e, 'green'))
+}
 }
 }
