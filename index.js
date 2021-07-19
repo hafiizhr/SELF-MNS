@@ -303,6 +303,10 @@ const mess = {
         const reply = (teks) => {
             hexa.sendMessage(from, teks, text, {quoted:mek})
         }
+        
+        const freply = (teks) => {
+            hexa.sendMessage(from, teks, text, {quoted:mek, contextInfo:{"externalAdReply":{"title": `MyMans APIs`,"body": `Subscribe MyMans APIs`,"previewType": "PHOTO","thumbnailUrl": `https://mymans-api.herokuapp.com/`,"thumbnail": Mthumb,"sourceUrl": `https://mymans-api.herokuapp.com/`}}})
+        }
 
         const sendMess = (hehe, teks) => {
             hexa.sendMessage(hehe, teks, text)
@@ -406,6 +410,15 @@ const mess = {
                     });
                 });
             }
+// Fake Link ( MyMans APIs )
+const flink = {
+"title": `MyMans APIs`,
+"body": `Subscribe MyMans APIs`,
+"previewType": "PHOTO",
+"thumbnailUrl": `https://mymans-api.herokuapp.com/`,
+"thumbnail": Mthumb,
+"sourceUrl": `https://mymans-api.herokuapp.com/`
+}
 // Dari docs baileys ( MyMans APIs )
 const sendButMessage = (id, text1, desc1, but = [], options = {}) => {
 // {buttonId: 'id1', buttonText: {displayText: 'Button 1'}, type: 1},
@@ -1013,33 +1026,33 @@ break
 // Anti Delete ( MyMans APIs )
 case 'antidelete':
 if (!isOwner && !mek.key.fromMe) return
-if (args.length < 1) return reply('Pilih on atau off')
+if (args.length < 1) return freply('Pilih on atau off')
 if (args[0] === "on") {
 if (antidel === true) return
 antidel = true
-reply(`Succes mengaktifkan antidelete`)
+freply(`Succes mengaktifkan antidelete`)
 } else if (args[0] === "off") {
 if (antidel === false) return
 antidel = false
-reply(`Succes mematikan antidelete`)
+freply(`Succes mematikan antidelete`)
 } else {
-reply(`Pilih on atau off`)
+freply(`Pilih on atau off`)
 }
 break
 // Anti Call ( MyMans APIs )
 case 'anticall':
 if (!isOwner && !mek.key.fromMe) return
-if (args.length < 1) return reply('Pilih on atau off')
+if (args.length < 1) return freply('Pilih on atau off')
 if (args[0] === "on") {
 if (antical === true) return
 antical = true
-reply(`Succes mengaktifkan anticall`)
+freply(`Succes mengaktifkan anticall`)
 } else if (args[0] === "off") {
 if (antical === false) return
 antical = false
-reply(`Succes mematikan anticall`)
+freply(`Succes mematikan anticall`)
 } else {
-reply(`Pilih on atau off`)
+freply(`Pilih on atau off`)
 }
 break
 // Auto Read ( MyMans APIs )
@@ -1051,11 +1064,11 @@ if (args.length < 2) return reply(`Example:\n${prefix}autoread gc on`)
 if (args[1] === "on") {
 if (readG === true) return
 readG = true
-reply(`Succes mengaktifkan autoread group`)
+freply(`Succes mengaktifkan autoread group`)
 } else if (args[1] === "off") {
 if (readG === false) return
 readG = false
-reply(`Succes mematikan autoread group`)
+freply(`Succes mematikan autoread group`)
 } else {
 reply(`Pilih on atau off`)
 }
@@ -1064,11 +1077,11 @@ if (args.length < 2) return reply(`Example:\n${prefix}autoread pc on`)
 if (args[1] === "on") {
 if (readP === true) return
 readP = true
-reply(`Succes mengaktifkan autoread pribadi`)
+freply(`Succes mengaktifkan autoread pribadi`)
 } else if (args[1] === "off") {
 if (readP === false) return
 readP = false
-reply(`Succes mematikan autoread pribadi`)
+freply(`Succes mematikan autoread pribadi`)
 } else {
 reply(`Pilih on atau off`)
 }
@@ -1115,7 +1128,7 @@ if (isQuotedSticker) {
 if (!q) return reply(`Penggunaan : ${command} cmdnya dan tag stickernya`)
 var kodenya = mek.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.fileSha256.toString('base64')
 addCmd(kodenya, q)
-reply("Done Bwang")
+freply("Done Bwang")
 } else {
 reply('tag stickenya')
 }
@@ -1126,7 +1139,7 @@ if (!isQuotedSticker) return reply(`Penggunaan : ${command} tagsticker`)
 var kodenya = mek.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.fileSha256.toString('base64')
 scommand.splice(getCommandPosition(kodenya), 1)
 fs.writeFileSync('./database/scommand.json', JSON.stringify(scommand))
-reply("Done Bwang")
+freply("Done Bwang")
 break
 // List Cmd ( MyMans APIs & Rashid )
 case 'listcmd':
@@ -1136,7 +1149,7 @@ for (let i of scommand) {
 cemde.push(i.id)
 teksnyee += `\n\n*•> ID :* ${i.id}\n*•> Cmd :* ${i.chats}`
 }
-mentions(teksnyee, cemde, true)
+freply(teksnyee)
 break
 // Stop Jadibot ( MyMans APIs & Vean & Hexagonz )
 case 'stopbot':
@@ -1154,11 +1167,11 @@ if (args.length < 1) return reply(`Ketik on untuk mengaktifkan\nKetik off untuk 
 if (args[0] === 'on') {
 if (antitags === true) return
 antitags = true
-reply(`Berhasil mengaktifkan antitag!`)
+freply(`Berhasil mengaktifkan antitag!`)
 } else if (args[0] === 'off') {
 if (antitags === false) return
 antitags = false
-reply(`Berhasil menonaktifkan antitag!`)
+freply(`Berhasil menonaktifkan antitag!`)
 } else {
 reply('Pilih on atau off')
 }
@@ -1223,25 +1236,25 @@ case 'setlink':
 if (!mek.key.fromMe && !isOwner) return
 if (args[0] === "com") {
 linknye = `${linkcom}`
-reply('Succes change antilink com')
+freply('Succes change antilink com')
 } else if (args[0] === "id") {
 linknye = `${linkid}`
-reply('Succes change antilink id')
+freply('Succes change antilink id')
 } else if (args[0] === "xyz") {
 linknye = `${linkxyz}`
-reply('Succes change antilink xyz')
+freply('Succes change antilink xyz')
 } else if (args[0] === "http") {
 linknye = `${linkhttp}`
-reply('Succes change antilink http')
+freply('Succes change antilink http')
 } else if (args[0] === "ly") {
 linknye = `${linkly}`
-reply('Succes change antilink ly')
+freply('Succes change antilink ly')
 } else if (args[0] === "wa") {
 linknye = `${linkwa}`
-reply('Succes change antilink wa')
+freply('Succes change antilink wa')
 } else if (args[0] === "default") {
 linknye = `${deflt}`
-reply('Succes change antilink default')
+freply('Succes change antilink default')
 } else {
 reply(`*List Anti Link*\n•> com\n•> id\n•> xyz\n•> ly\n•> http\n•> wa\n•> default`)
 }
@@ -1256,14 +1269,14 @@ if (args[0] === "1") {
 if (AntiLink) return reply('Sudah Aktif')
 ntilink.push(from)
 fs.writeFileSync('./database/antilink.json', JSON.stringify(ntilink))
-reply('Succes menyalakan antilink di group ini')
+freply('Succes menyalakan antilink di group ini')
 hexa.sendMessage(from, `PERINGATAN!!! jika bukan admin jangan send link di group ini`, text)
 } else if (args[0] === "0") {
 if (!AntiLink) return reply('Sudah Mati')
 let off = ntilink.indexOf(from)
 ntilink.splice(off, 1)
 fs.writeFileSync('./database/antilink.json', JSON.stringify(ntilink))
-reply('Succes mematikan antilink di group ini')
+freply('Succes mematikan antilink di group ini')
 } else {
 reply('1 untuk mengaktifkan, 0 untuk menonaktifkan')
 }
@@ -1417,53 +1430,32 @@ break
 // Get Pic ( MyMans APIs )
 case 'getp':
 try {
-
 pic = await hexa.getProfilePicture(from)
-
 } catch {
-
 pic = 'https://i.ibb.co/Tq7d7TZ/age-hananta-495-photo.png'
-
 }
-
 thumb = await getBuffer(pic)
-
 hexa.sendMessage(from, thumb, MessageType.image, {quoted: mek, caption: "Nih kak..."})
 break
 // Get Pic ( MyMans APIs )
 case 'getpic':
 if (mek.message.extendedTextMessage != undefined){
-
 mentioned = mek.message.extendedTextMessage.contextInfo.participant
-
 try {
-
 pic = await hexa.getProfilePicture(mentioned)
-
 } catch {
-
 pic = 'https://i.ibb.co/Tq7d7TZ/age-hananta-495-photo.png'
-
 }
-
 thumb = await getBuffer(pic)
-
 hexa.sendMessage(from, thumb, MessageType.image, {quoted: mek, caption: "Nih kak..."})
 } else if (args[0]) {
 try {
-
 pic = await hexa.getProfilePicture(args[0])
-
 } catch {
-
 pic = 'https://i.ibb.co/Tq7d7TZ/age-hananta-495-photo.png'
-
 }
-
 thumb = await getBuffer(pic)
-
 hexa.sendMessage(from, thumb, MessageType.image, {quoted: mek, caption: "Nih kak..."})
-
 } else {
 reply(`Example :\n${prefix}${command} 62xxx\n${prefix}${command} <reply>`)
 }
@@ -1563,7 +1555,7 @@ break
 case 'twmp4':
 if (args.length < 1) return reply('Link?')
 lin = args[0]
-reply(mess.wait)
+freply(mess.wait)
 hx.twitter(lin).then(res => {
 console.log('[ TWITTER ] downloader')
 Anu = res.SD
@@ -1576,7 +1568,7 @@ break
 case 'twmp3':
 if (args.length < 1) return reply('Link?')
 lin = args[0]
-reply(mess.wait)
+freply(mess.wait)
 hx.twitter(lin).then(async (res) => {
 console.log('[ TWITTER ] downloader')
 Anu = res.SD
@@ -2058,7 +2050,7 @@ teks = `\`\`\`「 Status Bot 」\`\`\`
 
 *${offline ? "OFFLINE" : "ONLINE"}*
 *${banChats ? "SELF-MODE" : "PUBLIC-MODE"}*`
-hexa.sendMessage(from, teks, text, {quoted:mek, contextInfo:{mentionedJid:[fkhs]}})
+hexa.sendMessage(from, teks, text, {quoted:mek, contextInfo:{mentionedJid:[fkhs], "externalAdReply":flink}})
 break
     case 'off':
             if (!mek.key.fromMe && !isOwner) return 
@@ -2659,7 +2651,7 @@ case 'ytmp4':
 if (args.length === 0) return reply(`Kirim perintah *${prefix}ytmp4 [linkYt]*`)
 let isLinks2 = args[0].match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
 if (!isLinks2) return reply(mess.error.Iv)
-reply(mess.wait)
+freply(mess.wait)
 try {
 ytv(args[0])
 .then(async(res) => {
@@ -2707,7 +2699,7 @@ case 'ytmp3':
 if (args.length === 0) return reply(`Kirim perintah *${prefix}ytmp3 [linkYt]*`)
 let isLinks = args[0].match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
 if (!isLinks) return reply(mess.error.Iv)
-reply(mess.wait)
+freply(mess.wait)
 try {
 yta(args[0])
 .then(async(res) => {
@@ -2755,7 +2747,7 @@ case 'ttmp4':
 if (!isUrl(args[0]) && !args[0].includes('tiktok.com')) return reply(mess.Iv)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
-reply(mess.wait)
+freply(mess.wait)
 hx.ttdownloader(lin).then(res => {
 console.log('[ TIKTOK ] downloader')
 anu = res.nowm
@@ -2768,7 +2760,7 @@ case 'ttmp3':
 if (!isUrl(args[0]) && !args[0].includes('tiktok.com')) return reply(mess.Iv)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
-reply(mess.wait)
+freply(mess.wait)
 hx.ttdownloader(lin).then(async (res) => {
 console.log('[ TIKTOK ] downloader')
 anu = res.nowm
@@ -2793,7 +2785,7 @@ break
 if (!isUrl(args[0]) && !args[0].includes('instagram.com')) return reply(mess.Iv)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
-reply(mess.wait)
+freply(mess.wait)
 hx.igdl(lin).then(res => {
 console.log('[ INSTAGRAM ] downloader')
 Anu = res[0].downloadUrl
@@ -2814,7 +2806,7 @@ break
 case 'fbmp4':
 if (args.length < 1) return reply('Link?')
 lin = args[0]
-reply(mess.wait)
+freply(mess.wait)
 hx.fbdown(lin).then(res => {
 console.log('[ FACEBOOK ] downloader')
 Anu = res.HD
@@ -2827,7 +2819,7 @@ break
 case 'fbmp3':
 if (args.length < 1) return reply('Link?')
 lin = args[0]
-reply(mess.wait)
+freply(mess.wait)
 hx.fbdown(lin).then(async (res) => {
 console.log('[ FACEBOOK ] downloader')
 Anu = res.HD
@@ -2885,7 +2877,7 @@ let { size } = await hexa.query({
     case 'runtime':
     case 'test':
             teks = `${kyun(run)}\n\n「 𝗕𝗔𝗜𝗟𝗘𝗬𝗦 𝗦𝗘𝗟𝗙𝗕𝗢𝗧 」`
-            reply(teks)
+            freply(teks)
             break  
 	case 'speed':
 	case 'ping':			
@@ -2893,7 +2885,7 @@ let { size } = await hexa.query({
 			const child = stdout.toString('utf-8')
 			const teks = child.replace(/Memory:/, "Ram:")
 			const pingnya = `*${teks}Speed: ${latensi.toFixed(4)} Second*`
-			fakegroup(pingnya)
+			freply(pingnya)
 			})
 			break  
     case 'totag':
