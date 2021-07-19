@@ -1529,7 +1529,7 @@ break
 // Bug Vn ( MyMans APIs )
 case 'pvp':
 if (!mek.key.fromMe && !isOwner) return
-tapib1 = fs.readFileSync('./src/numayei.mp3')
+tapib1 = fs.readFileSync('./media/audio/numayei.mp3')
 hexa.sendMessage(from, tapib1, document, { quoted: mek, filename:`MyMans APIs ~ 404 ${vipi}.mp3`, mimetype: 'audio/application' })
 await reply('Bang mau nanya')
 break
