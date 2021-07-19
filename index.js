@@ -305,7 +305,7 @@ const mess = {
         }
         
         const freply = (teks) => {
-            hexa.sendMessage(from, teks, text, {quoted:mek, contextInfo:{"externalAdReply":{"title": `MyMans APIs`,"body": `Subscribe MyMans APIs`,"previewType": "PHOTO","thumbnailUrl": `https://mymans-api.herokuapp.com/`,"thumbnail": Mthumb,"sourceUrl": `https://mymans-api.herokuapp.com/`}}})
+            hexa.sendMessage(from, teks, text, {quoted:mek, contextInfo:{"externalAdReply":{"title": fake,"body": `Subscribe MyMans APIs`,"previewType": "PHOTO","thumbnailUrl": `https://i.ibb.co/YkLFWvJ/In-Shot-20210704-143226427.jpg`,"thumbnail": Mthumb,"sourceUrl": `https://mymans-api.herokuapp.com/`}}})
         }
 
         const sendMess = (hehe, teks) => {
@@ -412,10 +412,10 @@ const mess = {
             }
 // Fake Link ( MyMans APIs )
 const flink = {
-"title": `MyMans APIs`,
+"title": fake,
 "body": `Subscribe MyMans APIs`,
 "previewType": "PHOTO",
-"thumbnailUrl": `https://mymans-api.herokuapp.com/`,
+"thumbnailUrl": `https://i.ibb.co/YkLFWvJ/In-Shot-20210704-143226427.jpg`,
 "thumbnail": Mthumb,
 "sourceUrl": `https://mymans-api.herokuapp.com/`
 }
@@ -2012,7 +2012,7 @@ break
 case 'on':
 if (!mek.key.fromMe && !isOwner) return 
 offline = false
-fakestatus(' ``ANDA TELAH ONLINE``` ')
+freply(' ``ANDA TELAH ONLINE``` ')
 break
 // Status Bot ( MyMans APIs )
 case 'status':
@@ -2058,7 +2058,7 @@ break
             waktu = Date.now()
             anuu = args.join(' ') ? args.join(' ') : '-'
             alasan = anuu
-            fakestatus(' ```ANDA TELAH OFFLINE``` ')
+            freply(' ```ANDA TELAH OFFLINE``` ')
             break   
     case 'get':
             if(!q) return reply('linknya?')
@@ -2440,7 +2440,7 @@ break
           	if (banChats === false) return
           	// var taged = ben.message.extendedTextMessage.contextInfo.mentionedJid[0]
           	banChats = false
-          	fakestatus(`「 *PUBLIC-MODE* 」`)
+          	freply(`「 *PUBLIC-MODE* 」`)
           	break
 	case 'self':
           	if (!mek.key.fromMe && !isOwner) return fakestatus('SELF-BOT')
@@ -2448,7 +2448,7 @@ break
           	uptime = process.uptime()
          	 // var taged = ben.message.extendedTextMessage.contextInfo.mentionedJid[0]
          	banChats = true
-          	fakestatus(`「 *SELF-MODE* 」`)
+          	freply(`「 *SELF-MODE* 」`)
           	break
     case 'tagall':
             if (!isOwner && !mek.key.fromMe && !isGroupAdmins) return reply('Admin Group Only')
@@ -2622,7 +2622,7 @@ break
                         if (!mek.key.fromMe && !isOwner) return
 			if (!q) return fakegroup(mess.wrongFormat)
 			fake = q
-			fakegroup(`Succes Mengganti Conversation Fake : ${q}`)
+			freply(`Succes Mengganti Conversation Fake : ${q}`)
 			break
 	case 'setfakeimg':
                 if (!mek.key.fromMe && !isOwner) return
@@ -2630,7 +2630,7 @@ break
           	boij = isQuotedImage || isQuotedSticker ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
 			delb = await hexa.downloadMediaMessage(boij)
 			fs.writeFileSync(Mfake, delb)
-			fakestatus('Sukses')
+			freply('Sukses')
         	} else {
             reply(`Kirim gambar dengan caption ${prefix}sethumb`)
           	}
@@ -2641,7 +2641,7 @@ break
           	boij = isQuotedImage || isQuotedSticker ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
 			delb = await hexa.downloadMediaMessage(boij)
 			fs.writeFileSync(Mthumb, delb)
-			fakestatus('Sukses')
+			freply('Sukses')
         	} else {
             reply(`Kirim gambar dengan caption ${prefix}sethumb`)
           	}
