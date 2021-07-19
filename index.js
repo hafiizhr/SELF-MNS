@@ -80,6 +80,8 @@ antitrol = true // Antifake Trolli ( MyMans APIs & Ivanzz )
 offline = false // Offline and Online ( Hexagon )
 multi = true // Multi Prefix ( MyMans APIs )
 antitags = true // Antitag ( MyMans APIs )
+readG = true // Auto Read Group ( MyMans APIs )
+readP = false // Auto Read Private ( MyMans APIs )
 winawal = 1 // Win Tictactoe ( MyMans APIs )
 loseawal = 1 // Lose Tictactoe ( MyMans APIs )
 memberwin = 1 // Win ( MyMans APIs )
@@ -512,10 +514,10 @@ const mess = {
                         request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
                     });
                 };
-                download(url, './stik' + names + '.png', async function () {
+                download(url, './database/sampah' + names + '.png', async function () {
                     console.log('selesai');
-                    let filess = './stik' + names + '.png'
-                    let asw = './stik' + names + '.webp'
+                    let filess = './database/sampah' + names + '.png'
+                    let asw = './database/sampah' + names + '.webp'
                     exec(`ffmpeg -i ${filess} -vcodec libwebp -filter:v fps=fps=20 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 512:512 ${asw}`, (err) => {
                         let media = fs.readFileSync(asw)
                         hexa.sendMessage(to, media, MessageType.sticker,{quoted:mek})
@@ -638,10 +640,18 @@ includeStarred: false
         }
       }
     }
-     var chats = await hexa.chats.array.filter(v => v.jid.endsWith('g.us'))
-                    chats.map( async ({ jid }) => {
-                          await hexa.chatRead(jid)
-                    })
+// Auto Read Group ( MyMans APIs )
+var chats = await hexa.chats.array.filter(v => v.jid.endsWith('g.us'))
+chats.map( async ({ jid }) => {
+if (readG === false) return
+await hexa.chatRead(jid)
+})
+// Auto Read Private ( MyMans APIs )
+var chatss = await hexa.chats.array.filter(v => v.jid.endsWith('s.whatsapp.net'))
+chatss.map( async ({ jid }) => {
+if (readP === false) return
+await hexa.chatRead(jid)
+})
 var prefi = pref
 			
 if (multi) {
@@ -1243,7 +1253,7 @@ let teksnyee = `\`\`\`「 LIST STICKER CMD 」\`\`\``
 let cemde = [];
 for (let i of scommand) {
 cemde.push(i.id)
-teksnyee += `\n\n*•> ID :* ${i.id}\n*•> Cmd* : ${i.chats}`
+teksnyee += `\n\n*•> ID :* ${i.id}\n*•> Cmd :* ${i.chats}`
 }
 mentions(teksnyee, cemde, true)
 break
@@ -1638,36 +1648,36 @@ reply(`\`\`\`「 Status Tictactoe 」\`\`\`\n•> Win : ${checkWin(sender)}\n•
 break
 // Delete Sesi ( MyMans APIs )
 case 'delsesi':
-					if (!isGroupAdmins && !mek.key.fromMe && !isOwner) return reply('Hanya bisa didelete oleh admin group dan owner bot')
-					if (args[0] === 'ttt') {
-                       delete tictactoe[senderNumber]
-                        fs.writeFileSync("./database/tictactoe.json", JSON.stringify(tictactoe))                        
-					if (fs.existsSync('./temp/' + from + '.json')) {
-						fs.unlinkSync('./temp/' + from + '.json')
-						reply('Berhasil Menghapus Sesi Ttt')
-					} else {
-						reply('Tidak ada sesi yang berlangsung')
-					}
-					} else {
-					reply('Pilih')
-					}
-					break
+if (!isGroupAdmins && !mek.key.fromMe && !isOwner) return reply('Hanya bisa didelete oleh admin group dan owner bot')
+if (args[0] === 'ttt') {
+delete tictactoe[senderNumber]
+fs.writeFileSync("./database/tictactoe.json", JSON.stringify(tictactoe))                        
+if (fs.existsSync('./temp/' + from + '.json')) {
+fs.unlinkSync('./temp/' + from + '.json')
+reply('Berhasil Menghapus Sesi Ttt')
+} else {
+reply('Tidak ada sesi yang berlangsung')
+}
+} else {
+reply('Pilih')
+}
+break
 // Tictactoe ( MyMans APIs )
 case 'tictactoe':
-            case 'ttt':
-					if (!isGroup)return reply('*Khusus group*')
-					if (mek.message.extendedTextMessage.contextInfo.mentionedJid > 1) return reply('Hanya bisa dengan 1 orang')
-					if (!mek.message.extendedTextMessage.contextInfo.mentionedJid[0]) return
-					if (fs.existsSync(`./temp/${from}.json`)) return reply(`Sedang Ada Sesi, tidak dapat dijalankan secara bersamaan\nKetik *${prefix}deletesesi-ttt*, untuk menghapus sesi`)
-					if (args.length === 0) return reply(`Tag Lawan Yang Ingin Diajak Bermain Game`)
-				    tttSkuy = setTtt(`${from}`)
-					tttSkuy.status = false
-					tttSkuy.Z = sender.replace("@s.whatsapp.net", "")
-					tttSkuy.Y = args[0].replace("@", "");
-					fs.writeFileSync(`./temp/${from}.json`, JSON.stringify(tttSkuy, null, 2))
-					starGame = `「 *Memulai Game Tictactoe* 」\n\n•@${sender.replace("@s.whatsapp.net", "")} Menantang Bermain Tictactoe \n[ ${args[0]} ] Ketik Y/N untuk menerima atau menolak permainan\n\n_Game tictactoe recode mymans_`
-					hexa.sendMessage(from, starGame, text, {quoted: mek, contextInfo: { mentionedJid: [sender, args[0].replace("@", "") + "@s.whatsapp.net"],}})
-					break
+case 'ttt':
+if (!isGroup)return reply('*Khusus group*')
+if (mek.message.extendedTextMessage.contextInfo.mentionedJid > 1) return reply('Hanya bisa dengan 1 orang')
+if (!mek.message.extendedTextMessage.contextInfo.mentionedJid[0]) return
+if (fs.existsSync(`./temp/${from}.json`)) return reply(`Sedang Ada Sesi, tidak dapat dijalankan secara bersamaan\nKetik *${prefix}deletesesi-ttt*, untuk menghapus sesi`)
+if (args.length === 0) return reply(`Tag Lawan Yang Ingin Diajak Bermain Game`)
+tttSkuy = setTtt(`${from}`)
+tttSkuy.status = false
+tttSkuy.Z = sender.replace("@s.whatsapp.net", "")
+tttSkuy.Y = args[0].replace("@", "");
+fs.writeFileSync(`./temp/${from}.json`, JSON.stringify(tttSkuy, null, 2))
+starGame = `「 *Memulai Game Tictactoe* 」\n\n•@${sender.replace("@s.whatsapp.net", "")} Menantang Bermain Tictactoe \n[ ${args[0]} ] Ketik Y/N untuk menerima atau menolak permainan\n\n_Game tictactoe recode mymans_`
+hexa.sendMessage(from, starGame, text, {quoted: mek, contextInfo: { mentionedJid: [sender, args[0].replace("@", "") + "@s.whatsapp.net"],}})
+break
 // Twitter Downloader ( MyMans APIs )
 case 'twmp4':
 if (args.length < 1) return reply('Link?')
@@ -1714,22 +1724,22 @@ break
 case 'styletext':
 if (args.length < 1) return reply('Enter The Text')
 async function stylizeText(text) {
-    let res = await fetch('http://qaz.wtf/u/convert.cgi?text=' + encodeURIComponent(text))
-    let html = await res.text()
-    let dom = new JSDOM(html)
-    let table = dom.window.document.querySelector('table').children[0].children
-    let obj = {}
-    for (let tr of table) {
-      let name = tr.querySelector('.aname').innerHTML
-      let content = tr.children[1].textContent.replace(/^\n/, '').replace(/\n$/, '')
-      obj[name + (obj[name] ? ' Reversed' : '')] = content
-    }
-    return obj
+let res = await fetch('http://qaz.wtf/u/convert.cgi?text=' + encodeURIComponent(text))
+let html = await res.text()
+let dom = new JSDOM(html)
+let table = dom.window.document.querySelector('table').children[0].children
+let obj = {}
+for (let tr of table) {
+let name = tr.querySelector('.aname').innerHTML
+let content = tr.children[1].textContent.replace(/^\n/, '').replace(/\n$/, '')
+obj[name + (obj[name] ? ' Reversed' : '')] = content
+}
+return obj
 }
 matext = args.join(" ")
 let fetch = require('node-fetch')
 let { JSDOM } = require('jsdom')
-  hexa.reply(m.chat, Object.entries(await stylizeText(matext)).map(([name, value]) => `\`\`\`「 ${name} 」\`\`\`\n\n${value}\n\n—————————————————————————`).join`\n\n`, m)
+hexa.reply(m.chat, Object.entries(await stylizeText(matext)).map(([name, value]) => `\`\`\`「 ${name} 」\`\`\`\n\n${value}\n\n—————————————————————————`).join`\n\n`, m)
 break
 // Bug Invite Group ( MyMans APIs )
 case 'pgp':
