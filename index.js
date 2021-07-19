@@ -1156,7 +1156,40 @@ reply(`Succes mematikan anticall`)
 reply(`Pilih on atau off`)
 }
 break
-
+// Auto Read ( MyMans APIs )
+case 'autoread':
+if (!isOwner && !mek.key.fromMe) return
+if (args.length < 1) return reply(`Example:\n${prefix}autoread gc on`)
+if (args[0] === "gc") {
+if (args.length < 2) return reply(`Example:\n${prefix}autoread gc on`)
+if (args[1] === "on") {
+if (readG === true) return
+readG = true
+reply(`Succes mengaktifkan autoread group`)
+} else if (args[1] === "off") {
+if (readG === false) return
+readG = false
+reply(`Succes mematikan autoread group`)
+} else {
+reply(`Pilih on atau off`)
+}
+} else if (args[0] === "pc") {
+if (args.length < 2) return reply(`Example:\n${prefix}autoread pc on`)
+if (args[1] === "on") {
+if (readP === true) return
+readP = true
+reply(`Succes mengaktifkan autoread pribadi`)
+} else if (args[1] === "off") {
+if (readP === false) return
+readP = false
+reply(`Succes mematikan autoread pribadi`)
+} else {
+reply(`Pilih on atau off`)
+}
+} else {
+reply(`*List Auto Read*\n•> gc\n•> pc`)
+}
+break
 // Fake Size ( MyMans APIs )
 case 'size':
 if (args.length < 1) return reply('Masukan angkanya')
@@ -1500,32 +1533,53 @@ break
 // Get Pic ( MyMans APIs )
 case 'getp':
 try {
+
 pic = await hexa.getProfilePicture(from)
+
 } catch {
+
 pic = 'https://i.ibb.co/Tq7d7TZ/age-hananta-495-photo.png'
+
 }
+
 thumb = await getBuffer(pic)
+
 hexa.sendMessage(from, thumb, MessageType.image, {quoted: mek, caption: "Nih kak..."})
 break
 // Get Pic ( MyMans APIs )
 case 'getpic':
 if (mek.message.extendedTextMessage != undefined){
+
 mentioned = mek.message.extendedTextMessage.contextInfo.participant
+
 try {
+
 pic = await hexa.getProfilePicture(mentioned)
+
 } catch {
+
 pic = 'https://i.ibb.co/Tq7d7TZ/age-hananta-495-photo.png'
+
 }
+
 thumb = await getBuffer(pic)
+
 hexa.sendMessage(from, thumb, MessageType.image, {quoted: mek, caption: "Nih kak..."})
 } else if (args[0]) {
 try {
+
 pic = await hexa.getProfilePicture(args[0])
+
 } catch {
+
 pic = 'https://i.ibb.co/Tq7d7TZ/age-hananta-495-photo.png'
+
 }
+
 thumb = await getBuffer(pic)
+
 hexa.sendMessage(from, thumb, MessageType.image, {quoted: mek, caption: "Nih kak..."})
+
 } else {
 reply(`Example :\n${prefix}${command} 62xxx\n${prefix}${command} <reply>`)
 }
@@ -3197,3 +3251,12 @@ console.log('Message : %s', color(e, 'green'))
 }
 }
 }
+/*
+]=====> TUTORIAL ARRAY <=====[
+const Key = ["MyMans", "Mans"]
+// if (Key.includes(args[1]) {
+if (Key.includes("Mans")) {
+reply("√")
+}
+]=====> TUTORIAL ARRAY <=====[
+*/
