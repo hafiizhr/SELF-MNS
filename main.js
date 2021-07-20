@@ -12,7 +12,7 @@ const { exec } = require('child_process')
 const moment = require('moment-timezone')
 const { banner, start, success } = require('./lib/functions')
 const { color } = require('./lib/color')
-const gcrevoke = ["6282140744548-1621430788@g.us"]
+const gcrevoke = JSON.parse(fs.readFileSync('./database/autorevoke.json'))
 blocked = []
 
 require('./index.js')
