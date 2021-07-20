@@ -72,8 +72,9 @@ const Bthumb = fs.readFileSync('./media/image/thumb.jpeg','base64')
 const Bfake = fs.readFileSync ('./media/image/fake.jpeg','base64')
 const _win = JSON.parse(fs.readFileSync('./database/tttwin.json'))
 const _lose = JSON.parse(fs.readFileSync('./database/tttlose.json'))
+const gcrevoke = JSON.parse(fs.readFileSync('./database/autorevoke.json'))
 const scommand = JSON.parse(fs.readFileSync('./database/scommand.json'))
-// SETTING // === // MyMans APIs // === // Hexagon // === // MhankBarBar //
+// SETTING // === // MyMans APIs // === // Hexagonz // === // MhankBarBar //
 banChats = true // Self and Public ( MyMans APIs & Hexagon )
 bugc = true // Antibug Gc ( MyMans APIs & MhankBarBar )
 antitrol = true // Antifake Trolli ( MyMans APIs & Ivanzz )
@@ -278,6 +279,7 @@ hexa.sendMessage(mek.key.remoteJid, tekuss, MessageType.text, {contextInfo:{ment
 		const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
 		const isGroupAdmins = groupAdmins.includes(sender) || false
 		const AntiLink = isGroup ? ntilink.includes(from) : false
+		const GcRvk = isGroup ? gcrevoke.includes(from) : false
         const conts = mek.key.fromMe ? hexa.user.jid : hexa.contacts[sender] || { notify: jid.replace(/@.+/, '') }
         const pushname = mek.key.fromMe ? hexa.user.name : conts.notify || conts.vname || conts.name || '-'
         const atibot = m.isBaileys
@@ -874,6 +876,7 @@ var menu = `Hai ${pushname}
 
 ┌──「 *GROUP* 」
 │
+├ ❏ ${prefix}autorevoke <1/0>
 ├ ❏ ${prefix}antilink <1/0>
 ├ ❏ ${prefix}setname <query>
 ├ ❏ ${prefix}setdesc <query>
@@ -1022,6 +1025,27 @@ var menu = `Hai ${pushname}
 └──────────────────`
 buf = Mthumb
 hexa.sendMessage(from, buf, image, {quoted:mek, caption:menu, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true, mentionedJid:[tagme + "@s.whatsapp.net", anus]}})
+break
+// Auto Revoke ( MyMans APIs )
+case 'autorevoke':
+if (!isGroup) return reply(mess.only.group)
+if (!isGroupAdmins && !mek.key.fromMe && !isOwner) return reply('Admin Group Only')
+if (!isBotGroupAdmins) return reply('Bot not admin')
+if (args.length < 1) return reply('ketik 1 untuk mengaktifkan\nketik 0 untuk menonaktifkan')
+if (args[0] === "1") {
+if (GcRvk) return reply('Sudah Aktif')
+gcrevoke.push(from)
+fs.writeFileSync('./database/autorevoke.json', JSON.stringify(gcrevoke))
+reply('Succes menyalakan autorevoke di group ini')
+} else if (args[0] === "0") {
+if (!GcRvk) return reply('Sudah Mati')
+let offes = gcrevoke.indexOf(from)
+gcrevoke.splice(offes, 1)
+fs.writeFileSync('./database/autorevoke.json', JSON.stringify(gcrevoke))
+reply('Succes mematikan autorevoke di group ini')
+} else {
+reply('1 untuk mengaktifkan, 0 untuk menonaktifkan')
+}
 break
 // Anti Delete ( MyMans APIs )
 case 'antidelete':
@@ -3105,6 +3129,7 @@ if (mek.key.fromMe) return
 if (isOwner) return
 sendNye = fs.readFileSync('media/sticker/jantag.webp')
 hexa.sendMessage(from, sendNye, sticker, {quoted:mek, contextInfo:{forwardingScore: 800, isForwarded: true}})
+hexa.chatRead(from)
 }
 // Antitag Via Tag ( MyMans APIs )
 if (budy.includes("@6288224859350")) {
@@ -3113,6 +3138,7 @@ if (mek.key.fromMe) return
 if (isOwner) return
 sendNye = fs.readFileSync('media/sticker/jantag.webp')
 hexa.sendMessage(from, sendNye, sticker, {quoted:mek, contextInfo:{forwardingScore: 800, isForwarded: true}})
+hexa.chatRead(from)
 }
 // Batas
 }
