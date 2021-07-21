@@ -1133,7 +1133,7 @@ hexa.sendMessage(from, buf, image, {quoted:mek, caption:menu, thumbnail:Bfake, c
 break
 // Kalkulator ( MyMans APIs )
 case 'kalkulator':
-if (args.length < 1) return reply(`*Example :*\n${prefix} 2 * 5\n\n*List Bilangan :*\n•> Kali : *\n•> Bagi : /\n•> Tambah : +\n•> Kurang : -`)
+if (args.length < 1) return reply(`*Example :*\n${prefix}kalkulator 2 * 5\n\n*List Bilangan :*\n•> Kali : *\n•> Bagi : /\n•> Tambah : +\n•> Kurang : -`)
 let qsd = args.join(" ")
 if (typeof mathjs.evaluate(qsd) !== 'number') {
 reply('Error')
@@ -1171,10 +1171,10 @@ break
 // Sewa List
 case 'sewalist': 
 case 'listsewa':
-let txtnyee = `List Sewa\nJumlah : ${sewa.length}\n\n`
+let txtnyee = `List Sewa\nJumlah : ${sewa.length}`
 for (let i of sewa){
 let cekvipp = ms(i.expired - Date.now())
-txtnyee += `*ID :* ${i.id} \n*Expire :* ${cekvipp.days} day(s) ${cekvipp.hours} hour(s) ${cekvipp.minutes} minute(s) ${cekvipp.seconds} second(s)\n\n`
+txtnyee += `\n\n*ID :* ${i.id} \n*Expire :* ${cekvipp.days} day(s) ${cekvipp.hours} hour(s) ${cekvipp.minutes} minute(s) ${cekvipp.seconds} second(s)`
 }
 reply(txtnyee)
 break
