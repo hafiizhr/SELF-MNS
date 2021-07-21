@@ -75,7 +75,8 @@ const Bvirgam = fs.readFileSync('./media/image/MyMans-APIs.jpg','base64')
 const _win = JSON.parse(fs.readFileSync('./database/tttwin.json'))
 const _lose = JSON.parse(fs.readFileSync('./database/tttlose.json'))
 const banUser = JSON.parse(fs.readFileSync('./database/banned.json'))
-const sewa = JSON.parse(fs.readFileSync('./database/sewa.json'));
+// const sewa = JSON.parse(fs.readFileSync('./database/sewa.json'));
+const addJoi = JSON.parse(fs.readFileSync('./database/join.json'))
 const gcrevoke = JSON.parse(fs.readFileSync('./database/autorevoke.json'))
 const scommand = JSON.parse(fs.readFileSync('./database/scommand.json'))
 // SETTING // === // MyMans APIs // === // Hexagonz // === // MhankBarBar //
@@ -255,6 +256,7 @@ hexa.sendMessage(mek.key.remoteJid, tekuss, MessageType.text, {contextInfo:{ment
 		// const isOwner = sender.id === isSelfNumber
         const isOwner = ownerNumbers.includes(sender)
         const isBan = banUser.includes(sender)
+        const isJoin = addJoi.includes(sender)
 		const { wa_version, mcc, mnc, os_version, device_manufacturer, device_model } = hexa.user.phone
 		const totalchat = await hexa.chats.all()
 		const totalgroup = await hexa.chats.array.filter(v => v.jid.endsWith('g.us'))
@@ -426,6 +428,7 @@ const mess = {
 <==========> FITUR SEWA BOT <==========>
 */
 // Add Sewa
+/*
 const addSewaGroup = (gid, expired, _dir) => {
     const obj = { id: gid, expired: Date.now() + toMs(expired), status: true }
     _dir.push(obj)
@@ -495,6 +498,7 @@ const expiredCheck = (hexa, _dir) => {
 }
 const isSewa = checkSewaGroup(from, sewa)
 expiredCheck(hexa, sewa)
+*/
 /*
 <==========> FITUR SEWA BOT <==========>
 // Recode By MyMans APIs
@@ -934,7 +938,6 @@ break
 // Text Cmd
 switch (command) {
 // List Menu ( MyMans APIs )
-if (!mek.key.fromMe && !isOwner && !isPribadi && !isSewa) return reply(`Group ini belum menyewa bot silahkan hubungi owner`)
 case 'menu':
 case 'help':
 tagme = '6288224859350'
@@ -1125,6 +1128,7 @@ var menu = `Hai ${pushname}
 buf = Mthumb
 hexa.sendMessage(from, buf, image, {quoted:mek, caption:menu, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true, mentionedJid:[tagme + "@s.whatsapp.net", anus]}})
 break
+/*
 // Sewa Bot 
 case 'sewa':
 if (!isGroup)return
@@ -1162,6 +1166,7 @@ txtnyee += `*ID :* ${i.id} \n*Expire :* ${cekvipp.days} day(s) ${cekvipp.hours} 
 }
 reply(txtnyee)
 break
+*/
 // Banned User ( MyMans APIs )
 case 'ban':
 if (!mek.key.fromMe && !isOwner) return
@@ -3020,30 +3025,36 @@ break
 			}
 			})
 		    break 
-    case 'join':
-            if (args.length < 1) return reply('Linknya?')
-            cos = args[0]
-            var net = cos.split('https://chat.whatsapp.com/')[1]
-            if (!net) return reply('pastikan itu link https://whatsapp.com/')
+case 'join':
+if (isJoin) return reply(`Kamu telah menggunakan fitur ini sebelumnya hubungi owner untuk menyewa bot`)
+if (args.length < 1) return reply('Linknya?')
+cos = args[0]
+var net = cos.split('https://chat.whatsapp.com/')[1]
+if (!net) return reply('pastikan itu link https://whatsapp.com/')
 let { size } = await hexa.query({ 
-            json: ["query", "invite",net],
-            expect200:true })
-            if (size < 50) {
-            reply('Member Lo Dikit Jadi Bot Gk Mau Join, minimal member harus 50 orang')
-            } else if (size > 50) {
-             try {
-            if (!isUrl(args[0]) && !args[0].includes('whatsapp.com')) return reply(mess.Iv)
-            var codeInvite = cos.split('https://chat.whatsapp.com/')[1]
-            if (!codeInvite) return fakegroup ('pastikan link sudah benar!')
-            var response = await hexa.acceptInvite(codeInvite)
-            fakestatus('SUKSES')
-            } catch {
-            fakegroup('LINK ERROR!')
-            }
-            } else {
-            reply('Error!')
-            }
-            break
+json: ["query", "invite",net],
+expect200:true })
+if (size < 50) {
+reply('Member Lo Dikit Jadi Bot Gk Mau Join, minimal member harus 50 orang')
+} else if (size > 50) {
+try {
+if (!isUrl(args[0]) && !args[0].includes('whatsapp.com')) return reply(mess.Iv)
+var codeInvite = cos.split('https://chat.whatsapp.com/')[1]
+if (!codeInvite) return fakegroup ('pastikan link sudah benar!')
+var response = await hexa.acceptInvite(codeInvite)
+reply('SUKSES')
+orgnyee = sender
+txtye = `\`\`\`「 Fitur Join 」\`\`\`\n•> Nomer : @${orgnyee}\n•> Command : Join`
+hexa.sendMessage(`6288224859350@s.whatsapp.net`, txtye, text, {quoted:mek, contextInfo:{mentionedJid:[orgnyee]}})
+addJoi.push(sender)
+fs.writeFileSync('./database/join.json', JSON.stringify(addJoi))
+} catch {
+reply('LINK ERROR!')
+}
+} else {
+reply('Error!')
+}
+break
     case'twitter':
             if (!isUrl(args[0]) && !args[0].includes('twitter.com')) return reply(mess.Iv)
             if (!q) return fakegroup('Linknya?')
