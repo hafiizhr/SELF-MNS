@@ -863,8 +863,6 @@ const checkWin = (sender) => {
      	if (isCmd && isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, color(command), 'from', color(sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
       	//if (!isCmd && isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mTEXT\x1b[1;37m]', time, color('Message'), 'from', color(sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
 		if (!mek.key.fromMe && !isOwner && banChats === true) return		
-		//Sewa Group Recode By MyMans APIs
-		if (!mek.key.fromMe && !isOwner && !isPribadi && !isSewa) return reply(`Group ini belum menyewa bot silahkan hubungi owner`)
 		//Anti Bot Recode By MyMans APIs
 		if (atibot === true) return
 		//User Banned By MyMans APIs
@@ -936,6 +934,7 @@ break
 // Text Cmd
 switch (command) {
 // List Menu ( MyMans APIs )
+if (!mek.key.fromMe && !isOwner && !isPribadi && !isSewa) return reply(`Group ini belum menyewa bot silahkan hubungi owner`)
 case 'menu':
 case 'help':
 tagme = '6288224859350'
