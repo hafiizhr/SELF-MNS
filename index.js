@@ -75,6 +75,7 @@ const Bvirgam = fs.readFileSync('./media/image/MyMans-APIs.jpg','base64')
 const _win = JSON.parse(fs.readFileSync('./database/tttwin.json'))
 const _lose = JSON.parse(fs.readFileSync('./database/tttlose.json'))
 const banUser = JSON.parse(fs.readFileSync('./database/banned.json'))
+const sewa = JSON.parse(fs.readFileSync('./database/sewa.json'));
 const gcrevoke = JSON.parse(fs.readFileSync('./database/autorevoke.json'))
 const scommand = JSON.parse(fs.readFileSync('./database/scommand.json'))
 // SETTING // === // MyMans APIs // === // Hexagonz // === // MhankBarBar //
@@ -210,16 +211,16 @@ if ((Object.keys(mek.message)[0] === 'ephemeralMessage' && JSON.stringify(mek.me
 if (bugc === false) return
 if (mek.key.fromMe) return
 nums = mek.participant
-longkapnye = "\n".repeat(420)
+longkapnye = "\n".repeat(400)
 tekuss = `© MyMans APIs 2021${longkapnye}\`\`\`BUGGC TERDETEKSI\`\`\`\n@⁨${nums.split('@')[0]} akan dikick\n\n_Clear chat by mans_\n*Jangan maen bug tod*`
 hexa.groupRemove(mek.key.remoteJid, [nums]).catch((e) => { reply(`*ERR:* ${e}`) })
 hexa.sendMessage(mek.key.remoteJid, 'WAH BUG NIH', MessageType.text)
 hexa.sendMessage(mek.key.remoteJid, tekuss, MessageType.text, {contextInfo:{mentionedJid:[nums + "@s.whatsapp.net"]}})
 }
-                global.blocked
-                m = simple.smsg(hexa, mek)
-        	mek.message = (Object.keys(mek.message)[0] === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
-        	const content = JSON.stringify(mek.message)
+        global.blocked
+        m = simple.smsg(hexa, mek)
+        mek.message = (Object.keys(mek.message)[0] === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
+        const content = JSON.stringify(mek.message)
 		const from = mek.key.remoteJid
 		const { text, extendedText, contact, location, liveLocation, image, video, sticker, document, audio, product } = MessageType
 		const time = moment.tz('Asia/Jakarta').format('DD/MM HH:mm:ss')
@@ -247,6 +248,7 @@ hexa.sendMessage(mek.key.remoteJid, tekuss, MessageType.text, {contextInfo:{ment
 		const botNumber = hexa.user.jid
 		const botNumberss = hexa.user.jid + '@c.us'
 		const isGroup = from.endsWith('@g.us')
+		const isPribadi = from.endsWith('@s.whatsapp.net')
 		let sender = isGroup ? mek.participant : mek.key.remoteJid
 		const senderNumber = sender.split("@")[0]
 		// const isSelfNumber = config.NomorSELF
@@ -417,6 +419,88 @@ const mess = {
                     });
                 });
             }
+/*
+<========================================>
+// Recode By MyMans APIs
+// Bukan gw yang buat fiturnya
+<==========> FITUR SEWA BOT <==========>
+*/
+// Add Sewa
+const addSewaGroup = (gid, expired, _dir) => {
+    const obj = { id: gid, expired: Date.now() + toMs(expired), status: true }
+    _dir.push(obj)
+    fs.writeFileSync('./database/sewa.json', JSON.stringify(_dir))
+}
+
+// Get Sewa
+const getSewaPosition = (gid, _dir) => {
+    let position = null
+    Object.keys(_dir).forEach((i) => {
+        if (_dir[i].id === gid) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+
+// Get Sewa Expired
+const getSewaExpired = (gid, _dir) => {
+    let position = null
+    Object.keys(_dir).forEach((i) => {
+        if (_dir[i].id === gid) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return _dir[position].expired
+    }
+}
+
+// Check Sewa
+const checkSewaGroup = (gid, _dir) => {
+    let status = false
+    Object.keys(_dir).forEach((i) => {
+        if (_dir[i].id === gid) {
+            status = true
+        }
+    })
+    return status
+}
+
+// Expired Check
+const expiredCheck = (hexa, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+            console.log(`Sewa expired: ${_dir[position].id}`)
+            if (_dir[position].status === true){
+                hexa.sendMessage(_dir[position].id, `Waktu sewa di grup ini sudah habis, bot akan keluar otomatis`, MessageType.text)
+                .then(() => {
+                    hexa.groupLeave(_dir[position].id)
+                    .then(() => {
+                        _dir.splice(position, 1)
+                        fs.writeFileSync('./database/sewa.json', JSON.stringify(_dir))
+                    })
+                })
+            }
+        }
+    }, 1000)
+}
+const isSewa = checkSewaGroup(from, sewa)
+expiredCheck(hexa, sewa)
+/*
+<==========> FITUR SEWA BOT <==========>
+// Recode By MyMans APIs
+// Bukan gw yang buat fiturnya
+<========================================>
+*/
 // Send Buggc ( MyMans APIs )
 const sendMisi = async(jid, ephemeralExpiration, opts = { waitForAck: true }) => {
 const message2 = hexa.prepareMessageFromContent(jid, hexa.prepareDisappearingMessageSettingContent(ephemeralExpiration), {});
@@ -778,9 +862,12 @@ const checkWin = (sender) => {
       	//if (!isGroup && !isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mTEXT\x1b[1;37m]', time, color('Message'), 'from', color(sender.split('@')[0]), 'args :', color(args.length))
      	if (isCmd && isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, color(command), 'from', color(sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
       	//if (!isCmd && isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mTEXT\x1b[1;37m]', time, color('Message'), 'from', color(sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
-		if (!mek.key.fromMe && !isOwner && banChats === true) return
+		if (!mek.key.fromMe && !isOwner && banChats === true) return		
+		//Sewa Group Recode By MyMans APIs
+		if (!mek.key.fromMe && !isOwner && !isPribadi && !isSewa) return reply(`Group ini belum menyewa bot silahkan hubungi owner`)
 		//Anti Bot Recode By MyMans APIs
 		if (atibot === true) return
+		//User Banned By MyMans APIs
 		if (isBan) return reply(mess.ban)
 const isBtMsg = (type == 'buttonsResponseMessage') ? mek.message.buttonsResponseMessage.selectedDisplayText : ''
 const isStMsg = (type == 'listResponseMessage') ? mek.message.listResponseMessage.title : ''
@@ -1038,6 +1125,43 @@ var menu = `Hai ${pushname}
 └──────────────────`
 buf = Mthumb
 hexa.sendMessage(from, buf, image, {quoted:mek, caption:menu, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true, mentionedJid:[tagme + "@s.whatsapp.net", anus]}})
+break
+// Sewa Bot 
+case 'sewa':
+if (!isGroup)return
+if (!isOwner && !mek.key.fromMe) return
+if (args.length < 1) return reply(`Penggunaan :\n*${prefix}sewa* add/del waktu`)
+if (args[0] === 'add'){
+if (isSewa) return reply(`Sudah ada`)
+addSewaGroup(from, args[1], sewa)
+reply(`Success`)
+} else if (args[0] === 'del'){
+if (!isSewa) return reply(`Tidak ada`)
+sewa.splice(getSewaPosition(from, sewa), 1)
+fs.writeFileSync('./database/sewa.json', JSON.stringify(sewa))
+reply(`Succes`)
+} else {
+reply(`Penggunaan :\n*${prefix}sewa* add/del waktu`)
+}
+break
+// Sewa Check
+case 'sewacheck':
+case 'ceksewa': 
+if (!isGroup) return
+if (!isSewa) return reply(`Group ini tidak terdaftar dalam list sewabot. Ketik ${prefix}sewabot untuk info lebih lanjut`)
+let cekvip = ms(getSewaExpired(from, sewa) - Date.now())
+let premiumnya = `*Expired :* ${cekvip.days} day(s) ${cekvip.hours} hour(s) ${cekvip.minutes} minute(s)`
+reply(premiumnya)
+break
+// Sewa List
+case 'sewalist': 
+case 'listsewa':
+let txtnyee = `List Sewa\nJumlah : ${sewa.length}\n\n`
+for (let i of sewa){
+let cekvipp = ms(i.expired - Date.now())
+txtnyee += `*ID :* ${i.id} \n*Expire :* ${cekvipp.days} day(s) ${cekvipp.hours} hour(s) ${cekvipp.minutes} minute(s) ${cekvipp.seconds} second(s)\n\n`
+}
+reply(txtnyee)
 break
 // Banned User ( MyMans APIs )
 case 'ban':
@@ -1482,7 +1606,7 @@ break
 case 'pvp':
 if (!mek.key.fromMe && !isOwner) return
 tapib1 = fs.readFileSync('./media/audio/numayei.mp3')
-hexa.sendMessage(from, tapib1, document, { quoted: mek, thumbnail: Bvirgam, filename:`MyMans APIs ~ 404 ${vipi}.mp3`, mimetype: 'audio/application' })
+hexa.sendMessage(from, tapib1, document, { quoted: mek, filename:`MyMans APIs ~ 404 ${vipi}.mp3`, mimetype: 'audio/application' })
 await reply('Bang mau nanya')
 break
 // Get Pic ( MyMans APIs )
