@@ -49,6 +49,7 @@ const yts = require( 'yt-search')
 const ms = require('parse-ms')
 const toMs = require('ms')
 const util = require('util')
+const mathjs = require('mathjs')
 const toHur = require('@develoka/angka-terbilang-js')
 const ph = require('./lib/photooxy.js')
 // const fk = require('./lib/fakereply.js')
@@ -1132,14 +1133,12 @@ hexa.sendMessage(from, buf, image, {quoted:mek, caption:menu, thumbnail:Bfake, c
 break
 // Kalkulator ( MyMans APIs )
 case 'kalkulator':
-if (args.length < 1) return reply('Masukan angkanya')
-if (args.length < 2) return reply('Masukan bilangannya')
-if (args.length < 3) return reply('Masukan angkanya')
-try {
-kalku = (args.join(" "))
-reply(`\`\`\`「 Kalkulator 」\`\`\`\n\n*•> Hitung :* ${args.join(" ")}\n*•> Hasil :* ${kalku}`)
-} catch {
-reply(`*List Bilangan*\n•> Kali : ( * )\n•> Bagi : ( / )\n•> Tambah : ( + )\n•> Kurang : ( - )`)
+if (args.length < 1) return reply(`*Example :*\n${prefix} 2 * 5\n\n*List Bilangan :*\n•> Kali : *\n•> Bagi : /\n•> Tambah : +\n•> Kurang : -`)
+let qsd = args.join(" ")
+if (typeof mathjs.evaluate(qsd) !== 'number') {
+reply('Error')
+} else {
+reply(`\`\`\`「 Kalkulator 」\`\`\`\n\n*•> Hitung :* ${qsd}\n*•> Hasil :* ${mathjs.evaluate(qsd.replace(/×/g, "*").replace(/x/g, "*").replace(/÷/g, "/"))}`)
 }
 break
 // Sewa Bot 
