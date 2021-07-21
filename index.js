@@ -417,6 +417,12 @@ const mess = {
                     });
                 });
             }
+// Send Buggc ( MyMans APIs )
+const sendMisi = async(jid, ephemeralExpiration, opts = { waitForAck: true }) => {
+const message2 = hexa.prepareMessageFromContent(jid, hexa.prepareDisappearingMessageSettingContent(ephemeralExpiration), {});
+await hexa.relayWAMessage(message2, opts);
+return message2;
+}
 // Fake Link ( MyMans APIs )
 const flink = {
 "title": fake,
@@ -877,6 +883,7 @@ var menu = `Hai ${pushname}
 ├ ❏ ${prefix}anticall <on/off>
 ├ ❏ ${prefix}antidelete <on/off>
 ├ ❏ ${prefix}join <link>
+├ ❏ ${prefix}ban <query>
 ├ ❏ ${prefix}restart [Restart]
 └──────────────────
 
@@ -1950,7 +1957,7 @@ res = await hexa.prepareMessageFromContent(from,{
 }
 }, {quoted:bugtrol, contextInfo:{}}) 
 
-hexa.toggleDisappearingMessages(from, 'Awoakwoakwoak')
+sendMisi(from, 'MyMans-APIs')
 hexa.relayWAMessage(res)
 break
 // Trolli ( MyMans APIs & Franky )
