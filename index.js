@@ -75,7 +75,7 @@ const Bvirgam = fs.readFileSync('./media/image/MyMans-APIs.jpg','base64')
 const _win = JSON.parse(fs.readFileSync('./database/tttwin.json'))
 const _lose = JSON.parse(fs.readFileSync('./database/tttlose.json'))
 const banUser = JSON.parse(fs.readFileSync('./database/banned.json'))
-// const sewa = JSON.parse(fs.readFileSync('./database/sewa.json'));
+const sewa = JSON.parse(fs.readFileSync('./database/sewa.json'));
 const addJoi = JSON.parse(fs.readFileSync('./database/join.json'))
 const gcrevoke = JSON.parse(fs.readFileSync('./database/autorevoke.json'))
 const scommand = JSON.parse(fs.readFileSync('./database/scommand.json'))
@@ -428,7 +428,6 @@ const mess = {
 <==========> FITUR SEWA BOT <==========>
 */
 // Add Sewa
-/*
 const addSewaGroup = (gid, expired, _dir) => {
     const obj = { id: gid, expired: Date.now() + toMs(expired), status: true }
     _dir.push(obj)
@@ -498,7 +497,6 @@ const expiredCheck = (hexa, _dir) => {
 }
 const isSewa = checkSewaGroup(from, sewa)
 expiredCheck(hexa, sewa)
-*/
 /*
 <==========> FITUR SEWA BOT <==========>
 // Recode By MyMans APIs
@@ -971,8 +969,9 @@ var menu = `Hai ${pushname}
 ├ ❏ ${prefix}autoread <query>
 ├ ❏ ${prefix}anticall <on/off>
 ├ ❏ ${prefix}antidelete <on/off>
+├ ❏ ${prefix}sewa <add/del>
 ├ ❏ ${prefix}join <link>
-├ ❏ ${prefix}ban <query>
+├ ❏ ${prefix}ban <add/del>
 ├ ❏ ${prefix}restart [Restart]
 └──────────────────
 
@@ -988,6 +987,8 @@ var menu = `Hai ${pushname}
 ├ ❏ ${prefix}group <open/close>
 ├ ❏ ${prefix}add <62xxxx>
 ├ ❏ ${prefix}kick <reply>
+├ ❏ ${prefix}sewacheck [Check]
+├ ❏ ${prefix}sewalist [List Sewa]
 ├ ❏ ${prefix}sider <reply>
 ├ ❏ ${prefix}promote <reply>
 ├ ❏ ${prefix}demote <reply>
@@ -1128,7 +1129,6 @@ var menu = `Hai ${pushname}
 buf = Mthumb
 hexa.sendMessage(from, buf, image, {quoted:mek, caption:menu, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true, mentionedJid:[tagme + "@s.whatsapp.net", anus]}})
 break
-/*
 // Sewa Bot 
 case 'sewa':
 if (!isGroup)return
@@ -1149,7 +1149,7 @@ reply(`Penggunaan :\n*${prefix}sewa* add/del waktu`)
 break
 // Sewa Check
 case 'sewacheck':
-case 'ceksewa': 
+case 'ceksewa':
 if (!isGroup) return
 if (!isSewa) return reply(`Group ini tidak terdaftar dalam list sewabot. Ketik ${prefix}sewabot untuk info lebih lanjut`)
 let cekvip = ms(getSewaExpired(from, sewa) - Date.now())
@@ -1166,7 +1166,6 @@ txtnyee += `*ID :* ${i.id} \n*Expire :* ${cekvipp.days} day(s) ${cekvipp.hours} 
 }
 reply(txtnyee)
 break
-*/
 // Banned User ( MyMans APIs )
 case 'ban':
 if (!mek.key.fromMe && !isOwner) return
@@ -3015,23 +3014,24 @@ khs = await getBuffer(Anu)
 hexa.sendMessage(from, khs, audio, {quoted:mek, mimetype:'audio/mp4', filename:'hexagans.mp3', ptt:true})
 })
 break
-	case 'term':
-                        if (!mek.key.fromMe && !isOwner) return
-			if (!q) return fakegroup(mess.wrongFormat)
-			exec(q, (err, stdout) => {
-			if (err) return fakegroup(`SELF-BOT:~ ${err}`)
-			if (stdout) {
-			reply(stdout)
-			}
-			})
-		    break 
+case 'term':
+if (!mek.key.fromMe && !isOwner) return
+if (!q) return reply(mess.wrongFormat)
+exec(q, (err, stdout) => {
+if (err) return reply(`SELF-BOT:~ ${err}`)
+if (stdout) {
+reply(stdout)
+}
+})
+break 
 case 'join':
 if (isJoin) return reply(`Kamu telah menggunakan fitur ini sebelumnya hubungi owner untuk menyewa bot`)
 if (args.length < 1) return reply('Linknya?')
+if (isSewa) return reply('Sudah masuk')
 cos = args[0]
 var net = cos.split('https://chat.whatsapp.com/')[1]
 if (!net) return reply('pastikan itu link https://whatsapp.com/')
-let { size } = await hexa.query({ 
+let { size, id } = await hexa.query({ 
 json: ["query", "invite",net],
 expect200:true })
 if (size < 50) {
@@ -3044,9 +3044,10 @@ if (!codeInvite) return fakegroup ('pastikan link sudah benar!')
 var response = await hexa.acceptInvite(codeInvite)
 reply('SUKSES')
 orgnyee = sender
-txtye = `\`\`\`「 Fitur Join 」\`\`\`\n•> Nomer : @${orgnyee}\n•> Command : Join`
+txtye = `\`\`\`「 Fitur Join 」\`\`\`\n\n•> Nomer : @${orgnyee.split("@")[0]}\n•> Command : Join`
 hexa.sendMessage(`6288224859350@s.whatsapp.net`, txtye, text, {quoted:mek, contextInfo:{mentionedJid:[orgnyee]}})
 addJoi.push(sender)
+addSewaGroup(`${id}`, `43200000`, sewa)
 fs.writeFileSync('./database/join.json', JSON.stringify(addJoi))
 } catch {
 reply('LINK ERROR!')
