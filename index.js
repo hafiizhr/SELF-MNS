@@ -1093,6 +1093,7 @@ var menu = `Hai ${pushname}
 ├ ❏ ${prefix}tohuruf <query>
 ├ ❏ ${prefix}fliptext <query>
 ├ ❏ ${prefix}volume <query>
+├ ❏ ${prefix}kalkulator <query>
 └──────────────────
 
 ┌──「 *OTHER* 」
@@ -1128,6 +1129,18 @@ var menu = `Hai ${pushname}
 └──────────────────`
 buf = Mthumb
 hexa.sendMessage(from, buf, image, {quoted:mek, caption:menu, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true, mentionedJid:[tagme + "@s.whatsapp.net", anus]}})
+break
+// Kalkulator ( MyMans APIs )
+case 'kalkulator':
+if (args.length < 1) return reply('Masukan angkanya')
+if (args.length < 2) return reply('Masukan bilangannya')
+if (args.length < 3) return reply('Masukan angkanya')
+try {
+kalku = (args.join(" "))
+reply(`\`\`\`「 Kalkulator 」\`\`\`\n\n*•> Hitung :* ${args.join(" ")}\n*•> Hasil :* ${kalku}`)
+} catch {
+reply(`*List Bilangan*\n•> Kali : ( * )\n•> Bagi : ( / )\n•> Tambah : ( + )\n•> Kurang : ( - )`)
+}
 break
 // Sewa Bot 
 case 'sewa':
