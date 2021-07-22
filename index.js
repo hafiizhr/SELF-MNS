@@ -522,12 +522,13 @@ const flink = {
 "sourceUrl": `https://mymans-api.herokuapp.com/`
 }
 // Send List Message ( MyMans APIs )
-const sendList = (id, tft, tvt, lsm, sctn = [], options = {}) => {
-sections = sectn
+const sendList = (id, tft, tvt, bxc, lsm, sctn = [], options = {}) => {
+sections = sctn
 buttom = {
 title:tft,
 buttonText:lsm,
 description:tvt,
+footerText:bxc,
 sections:sections,
 listType:1
 }
@@ -648,6 +649,18 @@ includeStarred: false
         }
       }
     }
+// Anti Hidetag ( MyMans APIs )
+const antihide = mek.message.extendedTextMessage.contextInfo.mentionedJid
+if (antihide.length > 5) {
+if (!isGroup) return
+if (!isAntiHide) return
+if (isGroupAdmins) return reply('Admin bebas')
+if (isOwner) return reply('Owner bebas')
+if (mek.key.fromMe) return reply('Owner bebas')
+nkh = sender
+hexa.groupRemove(from, [nkh]).catch((e) => { reply(`*ERR:* ${e}`) })
+hexa.sendMessage(from, `\`\`\`「 Detect Hidetag 」\`\`\`\n\n@${nkh.split("@")[0]} telah dikick karena terdeteksi menggunakan hidetag`, text, {quoted:mek, contextInfo:{mentionedJid:[nkh]}})
+}
 // Auto Read Group ( MyMans APIs )
 var chats = await hexa.chats.array.filter(v => v.jid.endsWith('g.us'))
 chats.map( async ({ jid }) => {
@@ -3303,7 +3316,7 @@ ltsm = [
 {title:'DELETEPC', description:'Klik ini untuk membersihkan personal chat', rowId:'deletepcmans'},
 {title:'RESTART', description:'Klik ini untuk merestart bot', rowId:'restartmans'}
 ]
-sendList(from, `\`\`\`Hi ${pushname} 👋.\`\`\``, `\`\`\`Use The Bot As Best You Can And Dont Misuse The Bot Feature\`\`\``, 'List Menu', [
+sendList(from, `\`\`\`Hi ${pushname} 👋.\`\`\``, `\`\`\`Use The Bot As Best You Can And Dont Misuse The Bot Feature\`\`\``, '© Creator : MyMans APIs', 'List Menu', [
 {title:'Subscribe MyMans APIs', rows:ltsm}
 ], {quoted:mek})
 }
@@ -3356,18 +3369,6 @@ if (isOwner) return
 sendNye = fs.readFileSync('media/sticker/jantag.webp')
 hexa.sendMessage(from, sendNye, sticker, {quoted:mek, contextInfo:{forwardingScore: 800, isForwarded: true}})
 hexa.chatRead(from)
-}
-// Anti Hidetag ( MyMans APIs )
-const antihide = mek.message.extendedTextMessage.contextInfo.mentionedJid
-if (antihide.length > 5) {
-if (!isGroup) return
-if (!isAntiHide) return
-if (isGroupAdmins) return reply('Admin bebas')
-if (isOwner) return reply('Owner bebas')
-if (mek.key.fromMe) return reply('Owner bebas')
-nkh = sender
-hexa.groupRemove(from, [nkh]).catch((e) => { reply(`*ERR:* ${e}`) })
-reply(`\`\`\`「 Detect Hidetag 」\`\`\`\n\n${nkh.split("@")[0]} telah dikick karena terdeteksi menggunakan hidetag`)
 }
 // Batas
 }
