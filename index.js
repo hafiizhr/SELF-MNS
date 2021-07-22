@@ -882,7 +882,7 @@ const checkWin = (sender) => {
       	//if (!isCmd && isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mTEXT\x1b[1;37m]', time, color('Message'), 'from', color(sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
 		if (!mek.key.fromMe && !isOwner && banChats === true) return		
 		//Anti Bot Recode By MyMans APIs
-		if (atibot === true) return
+		if (atibot === false) {
 const isBtMsg = (type == 'buttonsResponseMessage') ? mek.message.buttonsResponseMessage.selectedButtonId : ''
 const isStMsg = (type == 'listResponseMessage') ? mek.message.listResponseMessage.singleSelectReply.selectedRowId : ''
 // Cmd Button Msg
@@ -3359,6 +3359,7 @@ hexa.sendMessage(from, sendNye, sticker, {quoted:mek, contextInfo:{forwardingSco
 hexa.chatRead(from)
 }
 // Batas
+}
 }
 // Anti Hidetag ( MyMans APIs )
 if (type === "extendedTextMessage") {
