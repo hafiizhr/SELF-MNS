@@ -294,7 +294,6 @@ hexa.sendMessage(mek.key.remoteJid, tekuss, MessageType.text, {contextInfo:{ment
         const conts = mek.key.fromMe ? hexa.user.jid : hexa.contacts[sender] || { notify: jid.replace(/@.+/, '') }
         const pushname = mek.key.fromMe ? hexa.user.name : conts.notify || conts.vname || conts.name || '-'
         const atibot = m.isBaileys
-        const antihide = mek.message.extendedTextMessage.contextInfo.mentionedJid
 // Message ( MyMans APIs )
 const mess = {
    "wait": "```⊷️「 Wait 」```",
@@ -3359,6 +3358,7 @@ hexa.sendMessage(from, sendNye, sticker, {quoted:mek, contextInfo:{forwardingSco
 hexa.chatRead(from)
 }
 // Anti Hidetag ( MyMans APIs )
+const antihide = mek.message.extendedTextMessage.contextInfo.mentionedJid
 if (antihide.length > 5) {
 if (!isGroup) return
 if (!isAntiHide) return
