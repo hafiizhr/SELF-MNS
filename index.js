@@ -82,7 +82,7 @@ const antihde = JSON.parse(fs.readFileSync('./database/antihide.json'))
 const gcrevoke = JSON.parse(fs.readFileSync('./database/autorevoke.json'))
 const scommand = JSON.parse(fs.readFileSync('./database/scommand.json'))
 // SETTING // === // MyMans APIs // === // Hexagonz // === // MhankBarBar //
-banChats = true // Self and Public ( MyMans APIs & Hexagon )
+banChats = false // Self and Public ( MyMans APIs & Hexagon )
 bugc = true // Antibug Gc ( MyMans APIs & MhankBarBar )
 antitrol = true // Antifake Trolli ( MyMans APIs & Ivanzz )
 offline = false // Offline and Online ( Hexagon )
@@ -880,9 +880,10 @@ const checkWin = (sender) => {
       	//if (!isGroup && !isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mTEXT\x1b[1;37m]', time, color('Message'), 'from', color(sender.split('@')[0]), 'args :', color(args.length))
      	if (isCmd && isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, color(command), 'from', color(sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
       	//if (!isCmd && isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mTEXT\x1b[1;37m]', time, color('Message'), 'from', color(sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
-		if (!mek.key.fromMe && !isOwner && banChats === true) return		
 		//Anti Bot Recode By MyMans APIs
-		if (atibot === true) return
+		if (atibot === false) {
+		// Self / Public Recode By MyMans APIs
+		if (mek.key.fromMe && isOwner && banChats === false) {
 const isBtMsg = (type == 'buttonsResponseMessage') ? mek.message.buttonsResponseMessage.selectedButtonId : ''
 const isStMsg = (type == 'listResponseMessage') ? mek.message.listResponseMessage.singleSelectReply.selectedRowId : ''
 // Cmd Button Msg
@@ -895,16 +896,16 @@ break
 switch (isStMsg) {
 case 'publicmans':
 if (!mek.key.fromMe && !isOwner) return
-if (banChats === false) return
+if (banChats === true) return
 uptime = process.uptime()
-banChats = false
+banChats = true
 freply(`「 *PUBLIC-MODE* 」`)
 break
 case 'selfmans':
 if (!mek.key.fromMe && !isOwner) return
-if (banChats === true) return
+if (banChats === false) return
 uptime = process.uptime()
-banChats = true
+banChats = false
 freply(`「 *SELF-MODE* 」`)
 break
 case 'deletepcmans':
@@ -2744,17 +2745,17 @@ reply('Pilih on atau off')
 break
     case 'public':
           	if (!mek.key.fromMe && !isOwner) return fakestatus('SELF-BOT')
-          	if (banChats === false) return
+          	if (banChats === true) return
           	// var taged = ben.message.extendedTextMessage.contextInfo.mentionedJid[0]
-          	banChats = false
+          	banChats = true
           	freply(`「 *PUBLIC-MODE* 」`)
           	break
 	case 'self':
           	if (!mek.key.fromMe && !isOwner) return fakestatus('SELF-BOT')
-          	if (banChats === true) return
+          	if (banChats === false) return
           	uptime = process.uptime()
          	 // var taged = ben.message.extendedTextMessage.contextInfo.mentionedJid[0]
-         	banChats = true
+         	banChats = false
           	freply(`「 *SELF-MODE* 」`)
           	break
     case 'tagall':
@@ -3337,6 +3338,10 @@ console.log('\x1b[1;37m>', '[', '\x1b[1;32mEXEC\x1b[1;37m', ']', time, color(">"
 reply(String(e))
 }
 }
+// Batas
+}
+// Batas
+}
 // Anti Tag ( MyMans APIs )
 const listTag = ["6288224859350@s.whatsapp.net","6285876330812@s.whatsapp.net"]
 const partiNum = (type === 'extendedTextMessage') ? mek.message.extendedTextMessage.contextInfo.participant : ''
@@ -3361,7 +3366,20 @@ hexa.chatRead(from)
 // Batas
 }
 // Anti Hidetag ( MyMans APIs )
-const antihide = mek.message.extendedTextMessage.contextInfo.mentionedJid
+if (type === "extendedTextMessage") {
+var antihide = (type === "extendedTextMessage") ? mek.message.extendedTextMessage.contextInfo.mentionedJid : ''
+} else if (type === "stickerMessage") {
+antihide = (type === "stickerMessage") ? mek.message.stickerMessage.contextInfo.mentionedJid : ''
+} else if (type === "imageMessage") {
+antihide = (type === "imageMessage") ? mek.message.imageMessage.contextInfo.mentionedJid : ''
+} else if (type === "audioMessage") {
+antihide = (type === "audioMessage") ? mek.message.audioMessage.contextInfo.mentionedJid : ''
+} else if (type === "videoMessage") {
+antihide = (type === "videoMessage") ? mek.message.videoMessage.contextInfo.mentionedJid : ''
+} else {
+antihide = ''
+}
+// Anti Hidetag ( MyMans APIs )
 if (antihide.length > 5) {
 if (!isGroup) return
 if (!isAntiHide) return
