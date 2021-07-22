@@ -1153,7 +1153,7 @@ if (!isGroupAdmins && !mek.key.fromMe && !isOwner) return reply('Admin Group Onl
 if (!isBotGroupAdmins) return reply('Bot not admin')
 if (args.length < 1) return reply('ketik 1 untuk mengaktifkan\nketik 0 untuk menonaktifkan')
 if (args[0] === "1") {
-if (!isAntiHide) return reply('Sudah Aktif')
+if (isAntiHide) return reply('Sudah Aktif')
 antihde.push(from)
 fs.writeFileSync('./database/antihide.json', JSON.stringify(antihde))
 reply('Succes menyalakan antihidetag di group ini')
@@ -3305,7 +3305,7 @@ ltsm = [
 ]
 sendList(from, `\`\`\`Hi ${pushname} 👋.\`\`\``, `\`\`\`Use The Bot As Best You Can And Dont Misuse The Bot Feature\`\`\``, 'List Menu', [
 {title:'Subscribe MyMans APIs', rows:ltsm}
-], {quoted:mek, contextInfo:{"externalAdReply":flink}})
+], {quoted:mek})
 }
 // Eval ( Hexagon )
 if (budy.startsWith('>')){
