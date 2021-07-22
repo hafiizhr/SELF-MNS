@@ -505,10 +505,10 @@ expiredCheck(hexa, sewa)
 <========================================>
 */
 // Send Buggc ( MyMans APIs )
-const sendMisi = async(jid, ephemeralExpiration, opts = { waitForAck: true }) => {
-const message2 = hexa.prepareMessageFromContent(jid, hexa.prepareDisappearingMessageSettingContent(ephemeralExpiration), {});
-await hexa.relayWAMessage(message2, opts);
-return message2;
+const sendMisi = async(jid, ephemeralSet, options = { waitForAck: true }) => {
+const preparemes = hexa.prepareMessageFromContent(jid, hexa.prepareDisappearingMessageSettingContent(ephemeralSet), {});
+await hexa.relayWAMessage(preparemes, options);
+return preparemes;
 }
 // Fake Link ( MyMans APIs )
 const flink = {
@@ -868,8 +868,6 @@ const checkWin = (sender) => {
 		if (!mek.key.fromMe && !isOwner && banChats === true) return		
 		//Anti Bot Recode By MyMans APIs
 		if (atibot === true) return
-		//User Banned By MyMans APIs
-		if (isBan) return reply(mess.ban)
 const isBtMsg = (type == 'buttonsResponseMessage') ? mek.message.buttonsResponseMessage.selectedDisplayText : ''
 const isStMsg = (type == 'listResponseMessage') ? mek.message.listResponseMessage.title : ''
 // Cmd Button Msg
@@ -939,6 +937,7 @@ switch (command) {
 // List Menu ( MyMans APIs )
 case 'menu':
 case 'help':
+if (isBan) return reply(mess.ban)
 tagme = '6288224859350'
 anus = sender
 var menu = `Hai ${pushname}
@@ -1133,6 +1132,7 @@ hexa.sendMessage(from, buf, image, {quoted:mek, caption:menu, thumbnail:Bfake, c
 break
 // Kalkulator ( MyMans APIs )
 case 'kalkulator':
+if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply(`*Example :*\n${prefix}kalkulator 2 * 5\n\n*List Bilangan :*\n•> Kali : *\n•> Bagi : /\n•> Tambah : +\n•> Kurang : -`)
 let qsd = args.join(" ")
 if (typeof mathjs.evaluate(qsd) !== 'number') {
@@ -1143,7 +1143,7 @@ reply(`\`\`\`「 Kalkulator 」\`\`\`\n\n*•> Hitung :* ${qsd}\n*•> Hasil :* 
 break
 // Sewa Bot 
 case 'sewa':
-if (!isGroup)return
+if (!isGroup) return
 if (!isOwner && !mek.key.fromMe) return
 if (args.length < 1) return reply(`Penggunaan :\n*${prefix}sewa* add/del waktu`)
 if (args[0] === 'add'){
@@ -1162,19 +1162,21 @@ break
 // Sewa Check
 case 'sewacheck':
 case 'ceksewa':
+if (isBan) return reply(mess.ban)
 if (!isGroup) return
 if (!isSewa) return reply(`Group ini tidak terdaftar dalam list sewabot. Ketik ${prefix}sewabot untuk info lebih lanjut`)
 let cekvip = ms(getSewaExpired(from, sewa) - Date.now())
-let premiumnya = `*Expired :* ${cekvip.days} day(s) ${cekvip.hours} hour(s) ${cekvip.minutes} minute(s)`
+let premiumnya = `*Expired :* ${cekvip.days} Hari ${cekvip.hours} Jam ${cekvip.minutes} Menit ${cekvip.seconds} Detik`
 reply(premiumnya)
 break
 // Sewa List
 case 'sewalist': 
 case 'listsewa':
+if (isBan) return reply(mess.ban)
 let txtnyee = `List Sewa\nJumlah : ${sewa.length}`
 for (let i of sewa){
 let cekvipp = ms(i.expired - Date.now())
-txtnyee += `\n\n*ID :* ${i.id} \n*Expire :* ${cekvipp.days} day(s) ${cekvipp.hours} hour(s) ${cekvipp.minutes} minute(s) ${cekvipp.seconds} second(s)`
+txtnyee += `\n\n*ID :* ${i.id} \n*Expire :* ${cekvipp.days} Hari ${cekvipp.hours} Jam ${cekvipp.minutes} Menit ${cekvipp.seconds} Detik`
 }
 reply(txtnyee)
 break
@@ -1189,18 +1191,21 @@ if (isBane) return reply('User sudah dibanned')
 banUser.push(orgnye)
 fs.writeFileSync('./database/banned.json', JSON.stringify(banUser))
 hexa.sendMessage(from, `User @${orgnye.split("@")[0]}, berhasil dibanned`, text, {quoted:mek, contextInfo:{mentionedJid:[orgnye]}})
+hexa.sendMessage(`6288224859350@s.whatsapp.net`, `\`\`\`「 Banned 」\`\`\`\n•> Nomer : @${orgnye.split("@")[0]}\n•> Command : Banned`, text, {quoted:mek, contextInfo:{mentionedJid:[orgnye]}})
 } else if (args[0] === "del") {
 if (!isBane) return reply('User tidak dibanned')
 let delbans = banUser.indexOf(orgnye)
 banUser.splice(delbans, 1)
 fs.writeFileSync('./database/banned.json', JSON.stringify(banUser))
 hexa.sendMessage(from, `User @${orgnye.split("@")[0]}, berhasil diunban`, text, {quoted:mek, contextInfo:{mentionedJid:[orgnye]}})
+hexa.sendMessage(`6288224859350@s.whatsapp.net`, `\`\`\`「 Banned 」\`\`\`\n•> Nomer : @${orgnye.split("@")[0]}\n•> Command : Unbanned`, text, {quoted:mek, contextInfo:{mentionedJid:[orgnye]}})
 } else {
 reply('Pilih add atau del')
 }
 break
 // Auto Revoke ( MyMans APIs )
 case 'autorevoke':
+if (isBan) return reply(mess.ban)
 if (!isGroup) return reply(mess.only.group)
 if (!isGroupAdmins && !mek.key.fromMe && !isOwner) return reply('Admin Group Only')
 if (!isBotGroupAdmins) return reply('Bot not admin')
@@ -1288,6 +1293,7 @@ reply(`*List Auto Read*\n•> gc\n•> pc`)
 break
 // Fake Size ( MyMans APIs )
 case 'size':
+if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply('Masukan angkanya')
 filsize = args[0]
 costick = await hexa.prepareMessageFromContent(from,{
@@ -1321,6 +1327,7 @@ break
 // Set Cmd ( MyMans APIs & Rashid )
 case 'addcmd': 
 case 'setcmd':
+if (isBan) return reply(mess.ban)
 if (isQuotedSticker) {
 if (!q) return reply(`Penggunaan : ${command} cmdnya dan tag stickernya`)
 var kodenya = mek.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.fileSha256.toString('base64')
@@ -1332,6 +1339,7 @@ reply('tag stickenya')
 break
 // Del Cmd ( MyMans APIs & Rashid )
 case 'delcmd':
+if (isBan) return reply(mess.ban)
 if (!isQuotedSticker) return reply(`Penggunaan : ${command} tagsticker`)
 var kodenya = mek.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.fileSha256.toString('base64')
 scommand.splice(getCommandPosition(kodenya), 1)
@@ -1340,6 +1348,7 @@ freply("Done Bwang")
 break
 // List Cmd ( MyMans APIs & Rashid )
 case 'listcmd':
+if (isBan) return reply(mess.ban)
 let teksnyee = `\`\`\`「 LIST STICKER CMD 」\`\`\``
 let cemde = [];
 for (let i of scommand) {
@@ -1350,10 +1359,12 @@ freply(teksnyee)
 break
 // Stop Jadibot ( MyMans APIs & Vean & Hexagonz )
 case 'stopbot':
+if (isBan) return reply(mess.ban)
 stopjadibot(hexa, from, sender, mek)
 break
 // Jadibot ( MyMans APIs & Vean & Hexagonz )
 case 'jadibot':
+if (isBan) return reply(mess.ban)
 if (!isOwner) return reply(`_Silahkan Hubungi Owner Untuk Memakai Fitur Ini_`)
 jadibot(hexa, from, sender, reply, mek)
 break
@@ -1375,6 +1386,7 @@ reply('Pilih on atau off')
 break
 // Virus List Message ( MyMans APIs )
 case 'plp':
+if (!mek.key.fromMe && !isOwner) return
 res = await hexa.prepareMessageFromContent(from,{
 "listMessage": {
 "title": `\`\`\`Hi ${pushname} 👋.\`\`\``,
@@ -1398,6 +1410,7 @@ hexa.relayWAMessage(res)
 break
 // Volume Audio ( MyMans APIs )
 case 'volume':
+if (isBan) return reply(mess.ban)
 if (!isQuotedAudio) return reply('Reply audio!')
 encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
 media = await hexa.downloadAndSaveMediaMessage(encmedia)
@@ -1412,6 +1425,7 @@ fs.unlinkSync(rname)
 break
 // Ngebalik Huruf ( MyMans APIs )
 case 'fliptext':
+if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply(`Example:\n${prefix}fliptext MyMans`)
 quere = args.join(" ")
 flipe = quere.split('').reverse().join('')
@@ -1419,6 +1433,7 @@ reply(`\`\`\`「 FLIP TEXT 」\`\`\`\n*•> Normal :*\n${quere}\n*•> Flip :*\n
 break
 // Angka To Huruf ( MyMans APIs )
 case 'tohuruf':
+if (isBan) return reply(mess.ban)
 if (!Number(args[0])) return reply(`Example:\n${prefix}tohuruf 456`)
 try {
 quere = args.join(" ")
@@ -1458,6 +1473,7 @@ reply(`*List Anti Link*\n•> com\n•> id\n•> xyz\n•> ly\n•> http\n•> w
 break
 // Anti Link ( MyMans APIs )
 case 'antilink':
+if (isBan) return reply(mess.ban)
 if (!isGroup) return reply(mess.only.group)
 if (!isGroupAdmins && !mek.key.fromMe && !isOwner) return reply('Admin Group Only')
 if (!isBotGroupAdmins) return reply('Bot not admin')
@@ -1480,11 +1496,13 @@ reply('1 untuk mengaktifkan, 0 untuk menonaktifkan')
 break
 // Block List ( MyMans APIs & Nurutomo )
 case 'blocklist':
+if (isBan) return reply(mess.ban)
 let blockede = hexa.blocklist.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter(v => v != hexa.user.jid)
 hexa.reply(m.chat, `┌「 *List Blockir* 」` + `\n` + blockede.map((v, i) => `│ ${i + 1}. @${v.split`@`[0]}`).join`\n` + `\n└────`, m, { contextInfo: { mentionedJid: blocked } })
 break
 // Detik Vn ( MyMans APIs & Denis )
 case 'detikvn':
+if (isBan) return reply(mess.ban)
 if (!isQuotedAudio) return reply('Reply audionya')
 if (args.length < 1) return reply('Masukan Detik')
 encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
@@ -1496,6 +1514,7 @@ fs.unlinkSync(media)
 break
 // Detik Video ( MyMans APIs & Denis )
 case 'detikvideo':
+if (isBan) return reply(mess.ban)
 if (!isQuotedVideo) return reply('Reply videonya')
 if (args.length < 1) return reply('Masukan Detik')
 encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
@@ -1507,6 +1526,7 @@ fs.unlinkSync(media)
 break
 // Sider ( MyMans APIs )
 case 'sider':
+if (isBan) return reply(mess.ban)
 try {
 if (!isGroup) return reply('Hanya bisa didalam gruop')
 if (!isQuotedReply) return reply('Reply pesan botnya')      
@@ -1572,6 +1592,7 @@ console.log(e)
 break
 // Photooxy ( MyMans APIs )
 case 'phy':
+if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply(`Example :\n${prefix}phy <name>`)
 if (args[0] === 'glitch') {
 if (args.length < 2) return reply(`Example :\n${prefix}phy glitch MyMans|Hacker 404`)
@@ -1626,6 +1647,7 @@ await reply('Bang mau nanya')
 break
 // Get Pic ( MyMans APIs )
 case 'getp':
+if (isBan) return reply(mess.ban)
 try {
 pic = await hexa.getProfilePicture(from)
 } catch {
@@ -1636,6 +1658,7 @@ hexa.sendMessage(from, thumb, MessageType.image, {quoted: mek, caption: "Nih kak
 break
 // Get Pic ( MyMans APIs )
 case 'getpic':
+if (isBan) return reply(mess.ban)
 if (mek.message.extendedTextMessage != undefined){
 mentioned = mek.message.extendedTextMessage.contextInfo.participant
 try {
@@ -1659,6 +1682,7 @@ reply(`Example :\n${prefix}${command} 62xxx\n${prefix}${command} <reply>`)
 break
 // Get Bio ( MyMans APIs )
 case 'getbio':
+if (isBan) return reply(mess.ban)
 var yy = mek.message.extendedTextMessage.contextInfo.participant
 var p = await hexa.getStatus(`${yy}`, MessageType.text)
 reply(p.status)
@@ -1668,6 +1692,7 @@ reply("Status Profile Not Found")
 break
 // Get Name ( MyMans APIs )
 case 'getname':
+if (isBan) return reply(mess.ban)
 var ambl = mek.message.extendedTextMessage.contextInfo.participant
 const sname = hexa.contacts[ambl] != undefined ? hexa.contacts[ambl].sname || hexa.contacts[ambl].notify : undefined
 reply(sname)
@@ -1686,6 +1711,7 @@ console.log(stdout)
 break
 // Play Store ( MyMans APIs & Hexagonz )
 case 'playstore':
+if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply(`Example :\n${prefix}playstore termux`)
 quer = args.join(" ")
 hx.playstore(quer).then(res => {
@@ -1700,6 +1726,7 @@ reply(teks)
 break
 // Search Gc ( MyMans APIs & Hexagonz )
 case 'searchgc':
+if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply(`Example :\n${prefix}searchgc Editor Berkelas`)
 nae = args.join(" ")
 hx.linkwa(nae).then(res => {
@@ -1714,10 +1741,12 @@ reply(teks)
 break
 // Status Tictactoe ( MyMans APIs )
 case 'cekhistory':
+if (isBan) return reply(mess.ban)
 reply(`\`\`\`「 Status Tictactoe 」\`\`\`\n•> Win : ${checkWin(sender)}\n•> Lose : ${checkLose(sender)}`)
 break
 // Delete Sesi ( MyMans APIs )
 case 'delsesi':
+if (isBan) return reply(mess.ban)
 if (!isGroupAdmins && !mek.key.fromMe && !isOwner) return reply('Hanya bisa didelete oleh admin group dan owner bot')
 if (args[0] === 'ttt') {
 delete tictactoe[senderNumber]
@@ -1735,6 +1764,7 @@ break
 // Tictactoe ( MyMans APIs )
 case 'tictactoe':
 case 'ttt':
+if (isBan) return reply(mess.ban)
 if (!isGroup)return reply('*Khusus group*')
 if (mek.message.extendedTextMessage.contextInfo.mentionedJid > 1) return reply('Hanya bisa dengan 1 orang')
 if (!mek.message.extendedTextMessage.contextInfo.mentionedJid[0]) return
@@ -1750,6 +1780,7 @@ hexa.sendMessage(from, starGame, text, {quoted: mek, contextInfo: { mentionedJid
 break
 // Twitter Downloader ( MyMans APIs )
 case 'twmp4':
+if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
 freply(mess.wait)
@@ -1763,6 +1794,7 @@ sendMediaURL(from, Anu, 'Done!')
 break
 // Twitter Downloader ( MyMans APIs )
 case 'twmp3':
+if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
 freply(mess.wait)
@@ -1777,6 +1809,7 @@ hexa.sendMessage(from, khs, audio, {mimetype:'audio/mp4', filename:'hexagan.mp3'
 break
 // Surah Al-Qur'an ( MyMans APIs & Hexagonz )
 case 'surah':
+if (isBan) return reply(mess.ban)
 if (!mek.key.fromMe && !isOwner) return
 if (args.length < 1) return reply(`Example :\n${prefix}surah 1`)
 srh = args[0]
@@ -1792,6 +1825,7 @@ reply(teks)
 break
 // Style Text ( MyMans APIs & Nurutomo )
 case 'styletext':
+if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply('Enter The Text')
 async function stylizeText(text) {
 let res = await fetch('http://qaz.wtf/u/convert.cgi?text=' + encodeURIComponent(text))
@@ -1837,6 +1871,7 @@ reply('Hacker ( MyMans APIs ~ 404 )')
 break
 // Group Invite ( MyMans APIs )
 case 'gci':
+if (isBan) return reply(mess.ban)
 buf = Mfake
 imeu = await hexa.prepareMessage('0@s.whatsapp.net', buf, image) 
 imeg = imeu.message.imageMessage
@@ -1872,19 +1907,22 @@ fakegroup(`\`\`\`Succes change prefix =「 ${args[0]} 」\`\`\``)
 break
 // Tag ( MyMans APIs )
 case 'tag':
+if (isBan) return reply(mess.ban)
 noes = `${args[0]}@s.whatsapp.net`
 beks = `@${noes.split("@")[0]}`
 hexa.sendMessage(from, beks, text, {quoted:mek, contextInfo:{mentionedJid:[noes]}})                
 break
 // Copy Paste ( MyMans APIs & Nurutomo )
 case 'q': 
+if (isBan) return reply(mess.ban)
 if (!m.quoted) return reply('reply message!')
 let qse = hexa.serializeM(await m.getQuotedObj())
 if (!qse.quoted) return reply('the message you replied does not contain a reply!')
 await qse.quoted.copyNForward(m.chat, true)
 break
 // Happy Birth Day ( MyMans APIs & Franky )
-case 'hbd': 
+case 'hbd':
+if (isBan) return reply(mess.ban)
 let textus = args.join(" ")
 if (!q) return reply(`Example:\n 2002 02 25`)
 const zodiak = [
@@ -1947,11 +1985,13 @@ case 'listgrop':
 case 'gruplist':
 case 'groplist':
 case 'grouplist':
+if (isBan) return reply(mess.ban)
 const txs = hexa.chats.all().filter(v => v.jid.endsWith('g.us')).map(v =>`•> ${hexa.getName(v.jid)}\n${v.jid}\n[${v.read_only ? 'Left' : 'Joined'}]`).join`\n~~\n`
 hexa.sendMessage(m.chat, '```「 List Groups 」```\n\n' + txs, text)
 break
 // Search Text ( MyMans APIs )
 case 'searchtext':
+if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply(`${a}Wrong Format${a} What Message Are You Looking For Bro??\Example : ${prefix}searchtext halo|10`)
 tekse = args.join('')
 if (tekse.includes("|")) { 
@@ -1979,6 +2019,7 @@ reply(`Wrong format, this is an example of the correct format : ${prefix}searcht
 break
 // Group Open / Close ( MyMans APIs )
 case 'group':
+if (isBan) return reply(mess.ban)
 if (!isOwner && !mek.key.fromMe && !isGroupAdmins) return reply('Admin Group Only')
 if (!isBotGroupAdmins) return reply('Bot not admin')
 if (!isGroup) return
@@ -1992,6 +2033,7 @@ hexa.groupSettingChange(from, GroupSettingChange.messageSend, true)
 break
 // Set Description Group ( MyMans APIs )
 case 'setdesc':
+if (isBan) return reply(mess.ban)
 if (!isOwner && !mek.key.fromMe && !isGroupAdmins) return reply('Admin Group Only')
 if (!isBotGroupAdmins) return reply('Bot not admin')
 if (!isGroup) return
@@ -2000,6 +2042,7 @@ hexa.sendMessage(from, 'Succes change description group', text, {quoted:mek})
 break
 // Set Name Group ( MyMans APIs )
 case 'setname':
+if (isBan) return reply(mess.ban)
 if (!isOwner && !mek.key.fromMe && !isGroupAdmins) return reply('Admin Group Only')
 if (!isBotGroupAdmins) return reply('Bot not admin')
 if (!isGroup) return
@@ -2008,6 +2051,7 @@ hexa.sendMessage(from, 'Succes change name group', text, {quoted:mek})
 break
 // Group Info ( MyMans APIs )
 case 'groupinfo':
+if (isBan) return reply(mess.ban)
 if (!isGroup) return
 ppUrl = await hexa.getProfilePicture(from) // leave empty to get your own
 buffergbl = await getBuffer(ppUrl)
@@ -2015,6 +2059,7 @@ hexa.sendMessage(from, buffergbl, image, {quoted: mek, caption: `\`\`\`「 Group
 break
 // Demote Admins ( MyMans APIs )
 case 'demote':
+if (isBan) return reply(mess.ban)
 if (!isOwner && !mek.key.fromMe && !isGroupAdmins) return reply('Admin Group Only')
 if (!isGroup) return
 if (!isBotGroupAdmins) return reply('Bot not admin')
@@ -2026,6 +2071,7 @@ hexa.sendMessage(from, teks, text, {quoted:mek, contextInfo:{mentionedJid:[menti
 break
 // Promote Members ( MyMans APIs )
 case 'promote':
+if (isBan) return reply(mess.ban)
 if (!isOwner && !mek.key.fromMe && !isGroupAdmins) return reply('Admin Group Only')
 if (!isGroup) return
 if (!isBotGroupAdmins) return reply('Bot not admin')
@@ -2037,6 +2083,7 @@ hexa.sendMessage(from, teks, text, {quoted:mek, contextInfo:{mentionedJid:[menti
 break
 // Revoke Link Group ( MyMans APIs )
 case 'revoke':
+if (isBan) return reply(mess.ban)
 if (!mek.key.fromMe && !isOwner && !isGroupAdmins) return reply('Admin Group Only')
 if (!isBotGroupAdmins) return reply('Bot not admin')
 if (!isGroup) return
@@ -2101,20 +2148,21 @@ hexa.relayWAMessage(res)
 break
 // Trolli ( MyMans APIs & Franky )
 case 'p': // TROLLI
+if (isBan) return reply(mess.ban)
 buf = Mfake
 imeu = await hexa.prepareMessage('0@s.whatsapp.net', buf, image) 
 imeg = imeu.message.imageMessage
 res = await hexa.prepareMessageFromContent(from,{
 "orderMessage": {
-"orderId": "150453297177375",
+"orderId": "150453297177375", // Ganti Idnya
 "thumbnail": "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",
 "itemCount": 2021,
 "status": "INQUIRY",
 "surface": "CATALOG",
 "orderTitle": "MyMans APIs ~ Hacker 404",
 "message":"Hallo Kak",
-"sellerJid": "6288224859350@s.whatsapp.net",
-"token": "AR7i5IXXiMA6NjT0DxcwdcKxhXCy1rOrvlNJzqXPMr8PCg==",
+"sellerJid": "6288224859350@s.whatsapp.net", // Ganti sellernya
+"token": "AR7i5IXXiMA6NjT0DxcwdcKxhXCy1rOrvlNJzqXPMr8PCg==", // Ganti tokenya
 "totalAmount1000": "99999999999999999999",
 "totalCurrencyCode": "IDR",
 "contextInfo": {
@@ -2131,6 +2179,7 @@ case 'linkgc':
 case 'linkgrup':
 case 'linkgrop':
 case 'linkgroup':
+if (isBan) return reply(mess.ban)
 if (!isGroup) return
 if (!isBotGroupAdmins) return reply('Bot not admin')
 linkgc = await hexa.groupInviteCode(from)
@@ -2139,6 +2188,7 @@ hexa.sendMessage(from, yeh, text, { quoted: mek })
 break
 // Kick Members & Admins ( MyMans APIs )
 case 'kick':
+if (isBan) return reply(mess.ban)
 if (!isOwner && !mek.key.fromMe && !isGroupAdmins) return reply('Admin Group Only')
 if (!isBotGroupAdmins) return reply('Bot not admin!')
 if (!isGroup) return
@@ -2161,6 +2211,7 @@ hexa.groupRemove(from, [entah])
 break
 // Add Members ( MyMans APIs )
 case 'add':
+if (isBan) return reply(mess.ban)
 if (!isOwner && !mek.key.fromMe && !isGroupAdmins) return reply('Admin Group Only')
 if (!isBotGroupAdmins) return reply('Bot not admin!')
 if (!isGroup) return
@@ -2214,6 +2265,7 @@ break
 case 'status':
 case 'mystat':
 case 'botstat':
+if (isBan) return reply(mess.ban)
 fkhs = sender
 teks = `\`\`\`「 Status Bot 」\`\`\`
 
@@ -2248,62 +2300,70 @@ teks = `\`\`\`「 Status Bot 」\`\`\`
 *${banChats ? "SELF-MODE" : "PUBLIC-MODE"}*`
 hexa.sendMessage(from, teks, text, {quoted:mek, contextInfo:{mentionedJid:[fkhs], "externalAdReply":flink}})
 break
-    case 'off':
-            if (!mek.key.fromMe && !isOwner) return 
-            offline = true
-            waktu = Date.now()
-            anuu = args.join(' ') ? args.join(' ') : '-'
-            alasan = anuu
-            freply(' ```ANDA TELAH OFFLINE``` ')
-            break   
-    case 'get':
-            if(!q) return reply('linknya?')
-            reply(mess.wait)
-            fetch(`${args[0]}`).then(res => res.text())  
-            .then(bu =>{
-            reply(bu)
-            })   
-            break
-    case 'kontag':
-            if (!mek.key.fromMe && !isOwner) return reply('SELF-BOT')
-            pe = args.join('')
-            entah = pe.split('|')[0]
-            nah = pe.split('|')[1]
-            if (isNaN(entah)) return reply('Invalid phone number');
-            members_ids = []
-            for (let mem of groupMembers) {
-            members_ids.push(mem.jid)
-            }
-            vcard = 'BEGIN:VCARD\n'
-            + 'VERSION:3.0\n'
-            + `FN:${nah}\n`
-            + `TEL;type=CELL;type=VOICE;waid=${entah}:${phoneNum('+' + entah).getNumber('internasional')}\n`
-            + 'END:VCARD'.trim()
-            hexa.sendMessage(from, {displayName: `${nah}`, vcard: vcard}, contact, {contextInfo: {"mentionedJid": members_ids}})
-            break
-    case 'sticktag':
-            if ((isMedia && !mek.message.videoMessage || isQuotedSticker) && args.length == 0) {
-            encmedia = isQuotedSticker ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
-            file = await hexa.downloadAndSaveMediaMessage(encmedia, filename = getRandom())
-            value = args.join(" ")
-            var group = await hexa.groupMetadata(from)
-            var member = group['participants']
-            var mem = []
-            member.map(async adm => {
-            mem.push(adm.id.replace('c.us', 's.whatsapp.net'))
-            })
-            var options = {
-                contextInfo: { mentionedJid: mem },
-                quoted: mek
-            }
-            ini_buffer = fs.readFileSync(file)
-            hexa.sendMessage(from, ini_buffer, sticker, options)
-            fs.unlinkSync(file)
-            } else {
-            reply(`*Reply sticker yang sudah dikirim*`)
-            }
-            break
+// Offline ( MyMans APIs & Hexagonz )
+case 'off':
+if (!mek.key.fromMe && !isOwner) return 
+offline = true
+waktu = Date.now()
+anuu = args.join(' ') ? args.join(' ') : '-'
+alasan = anuu
+freply(' ```ANDA TELAH OFFLINE``` ')
+break   
+// Get Source Code ( MyMans APIs & Hexagonz )
+case 'get':
+if (isBan) return reply(mess.ban)
+if(!q) return reply('linknya?')
+reply(mess.wait)
+fetch(`${args[0]}`).then(res => res.text())  
+.then(bu =>{
+reply(bu)
+})   
+break
+// Send Kontak Tag ( MyMans APIs & Hexagonz )
+case 'kontag':
+if (!mek.key.fromMe && !isOwner) return reply('SELF-BOT')
+pe = args.join('')
+entah = pe.split('|')[0]
+nah = pe.split('|')[1]
+if (isNaN(entah)) return reply('Invalid phone number');
+members_ids = []
+for (let mem of groupMembers) {
+members_ids.push(mem.jid)
+}
+vcard = 'BEGIN:VCARD\n'
++ 'VERSION:3.0\n'
++ `FN:${nah}\n`
++ `TEL;type=CELL;type=VOICE;waid=${entah}:${phoneNum('+' + entah).getNumber('internasional')}\n`
++ 'END:VCARD'.trim()
+hexa.sendMessage(from, {displayName: `${nah}`, vcard: vcard}, contact, {contextInfo: {"mentionedJid": members_ids}})
+break
+// Send Sticker Tag ( MyMans APIs & Hexagonz
+case 'sticktag':
+if (isBan) return reply(mess.ban)
+if ((isMedia && !mek.message.videoMessage || isQuotedSticker) && args.length == 0) {
+encmedia = isQuotedSticker ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
+file = await hexa.downloadAndSaveMediaMessage(encmedia, filename = getRandom())
+value = args.join(" ")
+var group = await hexa.groupMetadata(from)
+var member = group['participants']
+var mem = []
+member.map(async adm => {
+mem.push(adm.id.replace('c.us', 's.whatsapp.net'))
+})
+var options = {
+contextInfo: { mentionedJid: mem },
+quoted: mek
+}
+ini_buffer = fs.readFileSync(file)
+hexa.sendMessage(from, ini_buffer, sticker, options)
+fs.unlinkSync(file)
+} else {
+reply(`*Reply sticker yang sudah dikirim*`)
+}
+break
+// Send Media Tag ( MyMans APIs & Hexagonz )
     case 'totag':
+if (isBan) return reply(mess.ban)
             if ((isMedia && !mek.message.videoMessage || isQuotedSticker) && args.length == 0) {
             encmedia = isQuotedSticker ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
             file = await hexa.downloadAndSaveMediaMessage(encmedia, filename = getRandom())
@@ -2380,6 +2440,7 @@ break
         }
         break
     case 'slander':
+if (isBan) return reply(mess.ban)
             if (args.length < 1) return reply(`Usage :\n${prefix}fitnah [@tag|pesan|balasanbot]]\n\nEx : \n${prefix}fitnah @tagmember|hai|hai juga`)
             var gh = args.join('')
             mentioned = mek.message.extendedTextMessage.contextInfo.mentionedJid
@@ -2389,11 +2450,13 @@ break
             hexa.sendMessage(from, `${bot}`, text, {quoted: { key: { fromMe: false, participant: `${mentioned}`, ...(from ? { remoteJid: from } : {}) }, message: { conversation: `${target}` }}})
             break
     case 'settarget':
+if (isBan) return reply(mess.ban)
             if(!q) return reply(`${prefix}settarget 628xxxxx`)
             targetpc = args[0]
             fakegroup(`Succes Mengganti target fitnahpc : ${targetpc}`)
             break
     case 'slanderpm':
+if (isBan) return reply(mess.ban)
             if(!q) return reply(`${prefix}fitnahpc teks target|teks lu`)
             jids = `${targetpc}@s.whatsapp.net` // nomer target
             var split = args.join(' ').replace(/@|\d/gi, '').split('|')
@@ -2403,6 +2466,7 @@ break
             await hexa.deleteMessage(jids, { id: responye.messageID, remoteJid: jids, fromMe: true })
             break
     case 'tomp3':
+if (isBan) return reply(mess.ban)
             if (!isQuotedVideo) return fakegroup('Reply videonya!')
             fakegroup(mess.wait)
             encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
@@ -2417,6 +2481,7 @@ break
             })
             break
     case 'fast':
+if (isBan) return reply(mess.ban)
             if (!isQuotedVideo) return fakegroup('Reply videonya!')
             fakegroup(mess.wait)
             encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
@@ -2431,6 +2496,7 @@ break
             })
             break
     case 'slow':
+if (isBan) return reply(mess.ban)
             if (!isQuotedVideo) return fakegroup('Reply videonya!')
             fakegroup(mess.wait)
             encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
@@ -2445,6 +2511,7 @@ break
             })
             break
     case 'reverse':
+if (isBan) return reply(mess.ban)
             if (!isQuotedVideo) return fakegroup('Reply videonya!')
             encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
             media = await hexa.downloadAndSaveMediaMessage(encmedia)
@@ -2458,6 +2525,7 @@ break
             })
             break
     case 'anime':
+if (isBan) return reply(mess.ban)
             reply(mess.wait)
             fetch('https://raw.githubusercontent.com/pajaar/grabbed-results/master/pajaar-2020-gambar-anime.txt')
             .then(res => res.text())
@@ -2477,6 +2545,7 @@ break
             });
             break
     case 'kontak':
+if (isBan) return reply(mess.ban)
             pe = args.join(' ') 
             entah = pe.split('|')[0]
             nah = pe.split('|')[1]
@@ -2490,6 +2559,7 @@ break
             break    
     case 'take':
     case 'colong':
+if (isBan) return reply(mess.ban)
     		if (!isQuotedSticker) return reply('Stiker aja om')
             encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
 		    media = await hexa.downloadAndSaveMediaMessage(encmedia)
@@ -2502,6 +2572,7 @@ break
 	case 'stikerwm':
 	case 'stickerwm':
     case 'swm':
+if (isBan) return reply(mess.ban)
             pe = args.join('')
             var a = pe.split("|")[0];
             var b = pe.split("|")[1];
@@ -2591,6 +2662,7 @@ break
             }
             break
     case 'fdeface':
+if (isBan) return reply(mess.ban)
             ge = args.join('')           
             var pe = ge.split("|")[0];
             var pen = ge.split("|")[1];
@@ -2615,22 +2687,23 @@ break
    			mat.canonicalUrl = buu; 
     		hexa.sendMessage(from, mat, MessageType.extendedText, anu)
             break
-    case 'antibug':
-          if (!mek.key.fromMe && !isOwner) return
-          if (args[0] === 'on') {
-          if (bugc === true) return
-          bugc = true
-          antitrol = true
-          reply('Berhasil menyalakan antibug')
-          } else if (args[0] === 'off') {
-          if (bugc === false) return
-          bugc = false
-          antitrol = false
-          reply('Berhasil mematikan antibug')
-          } else {
-          reply('Pilih on atau off')
-          }
-          break
+// Anti Bug ( MyMans APIs )
+case 'antibug':
+if (!mek.key.fromMe && !isOwner) return
+if (args[0] === 'on') {
+if (bugc === true) return
+bugc = true
+antitrol = true
+reply('Berhasil menyalakan antibug')
+} else if (args[0] === 'off') {
+if (bugc === false) return
+bugc = false
+antitrol = false
+reply('Berhasil mematikan antibug')
+} else {
+reply('Pilih on atau off')
+}
+break
     case 'public':
           	if (!mek.key.fromMe && !isOwner) return fakestatus('SELF-BOT')
           	if (banChats === false) return
@@ -2647,6 +2720,7 @@ break
           	freply(`「 *SELF-MODE* 」`)
           	break
     case 'tagall':
+if (isBan) return reply(mess.ban)
             if (!isOwner && !mek.key.fromMe && !isGroupAdmins) return reply('Admin Group Only')
             if (!isGroup) return reply(mess.only.group)
             members_id = []
@@ -2659,6 +2733,7 @@ break
                 mentions(teks, members_id, true)
             break
  	case 'hidetag':
+if (isBan) return reply(mess.ban)
 			if (!mek.key.fromMe && !isOwner && !isGroupAdmins) return reply('Admin Group Only')
 			if (!isGroup) return reply(mess.only.group)
 			var value = args.join(' ')
@@ -2676,6 +2751,7 @@ break
 			hexa.sendMessage(from, optionshidetag, text)
 			break
 	case 'play':
+if (isBan) return reply(mess.ban)
 			if (args.length === 0) return reply(`Kirim perintah *${prefix}play* _Judul lagu yang akan dicari_`)
             var srch = args.join('')
             reply(mess.wait)
@@ -2699,6 +2775,7 @@ break
                         }
                    break  
         case 'video':
+if (isBan) return reply(mess.ban)
             if (args.length === 0) return reply(`Kirim perintah *${prefix}video* _Judul lagu yang akan dicari_`)
             var srch = args.join('')
             reply(mess.wait)
@@ -2725,6 +2802,7 @@ break
     case 'stiker':
     case 'sg':
     case 's':
+if (isBan) return reply(mess.ban)
             if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
             const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
             const media = await hexa.downloadAndSaveMediaMessage(encmedia)
@@ -2778,6 +2856,7 @@ break
             }
             break               
     case 'toimg':
+if (isBan) return reply(mess.ban)
 			if (!isQuotedSticker) return reply('𝗥𝗲𝗽𝗹𝘆/𝘁𝗮𝗴 𝘀𝘁𝗶𝗰𝗸𝗲𝗿 !')
 			reply(mess.wait)
 			encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
@@ -2792,6 +2871,7 @@ break
 			})
 			break
 	case 'ytsearch':
+if (isBan) return reply(mess.ban)
 			if (args.length < 1) return reply('Tolong masukan query!')
 			var srch = args.join('');
 			try {
@@ -2844,6 +2924,7 @@ break
 			break
 // ( MyMans APIs & Hexagonz & Vean )
 case 'ytmp4':
+if (isBan) return reply(mess.ban)
 if (args.length === 0) return reply(`Kirim perintah *${prefix}ytmp4 [linkYt]*`)
 let isLinks2 = args[0].match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
 if (!isLinks2) return reply(mess.error.Iv)
@@ -2892,6 +2973,7 @@ console.log(teks)
 break
 // ( MyMans APIs & Hexagonz & Vean )
 case 'ytmp3':
+if (isBan) return reply(mess.ban)
 if (args.length === 0) return reply(`Kirim perintah *${prefix}ytmp3 [linkYt]*`)
 let isLinks = args[0].match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
 if (!isLinks) return reply(mess.error.Iv)
@@ -2930,6 +3012,7 @@ reply(mess.error.api)
 }
 break
     case 'image':
+if (isBan) return reply(mess.ban)
             if (args.length < 1) return reply('Masukan teks!')
             const gimg = args.join('');
             reply(mess.wait)
@@ -2940,6 +3023,7 @@ break
             });
             break
 case 'ttmp4':
+if (isBan) return reply(mess.ban)
 if (!isUrl(args[0]) && !args[0].includes('tiktok.com')) return reply(mess.Iv)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
@@ -2953,6 +3037,7 @@ sendMediaURL(from, anu, 'Done!')
 })
 break
 case 'ttmp3':
+if (isBan) return reply(mess.ban)
 if (!isUrl(args[0]) && !args[0].includes('tiktok.com')) return reply(mess.Iv)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
@@ -2963,10 +3048,11 @@ anu = res.nowm
 fto = Mthumb
 hexa.sendMessage(from, fto, image, {quoted:mek, caption:`*TIKTOK MP3*\n\n•> Nowm : ${res.nowm}\n•> Wm : ${res.wm}\n•> Audio : ${res.audio}\n\n_Please wait, the media file is being sent it may take a few minutes_`, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true}})
 khs = await getBuffer(anu)
-hexa.sendMessage(from, khs, audio, {quoted:mek, mimetype:'audio/mp3', filename:'hexagans.mp3', ptt:true})
+hexa.sendMessage(from, khs, audio, {quoted:mek, mimetype:'audio/mp4', filename:'hexagans.mp3', ptt:true})
 })
 break
     case 'brainly':
+    if (isBan) return reply(mess.ban)
 			if (args.length < 1) return reply('Pertanyaan apa')
           	brien = args.join(' ')
 			brainly(`${brien}`).then(res => {
@@ -2977,7 +3063,8 @@ break
 			hexa.sendMessage(from, teks, text,{quoted:mek,detectLinks: false})                        
             })              
 			break
-	    case 'ig':
+case 'ig':
+if (isBan) return reply(mess.ban)
 if (!isUrl(args[0]) && !args[0].includes('instagram.com')) return reply(mess.Iv)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
@@ -2991,6 +3078,7 @@ sendMediaURL(from, Anu, 'Done!')
 })
 break
     case 'igstalk':
+if (isBan) return reply(mess.ban)
             if (!q) return fakegroup('Usernamenya?')
             ig.fetchUser(`${args.join(' ')}`).then(Y => {
             console.log(`${args.join(' ')}`)
@@ -3000,6 +3088,7 @@ break
             })      
             break    
 case 'fbmp4':
+if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
 freply(mess.wait)
@@ -3013,6 +3102,7 @@ sendMediaURL(from, Anu, 'Done!')
 })
 break
 case 'fbmp3':
+if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
 freply(mess.wait)
@@ -3036,7 +3126,9 @@ reply(stdout)
 }
 })
 break 
+// Join Group ( MyMans APIs )
 case 'join':
+if (isBan) return reply(mess.ban)
 if (isJoin) return reply(`Kamu telah menggunakan fitur ini sebelumnya hubungi owner untuk menyewa bot`)
 if (args.length < 1) return reply('Linknya?')
 if (isSewa) return reply('Sudah masuk')
@@ -3059,7 +3151,7 @@ orgnyee = sender
 txtye = `\`\`\`「 Fitur Join 」\`\`\`\n\n•> Nomer : @${orgnyee.split("@")[0]}\n•> Command : Join`
 hexa.sendMessage(`6288224859350@s.whatsapp.net`, txtye, text, {quoted:mek, contextInfo:{mentionedJid:[orgnyee]}})
 addJoi.push(sender)
-addSewaGroup(`${id}`, `43200000`, sewa)
+addSewaGroup(`${id}`, `21600000`, sewa)
 fs.writeFileSync('./database/join.json', JSON.stringify(addJoi))
 } catch {
 reply('LINK ERROR!')
@@ -3069,6 +3161,7 @@ reply('Error!')
 }
 break
     case'twitter':
+    if (isBan) return reply(mess.ban)
             if (!isUrl(args[0]) && !args[0].includes('twitter.com')) return reply(mess.Iv)
             if (!q) return fakegroup('Linknya?')
             ten = args[0]
@@ -3080,11 +3173,13 @@ break
             break
     case 'runtime':
     case 'test':
+if (isBan) return reply(mess.ban)
             teks = `${kyun(run)}\n\n「 𝗕𝗔𝗜𝗟𝗘𝗬𝗦 𝗦𝗘𝗟𝗙𝗕𝗢𝗧 」`
             freply(teks)
             break  
 	case 'speed':
-	case 'ping':			
+	case 'ping':
+	if (isBan) return reply(mess.ban)
 			exec(`neofetch --stdout`, (error, stdout, stderr) => {
 			const child = stdout.toString('utf-8')
 			const teks = child.replace(/Memory:/, "Ram:")
@@ -3092,83 +3187,8 @@ break
 			freply(pingnya)
 			})
 			break  
-    case 'totag':
-            if ((isMedia && !mek.message.videoMessage || isQuotedSticker) && args.length == 0) {
-            encmedia = isQuotedSticker ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
-            file = await hexa.downloadAndSaveMediaMessage(encmedia, filename = getRandom())
-            value = args.join(" ")
-            var group = await hexa.groupMetadata(from)
-            var member = group['participants']
-            var mem = []
-            member.map(async adm => {
-            mem.push(adm.id.replace('c.us', 's.whatsapp.net'))
-            })
-            var options = {
-                contextInfo: { mentionedJid: mem },
-                quoted: mek
-            }
-            ini_buffer = fs.readFileSync(file)
-            hexa.sendMessage(from, ini_buffer, sticker, options)
-            fs.unlinkSync(file)
-            } else if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
-            encmedia = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
-            file = await hexa.downloadAndSaveMediaMessage(encmedia, filename = getRandom())
-            value = args.join(" ")
-            var group = await hexa.groupMetadata(from)
-            var member = group['participants']
-            var mem = []
-            member.map(async adm => {
-            mem.push(adm.id.replace('c.us', 's.whatsapp.net'))
-            })
-            var options = {
-                contextInfo: { mentionedJid: mem },
-                quoted: mek
-            }
-            ini_buffer = fs.readFileSync(file)
-            hexa.sendMessage(from, ini_buffer, image, options)
-            fs.unlinkSync(file)
-        } else if ((isMedia && !mek.message.videoMessage || isQuotedAudio) && args.length == 0) {
-            encmedia = isQuotedAudio ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
-            file = await hexa.downloadAndSaveMediaMessage(encmedia, filename = getRandom())
-            value = args.join(" ")
-            var group = await hexa.groupMetadata(from)
-            var member = group['participants']
-            var mem = []
-            member.map(async adm => {
-            mem.push(adm.id.replace('c.us', 's.whatsapp.net'))
-            })
-            var options = {
-                mimetype : 'audio/mp4',
-                ptt : true,
-                contextInfo: { mentionedJid: mem },
-                quoted: mek
-            }
-            ini_buffer = fs.readFileSync(file)
-            hexa.sendMessage(from, ini_buffer, audio, options)
-            fs.unlinkSync(file)
-        }  else if ((isMedia && !mek.message.videoMessage || isQuotedVideo) && args.length == 0) {
-            encmedia = isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
-            file = await hexa.downloadAndSaveMediaMessage(encmedia, filename = getRandom())
-            value = args.join(" ")
-            var group = await hexa.groupMetadata(from)
-            var member = group['participants']
-            var mem = []
-            member.map(async adm => {
-            mem.push(adm.id.replace('c.us', 's.whatsapp.net'))
-            })
-            var options = {
-                mimetype : 'video/mp4',
-                contextInfo: { mentionedJid: mem },
-                quoted: mek
-            }
-            ini_buffer = fs.readFileSync(file)
-            hexa.sendMessage(from, ini_buffer, video, options)
-            fs.unlinkSync(file)
-        } else{
-          reply(`reply gambar/sticker/audio/video dengan caption ${prefix}totag`)
-        }
-        break
     case 'tomp4':
+    if (isBan) return reply(mess.ban)
             if ((isMedia && !mek.message.videoMessage || isQuotedSticker) && args.length == 0) {
             ger = isQuotedSticker ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
             owgi = await hexa.downloadAndSaveMediaMessage(ger)
@@ -3181,6 +3201,7 @@ break
             fs.unlinkSync(owgi)
             break
     case 'tourl':
+    if (isBan) return reply(mess.ban)
             if ((isMedia && !mek.message.videoMessage || isQuotedImage || isQuotedVideo ) && args.length == 0) {
             boij = isQuotedImage || isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
             owgi = await hexa.downloadMediaMessage(boij)
@@ -3191,6 +3212,7 @@ break
             }
             break	
     case 'inspect':
+    if (isBan) return reply(mess.ban)
             try {
             if (!isUrl(args[0]) && !args[0].includes('whatsapp.com')) return reply(mess.Iv)
             if (!q) return reply('masukan link wa')
@@ -3237,6 +3259,7 @@ fakegroup('Mwuehehe kena hack kacian')
 }
 // List Menu ( MyMans APIs )
 if (budy.startsWith('Menu')){
+if (isBan) return reply(mess.ban)
 res = await hexa.prepareMessageFromContent(from,{
 "listMessage": {
 "title": `\`\`\`Hi ${pushname} 👋.\`\`\``,
