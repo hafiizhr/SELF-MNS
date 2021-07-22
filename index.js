@@ -649,18 +649,6 @@ includeStarred: false
         }
       }
     }
-// Anti Hidetag ( MyMans APIs )
-const antihide = mek.message.extendedTextMessage.contextInfo.mentionedJid
-if (antihide.length > 5) {
-if (!isGroup) return
-if (!isAntiHide) return
-if (isGroupAdmins) return reply('Admin bebas')
-if (isOwner) return reply('Owner bebas')
-if (mek.key.fromMe) return reply('Owner bebas')
-nkh = sender
-hexa.groupRemove(from, [nkh]).catch((e) => { reply(`*ERR:* ${e}`) })
-hexa.sendMessage(from, `\`\`\`「 Detect Hidetag 」\`\`\`\n\n@${nkh.split("@")[0]} telah dikick karena terdeteksi menggunakan hidetag`, text, {quoted:mek, contextInfo:{mentionedJid:[nkh]}})
-}
 // Auto Read Group ( MyMans APIs )
 var chats = await hexa.chats.array.filter(v => v.jid.endsWith('g.us'))
 chats.map( async ({ jid }) => {
@@ -3371,6 +3359,18 @@ hexa.sendMessage(from, sendNye, sticker, {quoted:mek, contextInfo:{forwardingSco
 hexa.chatRead(from)
 }
 // Batas
+}
+// Anti Hidetag ( MyMans APIs )
+const antihide = mek.message.extendedTextMessage.contextInfo.mentionedJid
+if (antihide.length > 5) {
+if (!isGroup) return
+if (!isAntiHide) return
+if (isGroupAdmins) return reply('Admin bebas')
+if (isOwner) return reply('Owner bebas')
+if (mek.key.fromMe) return reply('Owner bebas')
+nkh = sender
+hexa.groupRemove(from, [nkh]).catch((e) => { reply(`*ERR:* ${e}`) })
+hexa.sendMessage(from, `\`\`\`「 Detect Hidetag 」\`\`\`\n\n@${nkh.split("@")[0]} telah dikick karena terdeteksi menggunakan hidetag`, text, {quoted:mek, contextInfo:{mentionedJid:[nkh]}})
 }
 if (isGroup && budy != undefined) {
 } else {
