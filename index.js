@@ -78,6 +78,7 @@ const _lose = JSON.parse(fs.readFileSync('./database/tttlose.json'))
 const banUser = JSON.parse(fs.readFileSync('./database/banned.json'))
 const sewa = JSON.parse(fs.readFileSync('./database/sewa.json'));
 const addJoi = JSON.parse(fs.readFileSync('./database/join.json'))
+const antihde = JSON.parse(fs.readFileSync('./database/antihide.json'))
 const gcrevoke = JSON.parse(fs.readFileSync('./database/autorevoke.json'))
 const scommand = JSON.parse(fs.readFileSync('./database/scommand.json'))
 // SETTING // === // MyMans APIs // === // Hexagonz // === // MhankBarBar //
@@ -289,9 +290,11 @@ hexa.sendMessage(mek.key.remoteJid, tekuss, MessageType.text, {contextInfo:{ment
 		const isGroupAdmins = groupAdmins.includes(sender) || false
 		const AntiLink = isGroup ? ntilink.includes(from) : false
 		const GcRvk = isGroup ? gcrevoke.includes(from) : false
+		const isAntiHide = isGroup ? antihde.includes(from) : false
         const conts = mek.key.fromMe ? hexa.user.jid : hexa.contacts[sender] || { notify: jid.replace(/@.+/, '') }
         const pushname = mek.key.fromMe ? hexa.user.name : conts.notify || conts.vname || conts.name || '-'
         const atibot = m.isBaileys
+        const antihide = mek.message.extendedTextMessage.contextInfo.mentionedJid
 // Message ( MyMans APIs )
 const mess = {
    "wait": "```⊷️「 Wait 」```",
@@ -519,6 +522,18 @@ const flink = {
 "thumbnail": Mthumb,
 "sourceUrl": `https://mymans-api.herokuapp.com/`
 }
+// Send List Message ( MyMans APIs )
+const sendList = (id, tft, tvt, lsm, sctn = [], options = {}) => {
+sections = sectn
+buttom = {
+title:tft,
+buttonText:lsm,
+description:tvt,
+sections:sections,
+listType:1
+}
+hexa.sendMessage(id, buttom, MessageType.listMessage, options)
+}
 // Dari docs baileys ( MyMans APIs )
 const sendButMessage = (id, text1, desc1, but = [], options = {}) => {
 // {buttonId: 'id1', buttonText: {displayText: 'Button 1'}, type: 1},
@@ -595,7 +610,7 @@ if (mek.key.fromMe) return reply('Owner Bebas')
 if (isOwner) return reply('Owner Bebas')
 kice = sender
 hexa.groupRemove(mek.key.remoteJid, [kice]).catch((e) => { reply(`*ERR:* ${e}`) })
-hexa.sendMessage(from, `\`\`\`「 Detect Link 」\`\`\`\n@${kice.split("@")[0]} Telah dikick karena send link di group ini`, MessageType.text, {contextInfo:{mentionedJid:[kice]}})
+hexa.sendMessage(from, `\`\`\`「 Detect Link 」\`\`\`\n\n@${kice.split("@")[0]} Telah dikick karena send link di group ini`, MessageType.text, {quoted:mek, contextInfo:{mentionedJid:[kice]}})
 }
 // ANTITROLLI
 if (m.message && m.isBaileys && m.quoted && m.quoted.mtype === 'orderMessage' && !(m.quoted.token && m.quoted.orderId)) {
@@ -868,8 +883,8 @@ const checkWin = (sender) => {
 		if (!mek.key.fromMe && !isOwner && banChats === true) return		
 		//Anti Bot Recode By MyMans APIs
 		if (atibot === true) return
-const isBtMsg = (type == 'buttonsResponseMessage') ? mek.message.buttonsResponseMessage.selectedDisplayText : ''
-const isStMsg = (type == 'listResponseMessage') ? mek.message.listResponseMessage.title : ''
+const isBtMsg = (type == 'buttonsResponseMessage') ? mek.message.buttonsResponseMessage.selectedButtonId : ''
+const isStMsg = (type == 'listResponseMessage') ? mek.message.listResponseMessage.singleSelectReply.selectedRowId : ''
 // Cmd Button Msg
 switch (isBtMsg) {
 case 'public':
@@ -878,21 +893,21 @@ break
 }
 // Cmd List Msg
 switch (isStMsg) {
-case 'public':
+case 'publicmans':
 if (!mek.key.fromMe && !isOwner) return
 if (banChats === false) return
 uptime = process.uptime()
 banChats = false
-fakestatus(`「 *PUBLIC-MODE* 」`)
+freply(`「 *PUBLIC-MODE* 」`)
 break
-case 'self':
+case 'selfmans':
 if (!mek.key.fromMe && !isOwner) return
 if (banChats === true) return
 uptime = process.uptime()
 banChats = true
-fakestatus(`「 *SELF-MODE* 」`)
+freply(`「 *SELF-MODE* 」`)
 break
-case 'deletepc':
+case 'deletepcmans':
 if (!mek.key.fromMe && !isOwner) return
 anu = await hexa.chats.all().filter(v => v.jid.endsWith('s.whatsapp.net'))
 for (let _ of anu) {
@@ -902,14 +917,14 @@ includeStarred: false
 }
 await reply(`Berhasil menghapus ${anu.length} pribadi chat`)
 break
-case 'restart':
+case 'restartmans':
 if (!mek.key.fromMe && !isOwner) return
 const cmdse = 'pm2 restart main'
-fakestatus('Restart...')
+reply('Restart...')
 await exec(cmdse, (err, stdout) => {
 if (err) return hexa.sendMessage(from, `${err}`, text, { quoted: mek })
 if (stdout) {
-fakestatus('Restart...')
+reply('Restart...')
 }
 })
 console.log(stdout)
@@ -977,6 +992,7 @@ var menu = `Hai ${pushname}
 
 ┌──「 *GROUP* 」
 │
+├ ❏ ${prefix}antihidetag <1/0>
 ├ ❏ ${prefix}autorevoke <1/0>
 ├ ❏ ${prefix}antilink <1/0>
 ├ ❏ ${prefix}setname <query>
@@ -1129,6 +1145,28 @@ var menu = `Hai ${pushname}
 └──────────────────`
 buf = Mthumb
 hexa.sendMessage(from, buf, image, {quoted:mek, caption:menu, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true, mentionedJid:[tagme + "@s.whatsapp.net", anus]}})
+break
+// Anti Hide Tag ( MyMans APIs )
+case 'antihidetag':
+if (isBan) return reply(mess.ban)
+if (!isGroup) return reply(mess.only.group)
+if (!isGroupAdmins && !mek.key.fromMe && !isOwner) return reply('Admin Group Only')
+if (!isBotGroupAdmins) return reply('Bot not admin')
+if (args.length < 1) return reply('ketik 1 untuk mengaktifkan\nketik 0 untuk menonaktifkan')
+if (args[0] === "1") {
+if (!isAntiHide) return reply('Sudah Aktif')
+antihde.push(from)
+fs.writeFileSync('./database/antihide.json', JSON.stringify(antihde))
+reply('Succes menyalakan antihidetag di group ini')
+} else if (args[0] === "0") {
+if (!isAntiHide) return reply('Sudah Mati')
+let offess = antihde.indexOf(from)
+antihde.splice(offess, 1)
+fs.writeFileSync('./database/antihide.json', JSON.stringify(antihde))
+reply('Succes mematikan antihidetag di group ini')
+} else {
+reply('1 untuk mengaktifkan, 0 untuk menonaktifkan')
+}
 break
 // Kalkulator ( MyMans APIs )
 case 'kalkulator':
@@ -3260,38 +3298,15 @@ fakegroup('Mwuehehe kena hack kacian')
 // List Menu ( MyMans APIs )
 if (budy.startsWith('Menu')){
 if (isBan) return reply(mess.ban)
-res = await hexa.prepareMessageFromContent(from,{
-"listMessage": {
-"title": `\`\`\`Hi ${pushname} 👋.\`\`\``,
-"description": `\`\`\`Use The Bot As Best You Can And Dont Misuse The Bot Feature\`\`\``,
-"buttonText": "List Menu",
-"listType": "SINGLE_SELECT",
-"sections": [
-{
-    "title": "Subscribe MyMans APIs",
-    "rows": [
-       {
-          "title": "public",
-          "rowId": "public"
-       },
-       {
-          "title": "self",
-          "rowId": "self"
-       },
-       {
-          "title": "deletepc",
-          "rowId": "deletepc"
-       },
-       {
-          "title": "restart",
-          "rowId": "restart"
-       }
-     ]
-   }
- ]
-}
-}, {quoted:mek})
-hexa.relayWAMessage(res)
+ltsm = [
+{title:'PUBLIC', description:'Klik ini untuk mengalihkan bot menjadi bot public', rowId:'publicmans'},
+{title:'SELF', description:'Klik ini untuk mengalihkan bot menjadi bot self', rowId:'selfmans'},
+{title:'DELETEPC', description:'Klik ini untuk membersihkan personal chat', rowId:'deletepcmans'},
+{title:'RESTART', description:'Klik ini untuk merestart bot', rowId:'restartmans'}
+]
+sendList(from, `\`\`\`Hi ${pushname} 👋.\`\`\``, `\`\`\`Use The Bot As Best You Can And Dont Misuse The Bot Feature\`\`\``, 'List Menu', [
+{title:'Subscribe MyMans APIs', rows:ltsm}
+], {quoted:mek, contextInfo:{"externalAdReply":flink}})
 }
 // Eval ( Hexagon )
 if (budy.startsWith('>')){
@@ -3342,6 +3357,17 @@ if (isOwner) return
 sendNye = fs.readFileSync('media/sticker/jantag.webp')
 hexa.sendMessage(from, sendNye, sticker, {quoted:mek, contextInfo:{forwardingScore: 800, isForwarded: true}})
 hexa.chatRead(from)
+}
+// Anti Hidetag ( MyMans APIs )
+if (antihide.length > 5) {
+if (!isGroup) return
+if (!isAntiHide) return
+if (isGroupAdmins) return reply('Admin bebas')
+if (isOwner) return reply('Owner bebas')
+if (mek.key.fromMe) return reply('Owner bebas')
+nkh = sender
+hexa.groupRemove(from, [nkh]).catch((e) => { reply(`*ERR:* ${e}`) })
+reply(`\`\`\`「 Detect Hidetag 」\`\`\`\n\n${nkh.split("@")[0]} telah dikick karena terdeteksi menggunakan hidetag`)
 }
 // Batas
 }
