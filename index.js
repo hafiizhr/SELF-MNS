@@ -3113,7 +3113,7 @@ case 'pinterest':
 if (isBan) return reply(mess.ban)
 if (!q) return reply('Mau cari apa?')
 reply(mess.wait)
-hx.pinterest(`${args.join(" ")`).then(res => {
+hx.pinterest(`${args.join(" ")}`).then(res => {
 ijp = res
 jpgi = ijp[Math.floor(Math.random() * ijp.length)]
 sendMediaURL(from, jpgi, "Done!").catch(() => reply('Error'))
