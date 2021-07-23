@@ -1066,6 +1066,7 @@ var menu = `Hai ${pushname}
 
 ┌──「 *DOWNLOAD* 」
 │
+├ ❏ ${prefix}igstory <query>
 ├ ❏ ${prefix}ytsearch <query>
 ├ ❏ ${prefix}playstore <query>
 ├ ❏ ${prefix}igstalk <query>
@@ -1080,6 +1081,7 @@ var menu = `Hai ${pushname}
 ├ ❏ ${prefix}ttmp3 <link>
 ├ ❏ ${prefix}fbmp4 <link>
 ├ ❏ ${prefix}fbmp3 <link>
+├ ❏ ${prefix}media <link>
 ├ ❏ ${prefix}brainly <query>
 ├ ❏ ${prefix}image <query>
 ├ ❏ ${prefix}anime [Random]
@@ -1821,7 +1823,7 @@ case 'twmp4':
 if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
-freply(mess.wait)
+reply(mess.wait)
 hx.twitter(lin).then(res => {
 console.log('[ TWITTER ] downloader')
 Anu = res.SD
@@ -1835,7 +1837,7 @@ case 'twmp3':
 if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
-freply(mess.wait)
+reply(mess.wait)
 hx.twitter(lin).then(async (res) => {
 console.log('[ TWITTER ] downloader')
 Anu = res.SD
@@ -2966,7 +2968,7 @@ if (isBan) return reply(mess.ban)
 if (args.length === 0) return reply(`Kirim perintah *${prefix}ytmp4 [linkYt]*`)
 let isLinks2 = args[0].match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
 if (!isLinks2) return reply(mess.error.Iv)
-freply(mess.wait)
+reply(mess.wait)
 try {
 ytv(args[0])
 .then(async(res) => {
@@ -3015,7 +3017,7 @@ if (isBan) return reply(mess.ban)
 if (args.length === 0) return reply(`Kirim perintah *${prefix}ytmp3 [linkYt]*`)
 let isLinks = args[0].match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
 if (!isLinks) return reply(mess.error.Iv)
-freply(mess.wait)
+reply(mess.wait)
 try {
 yta(args[0])
 .then(async(res) => {
@@ -3104,50 +3106,72 @@ break
 			hexa.sendMessage(from, teks, text,{quoted:mek,detectLinks: false})                        
             })              
 			break
+// Send Media Url ( MyMans APIs )
+case 'media':
+if (!q) return reply('Urlnya?')
+sendMediaURL(from, `${args[0]}`, "")
+break
 // INTSAGRAM DOWNLOADER ( MyMans APIs & Hexagonz )
 case 'ig':
+case 'igdl':
 if (isBan) return reply(mess.ban)
 if (!isUrl(args[0]) && !args[0].includes('instagram.com')) return reply(mess.Iv)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
-freply(mess.wait)
+reply(mess.wait)
 hx.igdl(lin).then(async(res) => {
 console.log('[ INSTAGRAM ] downloader')
 Anu = res.medias[0].downloadUrl
-fto = await getBuffer(res.medias[0].preview)
-hexa.sendMessage(from, fto, image, {quoted:mek, thumbnail:Bfake, caption:`*INSTAGRAM MP4*\n\n•> Username : ${res.user.username}\n•> Fullname : ${res.user.fullName}\n•> Followers : ${res.user.followers ? `${res.user.followers}` : '-'}\n•> Following : ${res.user.following ? `${res.user.following}` : '-'}\n•> Link : ${res.medias[0].downloadUrl}\n•> Type : ${res.medias[0].type}\n\n_Please wait, the media file is being sent it may take a few minutes_`, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true}})
+fto = fs.readFileSync('media/image/thumb.jpeg')
+hexa.sendMessage(from, fto, image, {quoted:mek, thumbnail:Bfake, caption:`*INSTAGRAM POST DOWNLOADER*\n\n•> Username : ${res.user.username}\n•> Fullname : ${res.user.fullName}\n•> Followers : ${res.user.followers ? `${res.user.followers}` : '-'}\n•> Following : ${res.user.following ? `${res.user.following}` : '-'}\n•> Link : ${res.medias[0].downloadUrl}\n•> Type : ${res.medias[0].type}\n\n_Please wait, the media file is being sent it may take a few minutes_`, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true}})
 sendMediaURL(from, Anu, 'Done!')
 })
 break
-    case 'igstalk':
+// INSTAGRAM STALK ( MyMans APIs & Hexagonz )
+case 'igstalk':
 if (isBan) return reply(mess.ban)
-            if (!q) return fakegroup('Usernamenya?')
-            ig.fetchUser(`${args.join(' ')}`).then(Y => {
-            console.log(`${args.join(' ')}`)
-            ten = `${Y.profile_pic_url_hd}`
-            teks = `*ID* : ${Y.profile_id}\n*Username* : ${args.join('')}\n*Full Name* : ${Y.full_name}\n*Bio* : ${Y.biography}\n*Followers* : ${Y.followers}\n*Following* : ${Y.following}\n*Private* : ${Y.is_private}\n*Verified* : ${Y.is_verified}\n\n*Link* : https://instagram.com/${args.join('')}`
-            sendMediaURL(from,ten,teks) 
-            })      
-            break    
+if (!q) return reply('Usernamenya?')
+reply(mess.wait)
+hx.igstory(`${args.join(" ")}`).then(async(res) => {
+ppig = `${res.user.profilePicUrl}`
+sendMediaURL(from, ppig, `*INSTAGRAM PROFILE*\n\n•> Id : ${res.user.id}\n•> Username : ${res.user.username}\n•> Fullname : ${res.user.fullName}\n•> Bio : ${res.user.biography ? `${res.user.biography}` : '-'}\n•> Followers : ${res.user.followers ? `${res.user.followers}` : '-'}\n•> Following : ${res.user.following ? `${res.user.following}` : '-'}`)
+})
+break
+// INSTAGRAM STORY ( MyMans APIs & Hexagonz )
+case 'igstory':
+if (isBan) return reply(mess.ban)
+if (!q) return reply('Usernamenya?')
+reply(mess.wait)
+hx.igstory(`${args.join(" ")}`).then(async(res) => {
+tks = `\`\`\`「 INSTAGRAM STORY 」\`\`\``
+nkgs = res.medias
+pigg = await getBuffer(res.user.profilePicUrl)
+for (let i of nkgs) {
+tks += `\n\n•> Type Story : ${i.type} / ${i.fileType}\n•> Link : ${i.downloadUrl}`
+}
+hexa.sendMessage(from, pigg, image, {quoted:mek, caption:tks})
+})
+break
+// Facebook mp4 ( MyMans APIs & Hexagonz )
 case 'fbmp4':
 if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
-freply(mess.wait)
+reply(mess.wait)
 hx.fbdown(lin).then(res => {
 console.log('[ FACEBOOK ] downloader')
 Anu = res.HD
 fto = Mthumb
-
 hexa.sendMessage(from, fto, image, {quoted:mek, caption:`*FACEBOOK MP4*\n\n•> Normal : ${res.Normal_video}\n•> Hd : ${res.HD}\n•> Audio : ${res.audio}\n\n_Please wait, the media file is being sent it may take a few minutes_`, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true}})
 sendMediaURL(from, Anu, 'Done!')
 })
 break
+// Facebook mp3 ( MyMans APIs & Hexagonz )
 case 'fbmp3':
 if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
-freply(mess.wait)
+reply(mess.wait)
 hx.fbdown(lin).then(async (res) => {
 console.log('[ FACEBOOK ] downloader')
 Anu = res.HD
@@ -3158,6 +3182,7 @@ khs = await getBuffer(Anu)
 hexa.sendMessage(from, khs, audio, {quoted:mek, mimetype:'audio/mp4', filename:'hexagans.mp3', ptt:true})
 })
 break
+// Exec ( MyMans APIs )
 case 'term':
 if (!mek.key.fromMe && !isOwner) return
 if (!q) return reply(mess.wrongFormat)
@@ -3202,17 +3227,6 @@ reply('LINK ERROR!')
 reply('Error!')
 }
 break
-    case'twitter':
-    if (isBan) return reply(mess.ban)
-            if (!isUrl(args[0]) && !args[0].includes('twitter.com')) return reply(mess.Iv)
-            if (!q) return fakegroup('Linknya?')
-            ten = args[0]
-            var res = await twitterGetUrl(`${ten}`)
-            .then(g => {
-            ren = `${g.download[2].url}`
-            sendMediaURL(from,ren,'DONE')
-            })
-            break
     case 'runtime':
     case 'test':
 if (isBan) return reply(mess.ban)
