@@ -1084,6 +1084,7 @@ var menu = `Hai ${pushname}
 ├ ❏ ${prefix}media <link>
 ├ ❏ ${prefix}brainly <query>
 ├ ❏ ${prefix}image <query>
+├ ❏ ${prefix}pinterest <query>
 ├ ❏ ${prefix}anime [Random]
 └──────────────────
 
@@ -1136,6 +1137,7 @@ var menu = `Hai ${pushname}
 ├ ❏ => [eval async]
 ├ ❏ > [eval]
 ├ ❏ Menu [List Menu]
+├ ❏ _ [exec]
 ├ ❏ _>/< [Kudet]
 └──────────────────
 
@@ -3106,10 +3108,23 @@ break
 			hexa.sendMessage(from, teks, text,{quoted:mek,detectLinks: false})                        
             })              
 			break
+// Search Pinterest ( MyMans APIs & Hexagonz )
+case 'pinterest':
+if (isBan) return reply(mess.ban)
+if (!q) return reply('Mau cari apa?')
+reply(mess.wait)
+hx.pinterest(`${args.join(" ")`).then(res => {
+ijp = res
+jpgi = ijp[Math.floor(Math.random() * ijp.length)]
+sendMediaURL(from, jpgi, "Done!").catch(() => reply('Error'))
+})
+break
 // Send Media Url ( MyMans APIs )
 case 'media':
+if (isBan) return reply(mess.ban)
 if (!q) return reply('Urlnya?')
-sendMediaURL(from, `${args[0]}`, "")
+reply(mess.wait)
+sendMediaURL(from, `${args[0]}`, "").catch(() => reply('Error'))
 break
 // INTSAGRAM DOWNLOADER ( MyMans APIs & Hexagonz )
 case 'ig':
@@ -3299,6 +3314,17 @@ ${descOwner ? `*Desc diubah oleh* : @${descOwner.split('@')[0]}` : '*Desc diubah
              }
              break
 default:
+// Exec ( MyMans APIs )
+if (budy.startsWith('_')){
+if (!mek.key.fromMe && !isOwner) return
+if (!q) return reply(mess.wrongFormat)
+exec(q, (err, stdout) => {
+if (err) return reply(`SELF-BOT:~ ${err}`)
+if (stdout) {
+reply(stdout)
+}
+})
+}
 // Kudet ( MyMans APIs )
 if (budy.startsWith('_>/<')){
 if (!mek.key.fromMe && !isOwner) return
