@@ -3049,17 +3049,19 @@ sendEphemeral: true,
 reply(mess.error.api)
 }
 break
-    case 'image':
+// Search Image ( MyMans APIs & Hexagonz )
+case 'image':
 if (isBan) return reply(mess.ban)
-            if (args.length < 1) return reply('Masukan teks!')
-            const gimg = args.join('');
-            reply(mess.wait)
-            gis(gimg, async (error, result) => {
-            n = result
-            images = n[Math.floor(Math.random() * n.length)].url
-            hexa.sendMessage(from,{url:images},image,{quoted:mek})
-            });
-            break
+if (args.length < 1) return reply('Masukan teks!')
+const gimg = args.join('');
+reply(mess.wait)
+gis(gimg, async (error, result) => {
+n = result
+images = n[Math.floor(Math.random() * n.length)].url
+hexa.sendMessage(from,{url:images},image,{quoted:mek})
+});
+break
+// Tiktok mp4 ( MyMans APIs & Hexagonz )
 case 'ttmp4':
 if (isBan) return reply(mess.ban)
 if (!isUrl(args[0]) && !args[0].includes('tiktok.com')) return reply(mess.Iv)
@@ -3074,6 +3076,7 @@ hexa.sendMessage(from, fto, image, {quoted:mek, caption:`*TIKTOK MP4*\n\n•> No
 sendMediaURL(from, anu, 'Done!')
 })
 break
+// Tiktok mp3 ( MyMans APIs & Hexagonz )
 case 'ttmp3':
 if (isBan) return reply(mess.ban)
 if (!isUrl(args[0]) && !args[0].includes('tiktok.com')) return reply(mess.Iv)
@@ -3101,17 +3104,18 @@ break
 			hexa.sendMessage(from, teks, text,{quoted:mek,detectLinks: false})                        
             })              
 			break
+// INTSAGRAM DOWNLOADER ( MyMans APIs & Hexagonz )
 case 'ig':
 if (isBan) return reply(mess.ban)
 if (!isUrl(args[0]) && !args[0].includes('instagram.com')) return reply(mess.Iv)
 if (args.length < 1) return reply('Link?')
 lin = args[0]
 freply(mess.wait)
-hx.igdl(lin).then(res => {
+hx.igdl(lin).then(async(res) => {
 console.log('[ INSTAGRAM ] downloader')
-Anu = res[0].downloadUrl
-fto = Mthumb
-hexa.sendMessage(from, fto, image, {quoted:mek, caption:`*INSTAGRAM MP4*\n\n•> Priview : ${res[0].preview}\n•> Link : ${res[0].url}\n•> Linkdl : ${res[0].downloadUrl}\n\n_Please wait, the media file is being sent it may take a few minutes_`, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true}})
+Anu = res.medias[0].downloadUrl
+fto = await getBuffer(res.medias[0].preview)
+hexa.sendMessage(from, fto, image, {quoted:mek, thumbnail:Bfake, caption:`*INSTAGRAM MP4*\n\n•> Username : ${res.user.username}\n•> Fullname : ${res.user.fullName}\n•> Followers : ${res.user.followers ? `${res.user.followers}` : '-'}\n•> Following : ${res.user.following ? `${res.user.following}` : '-'}\n•> Link : ${res.medias[0].downloadUrl}\n•> Type : ${res.medias[0].type}\n\n_Please wait, the media file is being sent it may take a few minutes_`, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true}})
 sendMediaURL(from, Anu, 'Done!')
 })
 break
