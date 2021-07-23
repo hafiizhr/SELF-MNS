@@ -3317,9 +3317,8 @@ default:
 // Exec ( MyMans APIs )
 if (budy.startsWith('_')){
 if (!mek.key.fromMe && !isOwner) return
-qur = body.slice(2)
-qurs = qur
-exec(qurs, (err, stdout) => {
+qur = budy.slice(2)
+exec(qur, (err, stdout) => {
 if (err) return reply(`SELF-BOT:~ ${err}`)
 if (stdout) {
 reply(stdout)
