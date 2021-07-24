@@ -26,11 +26,11 @@ conn.on('qr' ,async qr => {
   setTimeout(() => {
        hexa.deleteMessage(from, scen.key)
   }, 30000);
-  setTimeout(() => {
+  })
+   setTimeout(() => {
        conn.close()
        reply('Waktu scan anda sudah habis')
   }, 90000);
-  })
 
 conn.on ('open',() => {
   console.log ('credentials update')
