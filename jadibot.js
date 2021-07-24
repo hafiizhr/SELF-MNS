@@ -1,5 +1,12 @@
-const { MessageType } = require('@adiwajshing/baileys')
-const { WAConnection } = require('@adiwajshing/baileys')
+const {
+    WAConnection: _WAConnection,
+    MessageType,
+    Presence,
+    Mimetype,
+    GroupSettingChange
+} = require('@adiwajshing/baileys')
+const simple = require('./lib/simple.js')
+const WAConnection = simple.WAConnection(_WAConnection)
 const qrcodes = require('qrcode');
 const fs = require('fs')
 const gcrevoke = JSON.parse(fs.readFileSync('./database/autorevoke.json'))
