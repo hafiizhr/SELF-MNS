@@ -1402,8 +1402,9 @@ freply(teksnyee)
 break
 // Stop Jadibot ( MyMans APIs & Vean & Hexagonz )
 case 'stopbot':
+case 'stopjadibot':
 if (isBan) return reply(mess.ban)
-reply('Tidak bisa membuat bot didalam jadibot')
+reply('Untuk memberhentikan jadibot anda harus chat botnya ketik #stopbot')
 break
 // Jadibot ( MyMans APIs & Vean & Hexagonz )
 case 'jadibot':
