@@ -166,7 +166,7 @@ conn.on('CB:Blocklist', json => {
     })
     conn.on('close',() => {
     hexa.sendMessage(`${conn.user.jid}`, 'Koneksi terputus...', MessageType.text)
-    fs.unlinkSync(`./database/jadibot/${conn.user.jid}.json`)
+    fs.unlinkSync(`./database/jadibot/${sender}.json`)
     })
     }
 exports.stopjadibot = async function(hexa, from, sender){
