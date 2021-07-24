@@ -25,7 +25,7 @@ conn.on ('open',() => {
   fs.writeFileSync(`./database/jadibot/${sender}.json`, JSON.stringify(authInfo  ,null, '\t'))
 })
     conn.on('chat-update', async (chat) => {
-        require('./index.js')(conn, chat)
+        require('./fitur.js')(conn, chat)
     })
     
     await conn.connect().then(async ({user}) => {
