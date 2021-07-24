@@ -160,6 +160,10 @@ conn.on('CB:Blocklist', json => {
     await conn.connect().then(async ({user}) => {
       reply('Berhasil tersambung dengan WhatsApp - mu.\n*NOTE: Ini cuma numpang*\n' + JSON.stringify(user, null, 2))
     })
+    conn.on('close',() => {
+    hexa.sendMessage(`${conn.user.jid}`, 'Koneksi terputus...', MessageType.text)
+    await fs.unlinkSync(`./database/jadibot/${conn.user.jid}.json`)
+    })
     }
 exports.stopjadibot = async function(hexa, from, sender){
   hexa.sendMessage(from,'Kamu tidak terdaftar di ListBot!',MessageType.text)
