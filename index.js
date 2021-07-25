@@ -94,6 +94,7 @@ winawal = 1 // Win Tictactoe ( MyMans APIs )
 loseawal = 1 // Lose Tictactoe ( MyMans APIs )
 memberwin = 1 // Win ( MyMans APIs )
 memberlose = 1 // Lose ( MyMans APIs )
+xf = 1 // Jumlah ( MyMans APIs )
 pref = '?' // Prefix ( MyMans APIs )
 targetpc = '62882248593508' // Fitnah Target ( Hexagon )
 owner = '62882248593507' // Numbers Owner ( MyMans APIs )
@@ -1149,6 +1150,33 @@ var menu = `Hai ${pushname}
 └──────────────────`
 buf = Mthumb
 hexa.sendMessage(from, buf, image, {quoted:mek, caption:menu, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true, mentionedJid:[tagme + "@s.whatsapp.net", anus]}})
+break
+// Nulis ( MyMans APIs & Farel )
+case 'nulis':
+if (args.length < 1) return reply('Mau nulis apa?')
+const menlis = body.slice(7)
+await reply('Sedang menulis')
+const jangkal = menlis.replace(/(\S+\s*){1,10}/g, '$&\n')
+const jangbar = jangkal.split('\n').slice(0, 30).join('\n')
+spawn('convert', [
+'./media/image/magernulis.jpg',
+'-font',
+'./font/nulis.ttf',
+'-size',
+'1024x784',
+'-pointsize',
+'20',
+'-interline-spacing',
+'-7.5',
+'-annotate',
+'+344+142',
+jangbar,
+'./media/hasilnulis.jpg'
+])
+.on('error', () => reply('Error')
+.on('exit', () => {
+hexa.sendMessage(from, fs.readFileSync('./media/hasilnulis.jpg'), MessageType.image, {quoted:mek, caption:'Succes'})
+})
 break
 // Anti Hide Tag ( MyMans APIs )
 case 'antihidetag':
@@ -3162,7 +3190,7 @@ tks = `\`\`\`「 INSTAGRAM STORY 」\`\`\``
 nkgs = res.medias
 pigg = await getBuffer(res.user.profilePicUrl)
 for (let i of nkgs) {
-tks += `\n\n•> Type Story : ${i.type} / ${i.fileType}\n•> Link : ${i.downloadUrl}`
+tks += `\n\n*Story yang ke ${xf++}*\n•> Type Story : ${i.type} / ${i.fileType}\n•> Link : ${i.downloadUrl}`
 }
 hexa.sendMessage(from, pigg, image, {quoted:mek, caption:tks})
 })
