@@ -1170,7 +1170,7 @@ spawn('convert', [
 '-7.5',
 '-annotate',
 '+344+142',
-jangbar,
+menlis,
 './media/hasilnulis.jpg'
 ])
 .on('error', () => reply('Error') )
