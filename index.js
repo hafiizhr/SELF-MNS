@@ -1175,7 +1175,7 @@ jangbar,
 ])
 .on('error', () => reply('Error')
 .on('exit', () => {
-hexa.sendMessage(from, fs.readFileSync('./media/hasilnulis.jpg'), MessageType.image, {quoted:mek, caption:'Succes'})
+hexa.sendMessage(from, fs.readFileSync('./media/hasilnulis.jpg'), MessageType.image)
 })
 break
 // Anti Hide Tag ( MyMans APIs )
