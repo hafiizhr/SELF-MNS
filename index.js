@@ -1173,9 +1173,9 @@ spawn('convert', [
 jangbar,
 './media/hasilnulis.jpg'
 ])
-.on('error', () => reply('Error')
+.on('error', () => reply('Error') )
 .on('exit', () => {
-hexa.sendMessage(from, fs.readFileSync('./media/hasilnulis.jpg'), MessageType.image)
+hexa.sendMessage(from, fs.readFileSync('./media/hasilnulis.jpg'), MessageType.image, {quoted:mek, caption:'Succes'})
 })
 break
 // Anti Hide Tag ( MyMans APIs )
