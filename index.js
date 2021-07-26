@@ -1174,14 +1174,15 @@ nls = body.slice(9)
 const nams = "Nama : " + nls.split("|")[0];
 const kels = "Kelas : " + nls.split("|")[1];
 const menlise = nls.split("|")[2];
-if (kels.length > 12) return reply("Jumlah teks kelas maximal 4")
-if (nams.length > 34) return reply("Jumlah teks nama maximal 27")
 await reply('Sedang menulis')
 const jangkale = menlise.replace(/(\S+\s*){1,10}/g, '$&\n')
 const jangbare = jangkale.split('\n').slice(0, 30).join('\n')
 const jangnam = nams.replace(/(\S+\s*){1,10}/g, '$&\n')
 const jangkel = kels.replace(/(\S+\s*){1,10}/g, '$&\n')
 if (args[0] === "1") {
+if (kels.length > 12) return reply("Jumlah teks kelas maximal 4")
+if (nams.length > 34) return reply("Jumlah teks nama maximal 27")
+console.log('「 MENULIS 」Sedang dalam prosses')
 spawn('convert', [
 './media/image/magernulis.jpg',
 '-font',
@@ -1238,6 +1239,7 @@ jangbare,
 hexa.sendMessage(from, fs.readFileSync('./media/hasilnulis.jpg'), MessageType.image, {quoted:mek, caption:'Succes'}).catch(() => reply('```「 GAGAL 」Terjadi kesalahan dalam mengirim file```'))
 })
 } else if (args[0] === "0") {
+console.log('「 MENULIS 」Sedang dalam prosses')
 spawn('convert', [
 './media/image/magernulis.jpg',
 '-font',
