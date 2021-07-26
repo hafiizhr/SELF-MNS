@@ -1156,8 +1156,8 @@ case 'nulis':
 if (args.length < 1) return reply('Mau nulis apa?')
 const menlis = body.slice(7)
 await reply('Sedang menulis')
-const jangkal = menlis.replace(/(\S+\s*){1,10}/g, '$&\n')
-const jangbar = jangkal.split('\n').slice(0, 30).join('\n')
+// const jangkal = menlis.replace(/(\S+\s*){1,10}/g, '$&\n')
+// const jangbar = jangkal.split('\n').slice(0, 30).join('\n')
 spawn('convert', [
 './media/image/magernulis.jpg',
 '-font',
