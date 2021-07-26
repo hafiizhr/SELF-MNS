@@ -1170,16 +1170,15 @@ case 'nulis':
 if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply('Mau nulis apa?')
 if (args.length < 2) return reply(`Example :\n${prefix}nulis 1 MyMans|9\`3|Orang terganteng adalah mans`)
-nls = body.slice(9)
+const nls = body.slice(9)
 const nams = "Nama : " + nls.split("|")[0];
 const kels = "Kelas : " + nls.split("|")[1];
 const menlise = nls.split("|")[2];
-const menlis = body.slice(9)
 await reply('Sedang menulis')
 const jangkale = menlise.replace(/(\S+\s*){1,10}/g, '$&\n')
-const jangkal = menlis.replace(/(\S+\s*){1,10}/g, '$&\n')
+const jangkals = nls.replace(/(\S+\s*){1,10}/g, '$&\n')
 const jangbare = jangkale.split('\n').slice(0, 30).join('\n')
-const jangbar = jangkal.split('\n').slice(0, 30).join('\n')
+const jangbars = jangkals.split('\n').slice(0, 30).join('\n')
 const jangnam = nams.replace(/(\S+\s*){1,10}/g, '$&\n')
 const jangkel = kels.replace(/(\S+\s*){1,10}/g, '$&\n')
 if (args[0] === "1") {
@@ -1255,7 +1254,7 @@ spawn('convert', [
 '-7.5',
 '-annotate',
 '+344+146',
-jangbar,
+jangbars,
 './media/hasilnulis.jpg'
 ])
 .on('error', () => reply('Error') )
