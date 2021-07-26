@@ -1,5 +1,5 @@
 // Base MhankBarBar
-// Recode MeMans X Hexagon
+// Recode MeMans X Hexagonz
 // Lib Baileys
 const
 {
@@ -185,6 +185,7 @@ const checkSCommand = (id) => {
     return status
 }
 //=================================================//
+// Ucapan Waktu ( MyMans APIs )
 const time2 = moment().tz('Asia/Jakarta').format('HH:mm:ss')
 if(time2 < "23:59:00"){
 var ucapanWaktu = 'Selamat Malam'
@@ -204,6 +205,18 @@ var ucapanWaktu = 'Selamat Pagi'
 if(time2 < "05:00:00"){
 var ucapanWaktu = 'Selamat Malam'
                                          }
+// Tanggal ( MyMans APIs )
+var buln = ['- 1 -', '- 2 -', '- 3 -', '- 4 -', '- 5 -', '- 6 -', '- 7 -', '- 8 -', '- 9 -', '- 10 -', '- 11 -', '- 12 -'];
+var myHari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+var tgel = new Date();
+var hri = tgel.getDate();
+var bulnh = tgel.getMonth();
+var thisHari = tgel.getDay(),
+    thisDaye = myHari[thisHari];
+var yye = tgel.getYear();
+var syear = (yye < 1000) ? yye + 1900 : yye;
+const jangwak = (hri + ' ' + buln[bulnh] + ' ' + syear)
+const janghar = (thisDaye)
 //=================================================//
 module.exports = hexa = async (hexa, mek) => {
 	try {
@@ -1156,10 +1169,75 @@ break
 case 'nulis':
 if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply('Mau nulis apa?')
-const menlis = body.slice(7)
+if (args.length < 2) return reply(`Example :\n${prefix}nulis 1 MyMans|9\`3|Orang terganteng adalah mans`)
+nls = body.slice(9)
+const nams = "Nama : " + nls.split("|")[0];
+const kels = "Kelas : " + nls.split("|")[1];
+const menlise = nls.split("|")[2];
+if (kels.length > 12) return reply("Jumlah teks kelas maximal 4")
+if (nams.length > 34) return reply("Jumlah teks nama maximal 27")
 await reply('Sedang menulis')
-const jangkal = menlis.replace(/(\S+\s*){1,10}/g, '$&\n')
-const jangbar = jangkal.split('\n').slice(0, 30).join('\n')
+const jangkale = menlise.replace(/(\S+\s*){1,10}/g, '$&\n')
+const jangbare = jangkale.split('\n').slice(0, 30).join('\n')
+const jangnam = nams.replace(/(\S+\s*){1,10}/g, '$&\n')
+const jangkel = kels.replace(/(\S+\s*){1,10}/g, '$&\n')
+if (args[0] === "1") {
+spawn('convert', [
+'./media/image/magernulis.jpg',
+'-font',
+'./media/font/nulis.ttf',
+'-size',
+'1024x784',
+'-pointsize',
+'20',
+'-interline-spacing',
+'1',
+'-annotate',
+'+806+78',
+janghar,
+'-size',
+'1024x784',
+'-pointsize',
+'18',
+'-interline-spacing',
+'1',
+'-annotate',
+'+806+102',
+jangwak,
+'-size',
+'1024x784',
+'-pointsize',
+'21',
+'-interline-spacing',
+'1',
+'-annotate',
+'+285+90',
+jangnam,
+'-size',
+'1024x784',
+'-pointsize',
+'21',
+'-interline-spacing',
+'1',
+'-annotate',
+'+285+110',
+jangkel,
+'-size',
+'1024x784',
+'-pointsize',
+'20',
+'-interline-spacing',
+'-7.5',
+'-annotate',
+'+344+146',
+jangbare,
+'./media/hasilnulis.jpg'
+])
+.on('error', () => reply('Error') )
+.on('exit', () => {
+hexa.sendMessage(from, fs.readFileSync('./media/hasilnulis.jpg'), MessageType.image, {quoted:mek, caption:'Succes'}).catch(() => reply('```「 GAGAL 」Terjadi kesalahan dalam mengirim file```'))
+})
+} else if (args[0] === "0") {
 spawn('convert', [
 './media/image/magernulis.jpg',
 '-font',
@@ -1171,14 +1249,17 @@ spawn('convert', [
 '-interline-spacing',
 '-7.5',
 '-annotate',
-'+344+142',
-jangbar,
+'+344+146',
+jangbare,
 './media/hasilnulis.jpg'
 ])
 .on('error', () => reply('Error') )
 .on('exit', () => {
 hexa.sendMessage(from, fs.readFileSync('./media/hasilnulis.jpg'), MessageType.image, {quoted:mek, caption:'Succes'}).catch(() => reply('```「 GAGAL 」Terjadi kesalahan dalam mengirim file```'))
 })
+} else {
+reply(`*List Nulis*\n•> 1\n•> 0`)
+}
 exec(`npm i marker`)
 break
 // Anti Hide Tag ( MyMans APIs )
@@ -1710,6 +1791,7 @@ sendMediaURL(from, `${res.url}`, 'Dah jadi ngab')
 } else {
 reply(`*List Photooxy :*\n•> glitch\n•> coffecup\n•> shadow\n•> wanted\n•> neon`)
 }
+exec(`npm i marker`)
 break
 // Bug Vn ( MyMans APIs )
 case 'pvp':
