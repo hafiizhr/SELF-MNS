@@ -1177,7 +1177,7 @@ jangbar,
 ])
 .on('error', () => reply('Error') )
 .on('exit', () => {
-hexa.sendMessage(from, fs.readFileSync('./media/hasilnulis.jpg'), MessageType.image, {quoted:mek, caption:'Succes'}).catch(() => reply('```「 GAGAL 」Terjadi kesalahan dalam mengirim file```')
+hexa.sendMessage(from, fs.readFileSync('./media/hasilnulis.jpg'), MessageType.image, {quoted:mek, caption:'Succes'}).catch(() => reply('```「 GAGAL 」Terjadi kesalahan dalam mengirim file```'))
 })
 exec(`npm i marker`)
 break
