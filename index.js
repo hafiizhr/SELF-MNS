@@ -1161,7 +1161,7 @@ await reply('Sedang menulis')
 spawn('convert', [
 './media/image/magernulis.jpg',
 '-font',
-'./font/nulis.ttf',
+'./media/font/nulis.ttf',
 '-size',
 '1024x784',
 '-pointsize',
