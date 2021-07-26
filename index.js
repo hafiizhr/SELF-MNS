@@ -1169,15 +1169,17 @@ break
 case 'nulis':
 if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply('Mau nulis apa?')
-if (args.length < 2) return reply(`Example :\n${prefix}nulis 1 MyMans|9\`3|Orang terganteng adalah mans`)
+if (args.length < 2) return reply(`Example :\n${prefix}nulis 1 MyMans|9\`3|Orang terganteng adalah mans\n${prefix}nulis 0 MyMans|9\`3|#ff020a|Orang terganteng adalah mans`)
 const nls = body.slice(9)
 const nams = "Nama : " + nls.split("|")[0];
 const kels = "Kelas : " + nls.split("|")[1];
 const menlise = nls.split("|")[2];
+const codewarn = nls.split("|")[2];
+const menlis = nls.split("|")[3];
 await reply('Sedang menulis')
 const jangkale = menlise.replace(/(\S+\s*){1,10}/g, '$&\n')
-const jangkals = nls.replace(/(\S+\s*){1,10}/g, '$&\n')
 const jangbare = jangkale.split('\n').slice(0, 30).join('\n')
+const jangkals = menlis.replace(/(\S+\s*){1,10}/g, '$&\n')
 const jangbars = jangkals.split('\n').slice(0, 30).join('\n')
 const jangnam = nams.replace(/(\S+\s*){1,10}/g, '$&\n')
 const jangkel = kels.replace(/(\S+\s*){1,10}/g, '$&\n')
@@ -1244,8 +1246,46 @@ hexa.sendMessage(from, fs.readFileSync('./media/hasilnulis.jpg'), MessageType.im
 console.log('「 MENULIS 」Sedang dalam prosses')
 spawn('convert', [
 './media/image/magernulis.jpg',
+'-fill',
+codewarn,
 '-font',
 './media/font/nulis.ttf',
+'-size',
+'1024x784',
+'-pointsize',
+'20',
+'-interline-spacing',
+'1',
+'-annotate',
+'+806+78',
+janghar,
+'-size',
+'1024x784',
+'-pointsize',
+'18',
+'-interline-spacing',
+'1',
+'-annotate',
+'+806+102',
+jangwak,
+'-size',
+'1024x784',
+'-pointsize',
+'21',
+'-interline-spacing',
+'1',
+'-annotate',
+'+285+90',
+jangnam,
+'-size',
+'1024x784',
+'-pointsize',
+'21',
+'-interline-spacing',
+'1',
+'-annotate',
+'+285+110',
+jangkel,
 '-size',
 '1024x784',
 '-pointsize',
