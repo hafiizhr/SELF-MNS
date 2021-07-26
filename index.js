@@ -1174,9 +1174,12 @@ nls = body.slice(9)
 const nams = "Nama : " + nls.split("|")[0];
 const kels = "Kelas : " + nls.split("|")[1];
 const menlise = nls.split("|")[2];
+const menlis = body.slice(9)
 await reply('Sedang menulis')
 const jangkale = menlise.replace(/(\S+\s*){1,10}/g, '$&\n')
+const jangkal = menlis.replace(/(\S+\s*){1,10}/g, '$&\n')
 const jangbare = jangkale.split('\n').slice(0, 30).join('\n')
+const jangbar = jangkal.split('\n').slice(0, 30).join('\n')
 const jangnam = nams.replace(/(\S+\s*){1,10}/g, '$&\n')
 const jangkel = kels.replace(/(\S+\s*){1,10}/g, '$&\n')
 if (args[0] === "1") {
@@ -1252,7 +1255,7 @@ spawn('convert', [
 '-7.5',
 '-annotate',
 '+344+146',
-jangbare,
+jangbar,
 './media/hasilnulis.jpg'
 ])
 .on('error', () => reply('Error') )
