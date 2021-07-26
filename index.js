@@ -1018,6 +1018,7 @@ var menu = `Hai ${pushname}
 ├ ❏ ${prefix}take <author|packname>
 ├ ❏ ${prefix}fdeface <reply>
 ├ ❏ ${prefix}emoji <emoji>
+├ ❏ ${prefix}nulis <query>
 └──────────────────
 
 ┌──「 *CONVERT* 」
@@ -1153,11 +1154,12 @@ hexa.sendMessage(from, buf, image, {quoted:mek, caption:menu, thumbnail:Bfake, c
 break
 // Nulis ( MyMans APIs & Farel )
 case 'nulis':
+if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply('Mau nulis apa?')
 const menlis = body.slice(7)
 await reply('Sedang menulis')
-// const jangkal = menlis.replace(/(\S+\s*){1,10}/g, '$&\n')
-// const jangbar = jangkal.split('\n').slice(0, 30).join('\n')
+const jangkal = menlis.replace(/(\S+\s*){1,10}/g, '$&\n')
+const jangbar = jangkal.split('\n').slice(0, 30).join('\n')
 spawn('convert', [
 './media/image/magernulis.jpg',
 '-font',
@@ -1170,13 +1172,14 @@ spawn('convert', [
 '-7.5',
 '-annotate',
 '+344+142',
-menlis,
+jangbar,
 './media/hasilnulis.jpg'
 ])
 .on('error', () => reply('Error') )
 .on('exit', () => {
-hexa.sendMessage(from, fs.readFileSync('./media/hasilnulis.jpg'), MessageType.image, {quoted:mek, caption:'Succes'})
+hexa.sendMessage(from, fs.readFileSync('./media/hasilnulis.jpg'), MessageType.image, {quoted:mek, caption:'Succes'}).catch(() => reply('```「 GAGAL 」Terjadi kesalahan dalam mengirim file```')
 })
+exec(`npm i marker`)
 break
 // Anti Hide Tag ( MyMans APIs )
 case 'antihidetag':
