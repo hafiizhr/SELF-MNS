@@ -1168,7 +1168,7 @@ if (args.length < 1) return reply(`Example :\n${prefix}nulis MyMans|91|#ff020a|O
 const nls = body.slice(7)
 const nams = "Nama : " + nls.split("|")[0];
 const kels = "Kelas : " + nls.split("|")[1];
-const menlise = nls.split("|")[2];
+const menlise = nls.split("|")[3];
 const codewarn = nls.split("|")[2];
 await reply('Sedang menulis')
 const jangkale = menlise.replace(/(\S+\s*){1,10}/g, '$&\n')
@@ -1177,9 +1177,12 @@ const jangnam = nams.replace(/(\S+\s*){1,10}/g, '$&\n')
 const jangkel = kels.replace(/(\S+\s*){1,10}/g, '$&\n')
 if (kels.length > 12) return reply("Jumlah teks kelas maximal 4")
 if (nams.length > 34) return reply("Jumlah teks nama maximal 27")
+if (codewarn.length > 7) return reply("Jumlah teks warna maximal 7")
 console.log('「 MENULIS 」Sedang dalam prosses')
 spawn('convert', [
 './media/image/magernulis.jpg',
+'-fill',
+codewarn,
 '-font',
 './media/font/nulis.ttf',
 '-size',
