@@ -611,6 +611,15 @@ hexa.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
                     fs.unlinkSync(filename)
                 });
             }
+// DETECT GROUP INVITE ( MyMans APIs )
+if (m.mtype === 'groupInviteMessage') {
+if (mek.key.fromMe && isOwner) {
+var ngejoinye = await hexa.acceptInvite(mek.message.groupInviteMessage.inviteCode)
+reply('Succes')
+} else {
+reply('access denied!')
+}
+}
 // ANTI LINK ( MyMans APIs )
 if (budy.includes(linknye)) {
 if (!isGroup) return
