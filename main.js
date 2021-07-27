@@ -34,7 +34,26 @@ const starts = async (hexa = new WAConnection()) => {
     })
     await hexa.connect({timeoutMs: 30*1000})
         fs.writeFileSync('./session.json', JSON.stringify(hexa.base64EncodedAuthInfo(), null, '\t'))
-    
+
+hexa.on('group-participants-update', async (anu) => {
+   try {
+        if (anu.action == 'promote') {
+			const mdata = await hexa.groupMetadata(anu.jid)
+			num = anu.participants[0]
+			teks = `*@${num.split('@')[0]} Sekarang admin*`
+			hexa.sendMessage(mdata.id, teks, MessageType.text, {contextInfo: {mentionedJid: [num]}})
+			}
+       if (anu.action == 'demote') {
+			num = anu.participants[0]
+			const mdata = await hexa.groupMetadata(anu.jid)
+			teks = `*@${num.split('@')[0]} Sekarang bukan admin*`
+			hexa.sendMessage(mdata.id, teks, MessageType.text, {contextInfo: {mentionedJid: [num]}})
+			}
+		} catch (e) {
+			console.log('Error : %s', color(e, 'red'))
+		}
+	})
+
 hexa.on('group-participants-update', async (anu) => {
 	try {
 		const mdata = await hexa.groupMetadata(anu.jid)
