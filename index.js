@@ -995,6 +995,7 @@ var menu = `Hai ${pushname}
 ├ ❏ ${prefix}anticall <on/off>
 ├ ❏ ${prefix}antidelete <on/off>
 ├ ❏ ${prefix}sewa <add/del>
+├ ❏ ${prefix}cowner <add/del>
 ├ ❏ ${prefix}join <link>
 ├ ❏ ${prefix}ban <add/del>
 ├ ❏ ${prefix}restart [Restart]
@@ -1123,6 +1124,8 @@ var menu = `Hai ${pushname}
 ├ ❏ ${prefix}tohuruf <query>
 ├ ❏ ${prefix}fliptext <query>
 ├ ❏ ${prefix}volume <query>
+├ ❏ ${prefix}bass <query>
+├ ❏ ${prefix}tempo <query>
 ├ ❏ ${prefix}kalkulator <query>
 └──────────────────
 
@@ -1160,6 +1163,52 @@ var menu = `Hai ${pushname}
 └──────────────────`
 buf = Mthumb
 hexa.sendMessage(from, buf, image, {quoted:mek, caption:menu, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true, mentionedJid:[tagme + "@s.whatsapp.net", anus]}})
+break
+// Add Owner ( MyMans APIs )
+case 'cowner':
+if (!mek.key.fromMe & !isOwner) return
+if (!isQuotedReply) return reply('Reply orangnya')
+xco = mek.message.extendedTextMessage.contextInfo.participant
+if (args[0] === "add") {
+ownerNumbers.push(xco)
+hexa.sendMessage(from, `Berhasil menambahkan @${xco.split("@")[0]} sebagai teman owner`, text, {quoted:mek, contextInfo:{mentionedJid:[xco]}})
+} else if (args[0] === "del") {
+let xzc = ownerNumbers.indexOf(xco)
+ownerNumbers.splice(xzc, 1)
+hexa.sendMessage(from, `Berhasil menghapus @${xco.split("@")[0]} dari teman owner`, text, {quoted:mek, contextInfo:{mentionedJid:[xco]}})
+} else {
+reply(`Pilih add atau del`)
+}
+break
+// Tempo ( MyMans APIs )
+case 'tempo':
+if (isBan) return reply(mess.ban)
+var req = args.join(' ')
+encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
+media = await hexa.downloadAndSaveMediaMessage(encmedia)
+ran = getRandom('.mp3')
+exec(`ffmpeg -i ${media} -filter:a "atempo=1.0,asetrate=${req}" ${ran}`, (err, stderr, stdout) => {
+fs.unlinkSync(media)
+if (err) return reply('Error!')
+hah = fs.readFileSync(ran)
+hexa.sendMessage(from, hah, audio, {mimetype:'audio/mp4', ptt:true, quoted:mek})
+fs.unlinkSync(ran)
+})
+break
+// Bass ( MyMans APIs )
+case 'bass':
+if (isBan) return reply(mess.ban)
+var req = args.join(' ')
+encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
+media = await hexa.downloadAndSaveMediaMessage(encmedia)
+ran = getRandom('.mp3')
+exec(`ffmpeg -i ${media} -af equalizer=f=${req}:width_type=o:width=2:g=20 ${ran}`, (err, stderr, stdout) => {
+fs.unlinkSync(media)
+if (err) return reply('Error!')
+hah = fs.readFileSync(ran)
+hexa.sendMessage(from, hah, audio, {mimetype: 'audio/mp4', ptt:true, quoted: mek})
+fs.unlinkSync(ran)
+})
 break
 // Nulis ( MyMans APIs & Farel )
 case 'nulis':
