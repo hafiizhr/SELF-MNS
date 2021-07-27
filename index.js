@@ -1164,8 +1164,7 @@ break
 // Nulis ( MyMans APIs & Farel )
 case 'nulis':
 if (isBan) return reply(mess.ban)
-if (args.length < 1) return reply('Mau nulis apa?')
-if (args.length < 2) return reply(`Example :\n${prefix}nulis MyMans|91|#ff020a|Orang terganteng adalah mans`)
+if (args.length < 1) return reply(`Example :\n${prefix}nulis MyMans|91|#ff020a|Orang terganteng adalah mans`)
 const nls = body.slice(7)
 const nams = "Nama : " + nls.split("|")[0];
 const kels = "Kelas : " + nls.split("|")[1];
