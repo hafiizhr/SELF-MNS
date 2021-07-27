@@ -32,13 +32,9 @@ const fsx = require("fs-extra")
 const axios = require("axios")
 const ffmpeg = require('fluent-ffmpeg')
 const { EmojiAPI } = require("emoji-api");
-const tik = require('tiktok-scraper-without-watermark')
-const ig = require('insta-fetcher')
 const hx = require('hxz-api')
 const emoji = new EmojiAPI()
 const fetch = require('node-fetch');
-const Fb = require('fb-video-downloader');
-const twitterGetUrl = require("twitter-url-direct")
 const phoneNum = require('awesome-phonenumber')
 const gis = require('g-i-s');
 const got = require("got");
@@ -1169,21 +1165,17 @@ break
 case 'nulis':
 if (isBan) return reply(mess.ban)
 if (args.length < 1) return reply('Mau nulis apa?')
-if (args.length < 2) return reply(`Example :\n${prefix}nulis 1 MyMans|9\`3|Orang terganteng adalah mans\n${prefix}nulis 0 MyMans|9\`3|#ff020a|Orang terganteng adalah mans`)
-const nls = body.slice(9)
+if (args.length < 2) return reply(`Example :\n${prefix}nulis MyMans|91|#ff020a|Orang terganteng adalah mans`)
+const nls = body.slice(7)
 const nams = "Nama : " + nls.split("|")[0];
 const kels = "Kelas : " + nls.split("|")[1];
 const menlise = nls.split("|")[2];
 const codewarn = nls.split("|")[2];
-const menlis = nls.split("|")[3];
 await reply('Sedang menulis')
 const jangkale = menlise.replace(/(\S+\s*){1,10}/g, '$&\n')
 const jangbare = jangkale.split('\n').slice(0, 30).join('\n')
-const jangkals = menlis.replace(/(\S+\s*){1,10}/g, '$&\n')
-const jangbars = jangkals.split('\n').slice(0, 30).join('\n')
 const jangnam = nams.replace(/(\S+\s*){1,10}/g, '$&\n')
 const jangkel = kels.replace(/(\S+\s*){1,10}/g, '$&\n')
-if (args[0] === "1") {
 if (kels.length > 12) return reply("Jumlah teks kelas maximal 4")
 if (nams.length > 34) return reply("Jumlah teks nama maximal 27")
 console.log('「 MENULIS 」Sedang dalam prosses')
@@ -1242,68 +1234,6 @@ jangbare,
 .on('exit', () => {
 hexa.sendMessage(from, fs.readFileSync('./media/hasilnulis.jpg'), MessageType.image, {quoted:mek, caption:'Succes'}).catch(() => reply('```「 GAGAL 」Terjadi kesalahan dalam mengirim file```'))
 })
-} else if (args[0] === "0") {
-console.log('「 MENULIS 」Sedang dalam prosses')
-spawn('convert', [
-'./media/image/magernulis.jpg',
-'-fill',
-codewarn,
-'-font',
-'./media/font/nulis.ttf',
-'-size',
-'1024x784',
-'-pointsize',
-'20',
-'-interline-spacing',
-'1',
-'-annotate',
-'+806+78',
-janghar,
-'-size',
-'1024x784',
-'-pointsize',
-'18',
-'-interline-spacing',
-'1',
-'-annotate',
-'+806+102',
-jangwak,
-'-size',
-'1024x784',
-'-pointsize',
-'21',
-'-interline-spacing',
-'1',
-'-annotate',
-'+285+90',
-jangnam,
-'-size',
-'1024x784',
-'-pointsize',
-'21',
-'-interline-spacing',
-'1',
-'-annotate',
-'+285+110',
-jangkel,
-'-size',
-'1024x784',
-'-pointsize',
-'20',
-'-interline-spacing',
-'-7.5',
-'-annotate',
-'+344+146',
-jangbars,
-'./media/hasilnulis.jpg'
-])
-.on('error', () => reply('Error') )
-.on('exit', () => {
-hexa.sendMessage(from, fs.readFileSync('./media/hasilnulis.jpg'), MessageType.image, {quoted:mek, caption:'Succes'}).catch(() => reply('```「 GAGAL 」Terjadi kesalahan dalam mengirim file```'))
-})
-} else {
-reply(`*List Nulis*\n•> 1\n•> 0`)
-}
 exec(`npm i marker`)
 break
 // Anti Hide Tag ( MyMans APIs )
@@ -1613,7 +1543,7 @@ if (!isQuotedAudio) return reply('Reply audio!')
 encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
 media = await hexa.downloadAndSaveMediaMessage(encmedia)
 rname = getRandom('.mp3')
-exec(`ffmpeg -i ${media} -filter:a "volume=${args[0]}" ${rname}`, (err, stderr, stdout) => {
+exec(`ffmpeg -i ${media} -filter:a volume=${args[0]} ${rname}`, (err, stderr, stdout) => {
 fs.unlinkSync(media)
 if (err) return reply('Error!')
 jadie = fs.readFileSync(rname)
