@@ -40,13 +40,13 @@ hexa.on('group-participants-update', async (anu) => {
         if (anu.action == 'promote') {
 			const mdata = await hexa.groupMetadata(anu.jid)
 			num = anu.participants[0]
-			teks = `*@${num.split('@')[0]} Sekarang admin*`
+			teks = `@${num.split('@')[0]} Sekarang admin`
 			hexa.sendMessage(mdata.id, teks, MessageType.text, {contextInfo: {mentionedJid: [num]}})
 			}
        if (anu.action == 'demote') {
 			num = anu.participants[0]
 			const mdata = await hexa.groupMetadata(anu.jid)
-			teks = `*@${num.split('@')[0]} Sekarang bukan admin*`
+			teks = `@${num.split('@')[0]} Sekarang bukan admin`
 			hexa.sendMessage(mdata.id, teks, MessageType.text, {contextInfo: {mentionedJid: [num]}})
 			}
 		} catch (e) {
