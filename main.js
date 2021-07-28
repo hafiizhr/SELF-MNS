@@ -145,7 +145,11 @@ day: 'numeric',
 month: 'long',
 year: 'numeric'
 })
-const type = Object.keys(m.message)[0]
+let keynye = m.key
+let c = hexa.chats.get(keynye.remoteJid)
+let a = c.messages.dict[`${keynye.id}|${keynye.fromMe ? 1: 0}`]
+let contennye = hexa.generateForwardMessageContent(a, false)
+let type = Object.keys(contennye)[0]
 hexa.sendMessage(m.key.remoteJid, `\`\`\`「 Anti Delete 」\`\`\`
 •> Nama : @${m.participant.split("@")[0]}
 •> Waktu : ${jam} ${week} ${calender}
