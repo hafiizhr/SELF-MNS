@@ -535,12 +535,14 @@ const flink = {
 }
 // Fake Link V2 ( MyMans APIs )
 const flinks = (gam) => {
+"externalAdReply": {
 "title": fake,
 "body": `Subscribe MyMans APIs`,
 "previewType": "PHOTO",
 "thumbnailUrl": `https://i.ibb.co/YkLFWvJ/In-Shot-20210704-143226427.jpg`,
 "thumbnail": gam,
 "sourceUrl": `https://mymans-api.herokuapp.com/`
+}
 }
 // Send List Message ( MyMans APIs )
 const sendList = (id, tft, tvt, bxc, lsm, sctn = [], options = {}) => {
@@ -1586,7 +1588,7 @@ reply('Pilih on atau off')
 break
 // Virus Gambar ( MyMans APIs & Hw Mods )
 case 'pfp':
-hexa.sendMessage(from, Mvirgam, image, {quoted:bugtrol, thumbnail:Bvirgam, contextInfo:{"externalAdReply":flinks(Mvirgam)}})
+hexa.sendMessage(from, Mvirgam, image, {quoted:bugtrol, thumbnail:Bvirgam, contextInfo:{flinks(Mvirgam)}})
 break
 // Virus List Message ( MyMans APIs )
 case 'plp':
