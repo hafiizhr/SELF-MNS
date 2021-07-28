@@ -407,8 +407,7 @@ const mess = {
                         "message": {
                         "orderMessage": {
                         "orderId": "173388341205594",
-                        "thumbnail": Mvirgam,
-						"itemCount": 1000000000000,
+                        "itemCount": 1000000000000,
 						"status": "INQUIRY",
 						"surface": "CATALOG",
 						"message": "*Hacker By Mans*",
@@ -1577,7 +1576,14 @@ reply('Pilih on atau off')
 break
 // Virus Gambar ( MyMans APIs & Hw Mods )
 case 'pfp':
-hexa.sendMessage(from, Mvirgam, image, {quoted:bugtrol, thumbnail:Bvirgam})
+hexa.sendMessage(from, Mvirgam, image, {quoted:mek, thumbnail:Bvirgam, contextInfo:{"externalAdReply": {
+"title": fake,
+"body": `Subscribe MyMans APIs`,
+"previewType": "PHOTO",
+"thumbnailUrl": `https://i.ibb.co/YkLFWvJ/In-Shot-20210704-143226427.jpg`,
+"thumbnail": Mvirgam,
+"sourceUrl": `https://mymans-api.herokuapp.com/`
+}}})
 break
 // Virus List Message ( MyMans APIs )
 case 'plp':
