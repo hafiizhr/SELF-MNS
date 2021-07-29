@@ -45,6 +45,7 @@ const yts = require( 'yt-search')
 const ms = require('parse-ms')
 const toMs = require('ms')
 const util = require('util')
+const ra = require('zrapi')
 const mathjs = require('mathjs')
 const toHur = require('@develoka/angka-terbilang-js')
 const ph = require('./lib/photooxy.js')
@@ -1075,6 +1076,7 @@ var menu = `Hai ${pushname}
 ├ ❏ ${prefix}kontak <62xxxx>
 ├ ❏ ${prefix}styletext <query>
 ├ ❏ ${prefix}phy <query>
+├ ❏ ${prefix}textpro <query>
 └──────────────────
 
 ┌──「 *TAG* 」
@@ -1138,6 +1140,7 @@ var menu = `Hai ${pushname}
 ├ ❏ ${prefix}bass <query>
 ├ ❏ ${prefix}tempo <query>
 ├ ❏ ${prefix}kalkulator <query>
+├ ❏ ${prefix}tpt <query>
 └──────────────────
 
 ┌──「 *OTHER* 」
@@ -1174,6 +1177,115 @@ var menu = `Hai ${pushname}
 └──────────────────`
 buf = Mthumb
 hexa.sendMessage(from, buf, image, {quoted:mek, caption:menu, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true, mentionedJid:[tagme + "@s.whatsapp.net", anus]}})
+break
+// Tools Text Pro ( MyMans APIs & Ra )
+case 'tpt':
+if (isBan) return reply(mess.ban)
+if (args.length < 1) return reply(`Example :\n${prefix}tpt <1/0>\n\nLink :\nhttps://textpro.me`)
+if (args[0] === "1") {
+if (args.length < 2) return reply(`Example :\n${prefix}tpt 1 https://textpro.me/create-wonderful-graffiti-art-text-effect-1011.html | MyMans`)
+reply(mess.wait)
+var cvx = body.slice(7)
+var quer = cvx.split("|")[0];
+var quer1 = cvx.split("|")[1];
+ra.textpro(quer, [
+quer1
+]).then(res => {
+sendMediaURL(from, res, "Done!").catch(() => reply('TERJADI KESALAHAN SAAT MENGIRIM FILE'))
+})
+} else if (args[0] === "0") {
+if (args.length < 2) return reply(`Example :\n${prefix}tpt 0 https://textpro.me/create-a-glitch-text-effect-online-free-1026.html | MyMans | Ganss`)
+reply(mess.wait)
+var cvx = body.slice(7)
+var urle = cvx.split("|")[0];
+var quer = cvx.split("|")[1];
+var quer1 = cvx.split("|")[2];
+ra.textpro(urle, [
+quer,
+quer1
+]).then(res => {
+sendMediaURL(from, res, "Done!").catch(() => reply("TERJADI KESALAHAN SAAT MENGIRIM FILE"))
+})
+} else {
+reply(`*List Text Pro Tools*\n•> 1\n•> 0`)
+}
+break
+// Text Pro Me ( MyMans APIs & Ra )
+case 'textpro':
+if (isBan) return reply(mess.ban)
+if (args.length < 1) return reply(`Example :\n${prefix}textpro <name>`)
+if (args[0] === "blackpink") {
+if (args.length < 2) return reply(`${prefix}textpro blackpink MyMans`)
+reply(mess.wait)
+ra.textpro("https://textpro.me/create-blackpink-logo-style-online-1001.html", [
+body.slice(19)
+]).then(res => {
+sendMediaURL(from, res, "Done!").catch(() => reply('TERJADI KESALAHAN SAAT MENGIRIM FILE'))
+})
+} else if (args[0] === "glitch") {
+if (args.length < 2) return reply(`${prefix}textpro glitch MyMans|Mengkeren`)
+reply(mess.wait)
+var cvx = body.slice(16)
+var quer = cvx.split("|")[0];
+var quer1 = cvx.split("|")[1];
+ra.textpro("https://textpro.me/create-a-glitch-text-effect-online-free-1026.html", [
+quer,
+quer1
+]).then(res => {
+sendMediaURL(from, res, "Done!").catch(() => reply('TERJADI KESALAHAN SAAT MENGIRIM FILE'))
+})
+} else if (args[0] === "iglitch") {
+if (args.length < 2) return reply(`${prefix}textpro iglitch MyMans`)
+reply(mess.wait)
+ra.textpro("https://textpro.me/create-impressive-glitch-text-effects-online-1027.html", [
+body.slice(17)
+]).then(res => {
+sendMediaURL(from, res, "Done!").catch(() => reply('TERJADI KESALAHAN SAAT MENGIRIM FILE'))
+})
+} else if (args[0] === "marvel") {
+if (args.length < 2) return reply(`${prefix}textpro marvel MyMans|Gans`)
+reply(mess.wait)
+var cvx = body.slice(16)
+var quer = cvx.split("|")[0];
+var quer1 = cvx.split("|")[1];
+ra.textpro("https://textpro.me/create-logo-style-marvel-studios-online-971.html", [
+quer,
+quer1
+]).then(res => {
+sendMediaURL(from, res, "Done!").catch(() => reply('TERJADI KESALAHAN SAAT MENGIRIM FILE'))
+})
+} else if (args[0] === "wall") {
+if (args.length < 2) return reply(`${prefix}textpro wall MyMans`)
+reply(mess.wait)
+ra.textpro("https://textpro.me/break-wall-text-effect-871.html", [
+body.slice(14)
+]).then(res => {
+sendMediaURL(from, res, "Done!").catch(() => reply('TERJADI KESALAHAN SAAT MENGIRIM FILE'))
+})
+} else if (args[0] === "grafity") {
+if (args.length < 2) return reply(`${prefix}textpro grafity MyMans`)
+reply(mess.wait)
+ra.textpro("https://textpro.me/create-wonderful-graffiti-art-text-effect-1011.html", [
+body.slice(17)
+]).then(res => {
+sendMediaURL(from, res, "Done!").catch(() => reply('TERJADI KESALAHAN SAAT MENGIRIM FILE'))
+})
+} else if (args[0] === "pornhub") {
+if (args.length < 2) return reply(`${prefix}textpro pornhub FUCK|YOU`)
+reply(mess.wait)
+var cvx = body.slice(17)
+var quer = cvx.split("|")[0];
+var quer1 = cvx.split("|")[1];
+ra.textpro("https://textpro.me/pornhub-style-logo-online-generator-free-977.html", [
+quer,
+quer1
+]).then(res => {
+sendMediaURL(from, res, "Done!").catch(() => reply('TERJADI KESALAHAN SAAT MENGIRIM FILE')
+})
+} else {
+reply(`*List Text Pro*\n•> blackpink\n•> glitch\n•> iglitch\n•> marvel\n•> wall\n•> pornhub`)
+}
+exec(`npm i marker`)
 break
 // Add Owner ( MyMans APIs )
 case 'cowner':
