@@ -1280,7 +1280,7 @@ ra.textpro("https://textpro.me/pornhub-style-logo-online-generator-free-977.html
 quer,
 quer1
 ]).then(res => {
-sendMediaURL(from, res, "Done!").catch(() => reply('TERJADI KESALAHAN SAAT MENGIRIM FILE')
+sendMediaURL(from, res, "Done!").catch(() => reply('TERJADI KESALAHAN SAAT MENGIRIM FILE'))
 })
 } else {
 reply(`*List Text Pro*\n•> blackpink\n•> glitch\n•> iglitch\n•> marvel\n•> wall\n•> pornhub`)
