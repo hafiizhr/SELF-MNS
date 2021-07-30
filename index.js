@@ -594,8 +594,7 @@ const vcardBis = 'BEGIN:VCARD\n' +
 'X-WA-BIZ-DESCRIPTION:' + desc + '\n' +
 'X-WA-BIZ-NAME:MyMans APIs\n' +
 'END:VCARD'
-hevse = awiat hexa.sendMessage(from, { displayname: "Jeff", vcard: vcardBis }, MessageType.contact, options)
-hexa.sendMessage(from, "Nih Kak Owner Ku ><", text, {quoted:hevse})
+hexa.sendMessage(from, { displayname: "Jeff", vcard: vcardBis }, MessageType.contact, options)
 }
 // Send Contact Array ( MyMans APIs )
 const sendCA = async(jids, options = [], option = {}) => {
@@ -608,11 +607,10 @@ ini_liste.push({
 "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:${vname ? `${vname}` : `${hexa.user.name}`}\nitem1.TEL;waid=${i.split('@')[0]}:${i.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
 })
 }
-hevse = await hexa.sendMessage(jids, {
+hexa.sendMessage(jids, {
 "displayName": `${ini_liste.length} kontak`,
 "contacts": ini_liste
 }, 'contactsArrayMessage', option)
-hexa.sendMessage(from, "Nih Kak Owner Ku ><", text, {quoted:hevse})
 }
         const sendMediaURL = async(to, url, text="", mids=[]) =>{
                 if(mids.length > 0){
