@@ -43,6 +43,10 @@
     "yt-search": "^2.7.6",
     "zrapi": "^0.0.6"
   },
+  "engines": {
+    "node": "16.x",
+    "npm": "7.x"
+  },
   "scripts": {
     "start": "pm2 start main.js --deep-monitoring --attach",
     "test": "supervisor main"
