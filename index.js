@@ -93,9 +93,9 @@ memberwin = 1 // Win ( MyMans APIs )
 memberlose = 1 // Lose ( MyMans APIs )
 xf = 1 // Jumlah ( MyMans APIs )
 pref = '?' // Prefix ( MyMans APIs )
-targetpc = '62882248593508' // Fitnah Target ( Hexagon )
-owner = '62882248593507' // Numbers Owner ( MyMans APIs )
-ownerNumbers = ["6288224859350@s.whatsapp.net","6285158549166@s.whatsapp.net","19898889001@s.whatsapp.net"]
+targetpc = '6285158549166' // Fitnah Target ( Hexagon )
+owner = '6288224859350' // Numbers Owner ( MyMans APIs )
+ownerNumbers = ["6288224859350@s.whatsapp.net","6285158549166@s.whatsapp.net","6283817475033@s.whatsapp.net"]
 linkcom = ".com" // Anti Link ( MyMans APIs )
 linkid = ".id" // Anti Link ( MyMans APIs )
 linkxyz = ".xyz" // Anti Link ( MyMans APIs )
@@ -584,6 +584,36 @@ headerType: 5
 }
 hexa.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
 }
+// Send Contact Bisnis ( MyMans APIs )
+const sendCB = async(nom, namew, desc, options = {}) => {
+const vcardBis = 'BEGIN:VCARD\n' +
+'VERSION:3.0\n' +
+'FN:' + namew + '\n' +
+'ORG:MyMans APIs;\n' +
+'TEL;type=CELL;type=VOICE;waid=' + nom + ':+' + nom +'\n' +
+'X-WA-BIZ-DESCRIPTION:' + desc + '\n' +
+'X-WA-BIZ-NAME:MyMans APIs\n' +
+'END:VCARD'
+hevse = awiat hexa.sendMessage(from, { displayname: "Jeff", vcard: vcardBis }, MessageType.contact, options)
+hexa.sendMessage(from, "Nih Kak Owner Ku ><", text, {quoted:hevse})
+}
+// Send Contact Array ( MyMans APIs )
+const sendCA = async(jids, options = [], option = {}) => {
+const numd = options
+let ini_liste = []
+for (let i of numd) {
+const vname = hexa.contacts[i] != undefined ? hexa.contacts[i].vname || hexa.contacts[i].notify : undefined
+ini_liste.push({
+"displayName": 'MyMans APIs',
+"vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:${vname ? `${vname}` : `${hexa.user.name}`}\nitem1.TEL;waid=${i.split('@')[0]}:${i.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
+})
+}
+hevse = await hexa.sendMessage(jids, {
+"displayName": `${ini_liste.length} kontak`,
+"contacts": ini_liste
+}, 'contactsArrayMessage', option)
+hexa.sendMessage(from, "Nih Kak Owner Ku ><", text, {quoted:hevse})
+}
         const sendMediaURL = async(to, url, text="", mids=[]) =>{
                 if(mids.length > 0){
                     text = normalizeMention(to, text, mids)
@@ -619,7 +649,7 @@ if (isOwner) {
 var ngejoinye = await hexa.acceptInvite(mek.message.groupInviteMessage.inviteCode)
 reply('Succes')
 } else {
-reply('access denied!')
+reply('```Access Denied!```')
 }
 }
 // ANTI LINK ( MyMans APIs )
@@ -1178,6 +1208,40 @@ var menu = `Hai ${pushname}
 buf = Mthumb
 hexa.sendMessage(from, buf, image, {quoted:mek, caption:menu, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true, mentionedJid:[tagme + "@s.whatsapp.net", anus]}})
 break
+// Tools Photooxy ( MyMans APIs & Ra )
+case 'pht':
+if (isBan) return reply(mess.ban)
+if (args.length < 1) return reply(`Example :\n${prefix}pht <1/0>\n\nLink :\nhttps://photooxy.com/`)
+if (args[0] === "1") {
+if (args.length < 2) return reply(`Example :\n${prefix}pht 1 https://photooxy.com/logo-and-text-effects/shadow-text-effect-in-the-sky-394.html | MyMans`)
+reply(mess.wait)
+var cvx = body.slice(7)
+var quer = cvx.split("|")[0];
+var quer1 = cvx.split("|")[1];
+ra.photooxy(quer, [
+quer1
+]).then(res => {
+sendMediaURL(from, res, "Done!").catch(() => reply('TERJADI KESALAHAN SAAT MENGIRIM FILE'))
+})
+exec(`npm i marker`)
+} else if (args[0] === "0") {
+if (args.length < 2) return reply(`Example :\n${prefix}pht 0 https://photooxy.com/logo-and-text-effects/make-tik-tok-text-effect-375.html | MyMans | Ganss`)
+reply(mess.wait)
+var cvx = body.slice(7)
+var urle = cvx.split("|")[0];
+var quer = cvx.split("|")[1];
+var quer1 = cvx.split("|")[2];
+ra.photooxy(urle, [
+quer,
+quer1
+]).then(res => {
+sendMediaURL(from, res, "Done!").catch(() => reply("TERJADI KESALAHAN SAAT MENGIRIM FILE"))
+})
+exec(`npm i marker`)
+} else {
+reply(`*List Text Pro Tools*\n•> 1\n•> 0`)
+}
+break
 // Tools Text Pro ( MyMans APIs & Ra )
 case 'tpt':
 if (isBan) return reply(mess.ban)
@@ -1193,6 +1257,7 @@ quer1
 ]).then(res => {
 sendMediaURL(from, res, "Done!").catch(() => reply('TERJADI KESALAHAN SAAT MENGIRIM FILE'))
 })
+exec(`npm i marker`)
 } else if (args[0] === "0") {
 if (args.length < 2) return reply(`Example :\n${prefix}tpt 0 https://textpro.me/create-a-glitch-text-effect-online-free-1026.html | MyMans | Ganss`)
 reply(mess.wait)
@@ -1206,6 +1271,7 @@ quer1
 ]).then(res => {
 sendMediaURL(from, res, "Done!").catch(() => reply("TERJADI KESALAHAN SAAT MENGIRIM FILE"))
 })
+exec(`npm i marker`)
 } else {
 reply(`*List Text Pro Tools*\n•> 1\n•> 0`)
 }
@@ -2537,19 +2603,7 @@ break
 // Owner Contact Array ( MyMans APIs )
 case 'owner':
 case 'admin':
-let ini_list = []
-for (let i of ownerNumbers) {
-const vname = hexa.contacts[i] != undefined ? hexa.contacts[i].vname || hexa.contacts[i].notify : undefined
-ini_list.push({
-"displayName": 'MyMans APIs',
-"vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:${vname ? `${vname}` : `${hexa.user.name}`}\nitem1.TEL;waid=${i.split('@')[0]}:${i.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
-})
-}
-hehe = await hexa.sendMessage(from, {
-"displayName": `${ini_list.length} kontak`,
-"contacts": ini_list 
-}, 'contactsArrayMessage', { quoted: mek })
-hexa.sendMessage(from,'Nih Kak Owner Ku ><',text,{quoted: hehe})
+sendCA(from, ownerNumbers, {quoted:mek})
 break
 // Delete Private Message ( MyMans APIs )
 case 'deletepc':
