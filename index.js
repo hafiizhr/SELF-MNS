@@ -78,6 +78,8 @@ const addJoi = JSON.parse(fs.readFileSync('./database/join.json'))
 const antihde = JSON.parse(fs.readFileSync('./database/antihide.json'))
 const gcrevoke = JSON.parse(fs.readFileSync('./database/autorevoke.json'))
 const scommand = JSON.parse(fs.readFileSync('./database/scommand.json'))
+const alasanafk = JSON.parse(fs.readFileSync('./database/afkalasan.json'))
+const waktuafk = JSON.parse(fs.readFileSync('./database/afkwaktu.json'))
 // SETTING // === // MyMans APIs // === // Hexagonz // === // MhankBarBar //
 banChats = true // Self and Public ( MyMans APIs & Hexagon )
 bugc = true // Antibug Gc ( MyMans APIs & MhankBarBar )
@@ -274,6 +276,9 @@ hexa.sendMessage(mek.key.remoteJid, tekuss, MessageType.text, {contextInfo:{ment
 		const totalchat = await hexa.chats.all()
 		const totalgroup = await hexa.chats.array.filter(v => v.jid.endsWith('g.us'))
         const totalkontak = await hexa.chats.array.filter(v => v.jid.endsWith('s.whatsapp.net'))
+        const mentionUser = type == "extendedTextMessage" ? mek.message.extendedTextMessage.contextInfo.mentionedJid || [] : []
+            mentionByReply = type == "extendedTextMessage" ? mek.message.extendedTextMessage.contextInfo.participant || "" : ""
+            mentionUser.push(mentionByReply)
         isStc = Object.keys(mek.message)[0] == "stickerMessage" ? mek.message.stickerMessage.fileSha256.toString('hex') : ""
 	    isStc = `${isStc}`
         const isStcQ = isStc !== "" && content.includes("extendedTextMessage") ||
@@ -641,6 +646,29 @@ hexa.sendMessage(jids, {
                     fs.unlinkSync(filename)
                 });
             }
+// AFK ( MyMans APIs )
+if (alasanafk.hasOwnProperty(sender.split('@')[0])) {
+usx = sender
+hexa.sendMessage(from, "```「 FITUR AFK 」```\n" + `@${usx.split("@")[0]} Telah keluar dari mode afk`, text, {quoted:mek, contextInfo:{mentionedJid:[usx]}})
+delete alasanafk[sender.split('@')[0]]
+fs.writeFileSync("./database/afkalasan.json", JSON.stringify(alasanafk))
+}
+if (waktuafk.hasOwnProperty(sender.split('@')[0])) {
+delete waktuafk[sender.split('@')[0]]
+fs.writeFileSync("./database/afkwaktu.json", JSON.stringify(waktuafk))
+}
+for (let x of mentionUser) {
+if (alasanafk.hasOwnProperty(x.split('@')[0])) {
+ini_txt = "```「 FITUR AFK 」```\nMaaf user yang anda tag atau reply sedang afk "
+if (waktuafk[x.split('@')[0]] != "") {
+ini_txt += "•> Sejak : " + waktuafk[x.split('@')[0]]
+}
+if (alasanafk[x.split('@')[0]] != "") {
+ini_txt += " LALU\n•> Alasan : " + alasanafk[x.split('@')[0]]
+}
+hexa.sendMessage(from, ini_txt, text, {quoted: mek})
+}
+}
 // DETECT GROUP INVITE ( MyMans APIs )
 if (m.mtype === 'groupInviteMessage') {
 if (isOwner) {
@@ -1059,6 +1087,7 @@ var menu = `Hai ${pushname}
 ├ ❏ ${prefix}sider <reply>
 ├ ❏ ${prefix}promote <reply>
 ├ ❏ ${prefix}demote <reply>
+├ ❏ ${prefix}afk <query>
 └──────────────────
 
 ┌──「 *MAKER* 」
@@ -1205,6 +1234,24 @@ var menu = `Hai ${pushname}
 └──────────────────`
 buf = Mthumb
 hexa.sendMessage(from, buf, image, {quoted:mek, caption:menu, thumbnail:Bfake, contextInfo:{forwardingScore: 989, isForwarded: true, mentionedJid:[tagme + "@s.whatsapp.net", anus]}})
+break
+// Afk ( MyMans APIs )
+case 'afk':
+if (!isGroup) return reply(mess.only.group)
+if (isBan) return reply(mess.ban)
+noxnye = sender
+alasane = args.join(" ")
+waktunyew = `${time}`
+alasanafk[sender.split('@')[0]] = alasane.toLowerCase()
+waktuafk[sender.split('@')[0]] = waktunyew.toLowerCase()
+fs.writeFileSync("./database/afkalasan.json", JSON.stringify(alasanafk))
+fs.writeFileSync("./database/afkwaktu.json", JSON.stringify(waktuafk))
+ini_txt = "```「 FITUR AFK 」```\n" + `@${noxnye.split("@")[0]} Sekarang berada di mode afk\n`
+if (alasane != "") {
+ini_txt += "•> Waktu : " + waktunyew
+ini_txt += "\n•> Alasan : " + alasane
+}
+hexa.sendMessage(from, ini_txt, text, {quoted:mek, contextInfo:{mentionedJid:[noxnye]}})
 break
 // Tools Photooxy ( MyMans APIs & Ra )
 case 'pht':
