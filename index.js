@@ -658,8 +658,9 @@ delete waktuafk[sender.split('@')[0]]
 fs.writeFileSync("./database/afkwaktu.json", JSON.stringify(waktuafk))
 }
 for (let x of mentionUser) {
+if (mek.key.fromMe) return
 if (alasanafk.hasOwnProperty(x.split('@')[0])) {
-ini_txt = "```「 FITUR AFK 」```\nMaaf user yang anda tag atau reply sedang afk "
+ini_txt = "```「 FITUR AFK 」```\nMaaf user yang anda tag atau reply sedang afk\n"
 if (waktuafk[x.split('@')[0]] != "") {
 ini_txt += "•> Sejak : " + waktuafk[x.split('@')[0]]
 }
@@ -1240,7 +1241,7 @@ case 'afk':
 if (!isGroup) return reply(mess.only.group)
 if (isBan) return reply(mess.ban)
 noxnye = sender
-alasane = args.join(" ")
+alasane = `${args.join(" ") ? `${args.join(" ")}` : '-'}`
 waktunyew = `${time}`
 alasanafk[sender.split('@')[0]] = alasane.toLowerCase()
 waktuafk[sender.split('@')[0]] = waktunyew.toLowerCase()
