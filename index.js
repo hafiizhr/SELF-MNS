@@ -239,7 +239,7 @@ hexa.sendMessage(mek.key.remoteJid, tekuss, MessageType.text, {contextInfo:{ment
         const content = JSON.stringify(mek.message)
 		const from = mek.key.remoteJid
 		const { text, extendedText, contact, location, liveLocation, image, video, sticker, document, audio, product } = MessageType
-		const time = moment.tz('Asia/Jakarta').format('DD/MM HH:mm:ss')
+		const time = moment.tz('Asia/Jakarta').format('DD - MM - 20YY / HH:mm:ss')
 		const timeJak = moment.tz('Asia/Jakarta').format("HH:mm:ss");
 		const timeMak = moment().tz('Asia/Makassar').format("HH:mm:ss");
         const timeJay = moment().tz('Asia/Jayapura').format("HH:mm:ss");
@@ -659,6 +659,7 @@ fs.writeFileSync("./database/afkwaktu.json", JSON.stringify(waktuafk))
 }
 for (let x of mentionUser) {
 if (mek.key.fromMe) return
+if (atibot === true) return
 if (alasanafk.hasOwnProperty(x.split('@')[0])) {
 ini_txt = "```「 FITUR AFK 」```\nMaaf user yang anda tag atau reply sedang afk\n"
 if (waktuafk[x.split('@')[0]] != "") {
