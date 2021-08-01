@@ -647,19 +647,7 @@ hexa.sendMessage(jids, {
                 });
             }
 // AFK ( MyMans APIs )
-if (alasanafk.hasOwnProperty(sender.split('@')[0])) {
-usx = sender
-hexa.sendMessage(from, "```「 FITUR AFK 」```\n" + `@${usx.split("@")[0]} Telah keluar dari mode afk`, text, {quoted:mek, contextInfo:{mentionedJid:[usx]}})
-delete alasanafk[sender.split('@')[0]]
-fs.writeFileSync("./database/afkalasan.json", JSON.stringify(alasanafk))
-}
-if (waktuafk.hasOwnProperty(sender.split('@')[0])) {
-delete waktuafk[sender.split('@')[0]]
-fs.writeFileSync("./database/afkwaktu.json", JSON.stringify(waktuafk))
-}
 for (let x of mentionUser) {
-if (mek.key.fromMe) return
-if (atibot === true) return
 if (alasanafk.hasOwnProperty(x.split('@')[0])) {
 ini_txt = "```「 FITUR AFK 」```\nMaaf user yang anda tag atau reply sedang afk\n"
 if (waktuafk[x.split('@')[0]] != "") {
@@ -670,6 +658,16 @@ ini_txt += " LALU\n•> Alasan : " + alasanafk[x.split('@')[0]]
 }
 hexa.sendMessage(from, ini_txt, text, {quoted: mek})
 }
+}
+if (alasanafk.hasOwnProperty(sender.split('@')[0])) {
+usx = sender
+hexa.sendMessage(from, "```「 FITUR AFK 」```\n" + `@${usx.split("@")[0]} Telah keluar dari mode afk`, text, {quoted:mek, contextInfo:{mentionedJid:[usx]}})
+delete alasanafk[sender.split('@')[0]]
+fs.writeFileSync("./database/afkalasan.json", JSON.stringify(alasanafk))
+}
+if (waktuafk.hasOwnProperty(sender.split('@')[0])) {
+delete waktuafk[sender.split('@')[0]]
+fs.writeFileSync("./database/afkwaktu.json", JSON.stringify(waktuafk))
 }
 // DETECT GROUP INVITE ( MyMans APIs )
 if (m.mtype === 'groupInviteMessage') {
