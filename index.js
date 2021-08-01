@@ -94,10 +94,10 @@ loseawal = 1 // Lose Tictactoe ( MyMans APIs )
 memberwin = 1 // Win ( MyMans APIs )
 memberlose = 1 // Lose ( MyMans APIs )
 xf = 1 // Jumlah ( MyMans APIs )
-pref = '?' // Prefix ( MyMans APIs )
-targetpc = '6285158549166' // Fitnah Target ( Hexagon )
-owner = '6288224859350' // Numbers Owner ( MyMans APIs )
-ownerNumbers = ["6288224859350@s.whatsapp.net","6285158549166@s.whatsapp.net","6283817475033@s.whatsapp.net"]
+pref = '.' // Prefix ( MyMans APIs )
+targetpc = '6282245731529' // Fitnah Target ( Hexagon )
+owner = '6282245731529' // Numbers Owner ( MyMans APIs )
+ownerNumbers = ["6282245731529@s.whatsapp.net","6282245731529@s.whatsapp.net","6282245731529@s.whatsapp.net"]
 linkcom = ".com" // Anti Link ( MyMans APIs )
 linkid = ".id" // Anti Link ( MyMans APIs )
 linkxyz = ".xyz" // Anti Link ( MyMans APIs )
@@ -106,7 +106,7 @@ linkhttp = "http" // Anti Link ( MyMans APIs )
 linkwa = "://chat.whatsapp.com" // Anti Link Group Whatsapp ( MyMans APIs )
 deflt = "..........c.....com" // Default Link ( MyMans APIs )
 linknye = `${deflt}` // Anti Link ( MyMans APIs )
-fake = 'MyMans APIs' // Fake Text Reply / Name Bot ( MyMans APIs )
+fake = '𝗞𝗲𝗺𝗼𝗹 𝗕𝗼𝘁𝘇' // Fake Text Reply / Name Bot ( MyMans APIs )
 a = '```' // Font Whatsapp ( MyMans APIs )
 bailver = '3.5.1' // Versi Baileys ( MyMans APIs )
 botver = '1.0.0' // Versi Bot ( MyMans APIs )
@@ -1030,7 +1030,7 @@ switch (command) {
 case 'menu':
 case 'help':
 if (isBan) return reply(mess.ban)
-tagme = '6288224859350'
+tagme = '6282245731529'
 anus = sender
 var menu = `Hai ${pushname}
 
@@ -1226,10 +1226,8 @@ var menu = `Hai ${pushname}
 ├ ❏ _>/< [Kudet]
 └──────────────────
 
-┌──「 *THANKS TO* 」──────
-│
-├ ❏ Creator : MhankBarBar
-├ ❏ Recode : MeMans X Hexagonz
+┌──「 *THANKS TO* 」──
+├ ❏ Kemol Ganz
 ├ ❏ Thanks : @${tagme}
 └──────────────────`
 buf = Mthumb
