@@ -1,4 +1,7 @@
-## `Deploy`
+## ```Deploy```
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/zeeoneofc/Self-bot-wa/)
+
 
 <div align="center">
 <img src="https://i.ibb.co/zh4DWw9/icon.jpg" alt="SELF-HXs" width="300" />
